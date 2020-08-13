@@ -13,7 +13,7 @@ namespace Serializer3D
     internal class World3DXmlDeserializer
     {
         private static World world3D = (World) PhysicsWorldManager.instance.GetWorld();
-        // private  Dictionary<DeserializerData  , null > des  
+        private static Dictionary<DeserializerData, RigidBody> desSet = new Dictionary<DeserializerData, RigidBody>();
 
         /// <summary>
         /// 服务器使用
@@ -23,6 +23,7 @@ namespace Serializer3D
         /// <exception cref="NotImplementedException"></exception>
         public static void Deserializer(FileStream stream)
         {
+            desSet.Clear();
             //解析
             var root = XMLFragmentParser.LoadFromStream(stream);
             if (root.Name.ToLower() != "world3d")
@@ -223,6 +224,7 @@ namespace Serializer3D
         {
             var rigibody = CreateShape(data);
             rigibody.Position = data.tsposition;
+            desSet.Add(data, rigibody);
             PhysicsManager.instance.AddBody(rigibody);
         }
 
