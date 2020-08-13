@@ -159,12 +159,12 @@ namespace Serializer3D
             {
                 if (element.Name.ToLower() == "radius")
                 {
-                    data.radius = FP.FromFloat(long.Parse(element.Value));
+                    data.radius = FP.FromFloat(float.Parse(element.Value));
                 }
 
                 if (element.Name.ToLower() == "length")
                 {
-                    data.length = FP.FromFloat(long.Parse(element.Value));
+                    data.length = FP.FromFloat(float.Parse(element.Value));
                 }
             }
         }
@@ -176,7 +176,7 @@ namespace Serializer3D
             {
                 if (element.Name.ToLower() == "radius")
                 {
-                    data.radius = FP.FromFloat(long.Parse(element.Value));
+                    data.radius = FP.FromFloat(float.Parse(element.Value));
                 }
             }
         }
@@ -197,12 +197,12 @@ namespace Serializer3D
             {
                 if (element.Name.ToLower() == "Friction")
                 {
-                    data.friction = FP.FromFloat(long.Parse(element.Value));
+                    data.friction = FP.FromFloat(float.Parse(element.Value));
                 }
 
                 if (element.Name.ToLower() == "Restitution")
                 {
-                    data.restitution = FP.FromFloat(long.Parse(element.Value));
+                    data.restitution = FP.FromFloat(float.Parse(element.Value));
                 }
 
                 if (element.Name.ToLower() == "boundsmax")

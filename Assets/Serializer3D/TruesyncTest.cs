@@ -22,7 +22,7 @@ namespace Serializer3D
             var currentConfig = TrueSyncGlobalConfig;
             lockedTimeStep = currentConfig.lockedTimeStep;
             StateTracker.Init(currentConfig.rollbackWindow);
-            TSRandom.Init();
+            // TSRandom.Init();
             if (currentConfig.physics2DEnabled || currentConfig.physics3DEnabled)
             {
                 PhysicsManager.New(currentConfig);
@@ -37,7 +37,8 @@ namespace Serializer3D
         {
             Application.runInBackground = true;
 #if Serializer
-            Invoke("Serializer", 0.1f);
+            // Invoke("Serializer", 0.1f);
+#else
             Invoke("Deserializer", 0.5f);
 #endif
         }
@@ -49,7 +50,7 @@ namespace Serializer3D
             if (world3D == null) throw new NullReferenceException();
             World3DSerializer.Serialize(world3D, @"..\TrueSyncExample\3D.xml");
         }
-
+#else
         private void Deserializer()
         {
             World3DSerializer.Deserialize(@"..\TrueSyncExample\3D.xml");
