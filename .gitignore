@@ -12,3 +12,4 @@ Logs/
 Temp/
 .idea/
 obj/
+Assembly-CSharp.csproj

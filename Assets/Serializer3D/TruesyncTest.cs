@@ -1,4 +1,6 @@
-﻿using TrueSync;
+﻿#define Serializer
+
+using TrueSync;
 using UnityEngine;
 
 namespace Serializer3D
@@ -15,7 +17,7 @@ namespace Serializer3D
 
         private void Awake()
         {
-            //直接使用不废话
+            //直接初始化
             var currentConfig = TrueSyncGlobalConfig;
             lockedTimeStep = currentConfig.lockedTimeStep;
             StateTracker.Init(currentConfig.rollbackWindow);
@@ -33,6 +35,23 @@ namespace Serializer3D
         private void Start()
         {
             Application.runInBackground = true;
+#if Serializer
+            Serializer();
+#else
+            Invoke("Deserializer", 0.1f);
+#endif
         }
+
+#if Serializer
+        private void Serializer()
+        {
+            throw new System.NotImplementedException();
+        }
+#else
+        private void Deserializer()
+        {
+            throw new System.NotImplementedException();
+        }
+#endif
     }
 }
