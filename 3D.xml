@@ -1,7 +1,8 @@
 ﻿<World3D World3DVer="1.0">
   <Gravity>0 -10 0</Gravity>
   <Entity Name="Sphere">
-    <Collider CollierType="TrueSync.Physics3D.SphereShape">
+    <Collider>
+      <Radius>0.5</Radius>
       <ShapelossyScale>1 1 1</ShapelossyScale>
       <BoundsMax>2.5 2.5 2.5</BoundsMax>
       <BoundsMin>1.5 1.5 1.5</BoundsMin>
@@ -9,7 +10,6 @@
       <Enabled>True</Enabled>
       <Tag>Untagged</Tag>
       <Center>0 0 0</Center>
-      <Radius>0.5</Radius>
     </Collider>
     <Rigibody>
       <IsActive>True</IsActive>
@@ -20,7 +20,8 @@
     </Rigibody>
   </Entity>
   <Entity Name="Cube">
-    <Collider CollierType="TrueSync.Physics3D.BoxShape">
+    <Collider CollierType="TSBOX">
+      <ColliderSize>1 1 1</ColliderSize>
       <ShapelossyScale>1 1 1</ShapelossyScale>
       <BoundsMax>-0.5 -0.5 -0.5</BoundsMax>
       <BoundsMin>-1.5 -1.5 -1.5</BoundsMin>
@@ -28,7 +29,6 @@
       <Enabled>True</Enabled>
       <Tag>Untagged</Tag>
       <Center>0 0 0</Center>
-      <ColliderSize>1 1 1</ColliderSize>
     </Collider>
     <Rigibody>
       <IsActive>True</IsActive>
@@ -39,7 +39,9 @@
     </Rigibody>
   </Entity>
   <Entity Name="Capsule">
-    <Collider CollierType="TrueSync.Physics3D.CapsuleShape">
+    <Collider>
+      <Radius>0.5</Radius>
+      <Length>1</Length>
       <ShapelossyScale>1 1 1</ShapelossyScale>
       <BoundsMax>-1.83 6.69 0.5</BoundsMax>
       <BoundsMin>-2.83 4.69 -0.5</BoundsMin>
@@ -47,8 +49,6 @@
       <Enabled>True</Enabled>
       <Tag>Untagged</Tag>
       <Center>0 0 0</Center>
-      <Radius>0.5</Radius>
-      <Length>1</Length>
     </Collider>
     <Rigibody>
       <IsActive>True</IsActive>

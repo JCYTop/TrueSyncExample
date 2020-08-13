@@ -53,7 +53,7 @@ namespace Serializer3D
 #else
         private void Deserializer()
         {
-            World3DSerializer.Deserialize(@"..\TrueSyncExample\3DTest.xml");
+            World3DSerializer.Deserialize(@"..\TrueSyncExample\3D.xml");
         }
 #endif
     }

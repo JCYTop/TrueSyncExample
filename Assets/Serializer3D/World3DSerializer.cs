@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using TrueSync.Physics3D;
 
 namespace Serializer3D
@@ -32,5 +33,15 @@ namespace Serializer3D
             }
         }
 #endif
+    }
+
+    [Serializable]
+    public enum TSCollierShape
+    {
+        TSBOX, // 盒子 
+        TSCAPSULE, // 胶囊
+        TSSPHERE, // 圆
+        TSMESH, // Mesh
+        TSTERRAIN, // 地形
     }
 }

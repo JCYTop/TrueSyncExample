@@ -63,7 +63,6 @@ namespace Serializer3D
         private static void SerializeCollider(TSCollider collider)
         {
             writer.WriteStartElement("Collider");
-            ComSerializeCollider(collider);
             switch (collider)
             {
                 case TSBoxCollider box:
@@ -83,6 +82,7 @@ namespace Serializer3D
                     break;
             }
 
+            ComSerializeCollider(collider);
             writer.WriteEndElement();
         }
 
@@ -94,6 +94,7 @@ namespace Serializer3D
         private static void SerBoxCollider([NotNull] TSBoxCollider collider)
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
+            writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSBOX}");
             //collider 的 size
             //和shape有倍数关系
             WriteVector("ColliderSize", collider.size);
@@ -107,6 +108,7 @@ namespace Serializer3D
         private static void SerCapsuleCollider([NotNull] TSCapsuleCollider collider)
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
+            writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSCAPSULE}");
             writer.WriteElementString("Radius", $"{collider.radius}"); // FP
             writer.WriteElementString("Length", $"{collider.length}"); // FP
         }
@@ -119,6 +121,7 @@ namespace Serializer3D
         private static void SerSphereCollider([NotNull] TSSphereCollider collider)
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
+            writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSSPHERE}");
             writer.WriteElementString("Radius", $"{collider.radius}"); // FP
         }
 
@@ -131,6 +134,7 @@ namespace Serializer3D
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
             //TODO 暂处理
+            writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSMESH}");
             writer.WriteElementString("Mesh", $"{collider.Mesh}");
         }
 
@@ -142,7 +146,7 @@ namespace Serializer3D
         private static void SerTerrainCollider([NotNull] TSTerrainCollider collider)
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
-            //TODO 暂时没看到什么可以序列化的东西
+            writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSTERRAIN}");
         }
 
         /// <summary>
@@ -151,7 +155,6 @@ namespace Serializer3D
         /// <param name="collider"></param>
         private static void ComSerializeCollider(TSCollider collider)
         {
-            writer.WriteAttributeString("CollierType", $"{collider.Shape}");
             WriteVector("ShapelossyScale", collider.SerializelossyScale);
             WriteVector("BoundsMax", collider.bounds.max);
             WriteVector("BoundsMin", collider.bounds.min);

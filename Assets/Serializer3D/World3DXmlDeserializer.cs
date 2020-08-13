@@ -2,6 +2,7 @@
 using System.IO;
 using TrueSync;
 using TrueSync.Physics2D;
+using UnityEngine;
 using World = TrueSync.Physics3D.World;
 
 #if Serializer
@@ -34,11 +35,19 @@ namespace Serializer3D
 
                 if (entity.Name.ToLower() == "entity")
                 {
-                    
-                    
-                    switch (entity.Attributes[0].Value)
+                    foreach (var type in entity.Elements)
                     {
-                        case  
+                        if (type.Name.ToLower() == "collider")
+                        {
+                            Debug.Log(type.Attributes[0].Value);
+                            switch (type.Attributes[0].Value)
+                            {
+                            }
+                        }
+
+                        if (type.Name.ToLower() == "rigibody")
+                        {
+                        }
                     }
                 }
             }
