@@ -2,10 +2,10 @@
   <Gravity>0 -10 0</Gravity>
   <Entity Name="Sphere">
     <Collider CollierType="TSSPHERE">
-      <Radius>0.5</Radius>
+      <Radius>2</Radius>
       <ShapelossyScale>1 1 1</ShapelossyScale>
-      <BoundsMax>2.5 2.5 2.5</BoundsMax>
-      <BoundsMin>1.5 1.5 1.5</BoundsMin>
+      <BoundsMax>7 5 7</BoundsMax>
+      <BoundsMin>3 1 3</BoundsMin>
       <IsTrigger>False</IsTrigger>
       <Enabled>True</Enabled>
       <Tag>Untagged</Tag>
@@ -15,16 +15,16 @@
       <IsActive>True</IsActive>
       <IsKinematic>False</IsKinematic>
       <IsStatic>False</IsStatic>
-      <TSPosition>2 2 2</TSPosition>
+      <TSPosition>5 3 5</TSPosition>
       <Shape>TrueSync.Physics3D.SphereShape</Shape>
     </Rigibody>
   </Entity>
   <Entity Name="Cube">
     <Collider CollierType="TSBOX">
-      <ColliderSize>1 1 1</ColliderSize>
-      <ShapelossyScale>1 1 1</ShapelossyScale>
-      <BoundsMax>-0.5 -0.5 -0.5</BoundsMax>
-      <BoundsMin>-1.5 -1.5 -1.5</BoundsMin>
+      <ColliderSize>2 2 2</ColliderSize>
+      <ShapelossyScale>2 2 2</ShapelossyScale>
+      <BoundsMax>3 3 3</BoundsMax>
+      <BoundsMin>-1 -1 -1</BoundsMin>
       <IsTrigger>False</IsTrigger>
       <Enabled>True</Enabled>
       <Tag>Untagged</Tag>
@@ -34,17 +34,16 @@
       <IsActive>True</IsActive>
       <IsKinematic>False</IsKinematic>
       <IsStatic>False</IsStatic>
-      <TSPosition>-1 -1 -1</TSPosition>
+      <TSPosition>1 1 1</TSPosition>
       <Shape>TrueSync.Physics3D.BoxShape</Shape>
     </Rigibody>
   </Entity>
-  <Entity Name="Capsule">
-    <Collider CollierType="TSCAPSULE">
-      <Radius>0.5</Radius>
-      <Length>1</Length>
+  <Entity Name="Cube">
+    <Collider CollierType="TSBOX">
+      <ColliderSize>2 2 2</ColliderSize>
       <ShapelossyScale>1 1 1</ShapelossyScale>
-      <BoundsMax>-1.83 6.69 0.5</BoundsMax>
-      <BoundsMin>-2.83 4.69 -0.5</BoundsMin>
+      <BoundsMax>-4 1 1</BoundsMax>
+      <BoundsMin>-6 -1 -1</BoundsMin>
       <IsTrigger>False</IsTrigger>
       <Enabled>True</Enabled>
       <Tag>Untagged</Tag>
@@ -54,8 +53,8 @@
       <IsActive>True</IsActive>
       <IsKinematic>False</IsKinematic>
       <IsStatic>False</IsStatic>
-      <TSPosition>-2.33 5.69 0</TSPosition>
-      <Shape>TrueSync.Physics3D.CapsuleShape</Shape>
+      <TSPosition>-5 0 0</TSPosition>
+      <Shape>TrueSync.Physics3D.BoxShape</Shape>
     </Rigibody>
   </Entity>
 </World3D>

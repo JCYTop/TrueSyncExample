@@ -95,9 +95,8 @@ namespace Serializer3D
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
             writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSBOX}");
-            //collider 的 size
             //和shape有倍数关系
-            WriteVector("ColliderSize", collider.size);
+            WriteVector("ColliderSize", collider.size); // collider的大小size
         }
 
         /// <summary>
@@ -155,7 +154,7 @@ namespace Serializer3D
         /// <param name="collider"></param>
         private static void ComSerializeCollider(TSCollider collider)
         {
-            WriteVector("ShapelossyScale", collider.SerializelossyScale);
+            WriteVector("ShapelossyScale", collider.SerializelossyScale);// 指Unity自身Scale的比例影响参数
             WriteVector("BoundsMax", collider.bounds.max);
             WriteVector("BoundsMin", collider.bounds.min);
             if (collider.tsMaterial != null)
@@ -193,7 +192,7 @@ namespace Serializer3D
             writer.WriteElementString("IsKinematic", body.IsKinematic.ToString());
             writer.WriteElementString("IsStatic", body.IsStatic.ToString());
             //WriteVector("Position", body.Position) 这俩个一样
-            WriteVector("TSPosition", body.TSPosition);
+            WriteVector("TSPosition", body.TSPosition);// Unity中世界的坐标转换成TS坐标之后的数据
             writer.WriteElementString("Shape", body.Shape.ToString());
         }
 
