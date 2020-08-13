@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using JetBrains.Annotations;
@@ -132,9 +133,26 @@ namespace Serializer3D
         private static void SerMeshCollider([NotNull] TSMeshCollider collider)
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
-            //TODO 暂处理
             writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSMESH}");
-            writer.WriteElementString("Mesh", $"{collider.Mesh}");
+            //Indices 写入
+            writer.WriteStartElement("Indices");
+            writer.WriteAttributeString("Count", $"{collider.Indices.Count}");
+            foreach (var indicese in collider.Indices)
+            {
+                writer.WriteElementString("Item", $"{indicese.I0} {indicese.I1} {indicese.I2}");
+            }
+
+            writer.WriteEndElement();
+
+            //Vertices 写入
+            writer.WriteStartElement("Vertices");
+            writer.WriteAttributeString("Count", $"{collider.Vertices.Count}");
+            foreach (var vertex in collider.Vertices)
+            {
+                WriteVector("Item", vertex);
+            }
+
+            writer.WriteEndElement();
         }
 
         /// <summary>
@@ -154,7 +172,7 @@ namespace Serializer3D
         /// <param name="collider"></param>
         private static void ComSerializeCollider(TSCollider collider)
         {
-            WriteVector("ShapelossyScale", collider.SerializelossyScale);// 指Unity自身Scale的比例影响参数
+            WriteVector("ShapelossyScale", collider.SerializelossyScale); // 指Unity自身Scale的比例影响参数
             WriteVector("BoundsMax", collider.bounds.max);
             WriteVector("BoundsMin", collider.bounds.min);
             if (collider.tsMaterial != null)
@@ -192,7 +210,7 @@ namespace Serializer3D
             writer.WriteElementString("IsKinematic", body.IsKinematic.ToString());
             writer.WriteElementString("IsStatic", body.IsStatic.ToString());
             //WriteVector("Position", body.Position) 这俩个一样
-            WriteVector("TSPosition", body.TSPosition);// Unity中世界的坐标转换成TS坐标之后的数据
+            WriteVector("TSPosition", body.TSPosition); // Unity中世界的坐标转换成TS坐标之后的数据
             writer.WriteElementString("Shape", body.Shape.ToString());
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using TrueSync;
 using TrueSync.Physics2D;
@@ -77,66 +78,6 @@ namespace Serializer3D
             }
         }
 
-        #region ADD ---> World
-
-        private static void DesAddWorld(DeserializerData data)
-        {
-            var rigibody = CreateShape(data);
-            rigibody.Position = data.tsposition;
-            PhysicsManager.instance.AddBody(rigibody);
-        }
-
-        private static RigidBody CreateShape(DeserializerData data)
-        {
-            var shape = default(Shape);
-            switch (data.colliershape)
-            {
-                case TSCollierShape.TSBOX:
-                    shape = new BoxShape(TSVector.Scale(data.size, data.lossyScale));
-                    break;
-                case TSCollierShape.TSCAPSULE:
-                    shape = new CapsuleShape(data.length, data.radius);
-                    break;
-                case TSCollierShape.TSSPHERE:
-                    shape = new CapsuleShape(data.length, data.radius);
-                    break;
-                case TSCollierShape.TSMESH:
-                    //TODO 先处理简单的
-                    // var octree = new Octree(Vertices, Indices);
-                    // shape = new TriangleMeshShape(octree);
-                    break;
-                case TSCollierShape.TSTERRAIN:
-                    //TODO 这里太长了之后看看
-                    break;
-            }
-
-            var newBody = new RigidBody(shape);
-            //这里具体情况具体赋值
-            {
-                if (data.friction > FP.MinValue)
-                {
-                    newBody.TSFriction = data.friction;
-                }
-
-                if (data.restitution > FP.MinValue)
-                {
-                    newBody.TSRestitution = data.restitution;
-                }
-            }
-            newBody.IsColliderOnly = data.istrigger; //这里就是collider的trigger
-            newBody.IsKinematic = data.isKinematic;
-            // TODO Mark ??? 我直接复制了
-            {
-                // bool isStatic =
-                newBody.AffectedByGravity = false;
-                newBody.IsStatic = true;
-                newBody.SetMassProperties();
-            }
-            return newBody;
-        }
-
-        #endregion
-
         #region Collider
 
         private static void DesColliderBox(ref DeserializerData data, XMLFragmentElement type)
@@ -182,7 +123,25 @@ namespace Serializer3D
 
         private static void DesColliderMesh(ref DeserializerData data, XMLFragmentElement type)
         {
-            throw new NotImplementedException();
+            foreach (var element in type.Elements)
+            {
+                if (element.Name.ToLower() == "indices")
+                {
+                    foreach (var indicese in element.Elements)
+                    {
+                        var value = indicese.Value.Split(' ');
+                        data.indices.Add(new TriangleVertexIndices(int.Parse(value[0]), int.Parse(value[1]), int.Parse(value[2])));
+                    }
+                }
+
+                if (element.Name.ToLower() == "vertices")
+                {
+                    foreach (var vertex in element.Elements)
+                    {
+                        data.vertices.Add(ReadVector(vertex));
+                    }
+                }
+            }
         }
 
         private static void DesColliderTerrain(ref DeserializerData data, XMLFragmentElement type)
@@ -258,6 +217,65 @@ namespace Serializer3D
 
         #endregion
 
+        #region ADD ---> World
+
+        private static void DesAddWorld(DeserializerData data)
+        {
+            var rigibody = CreateShape(data);
+            rigibody.Position = data.tsposition;
+            PhysicsManager.instance.AddBody(rigibody);
+        }
+
+        private static RigidBody CreateShape(DeserializerData data)
+        {
+            var shape = default(Shape);
+            switch (data.colliershape)
+            {
+                case TSCollierShape.TSBOX:
+                    shape = new BoxShape(TSVector.Scale(data.size, data.lossyScale));
+                    break;
+                case TSCollierShape.TSCAPSULE:
+                    shape = new CapsuleShape(data.length, data.radius);
+                    break;
+                case TSCollierShape.TSSPHERE:
+                    shape = new CapsuleShape(data.length, data.radius);
+                    break;
+                case TSCollierShape.TSMESH:
+                    var octree = new Octree(data.vertices, data.indices);
+                    shape = new TriangleMeshShape(octree);
+                    break;
+                case TSCollierShape.TSTERRAIN:
+                    //TODO 这里太长了之后看看
+                    break;
+            }
+
+            var newBody = new RigidBody(shape);
+            //这里具体情况具体赋值
+            {
+                if (data.friction > FP.MinValue)
+                {
+                    newBody.TSFriction = data.friction;
+                }
+
+                if (data.restitution > FP.MinValue)
+                {
+                    newBody.TSRestitution = data.restitution;
+                }
+            }
+            newBody.IsColliderOnly = data.istrigger; //这里就是collider的trigger
+            newBody.IsKinematic = data.isKinematic;
+            // TODO Mark ??? 我直接复制了
+            {
+                // bool isStatic =
+                newBody.AffectedByGravity = false;
+                newBody.IsStatic = true;
+                newBody.SetMassProperties();
+            }
+            return newBody;
+        }
+
+        #endregion
+
         /// <summary>
         /// 解析
         /// </summary>
@@ -271,7 +289,7 @@ namespace Serializer3D
     }
 
     /// <summary>
-    /// 
+    /// 构造中间类 ---> 垃圾桶
     /// </summary>
     internal class DeserializerData
     {
@@ -309,6 +327,13 @@ namespace Serializer3D
 
         public TSVector tsposition;
         public bool isKinematic;
+
+        #endregion
+
+        #region Mesh
+
+        public List<TriangleVertexIndices> indices = new List<TriangleVertexIndices>();
+        public List<TSVector> vertices = new List<TSVector>();
 
         #endregion
     }

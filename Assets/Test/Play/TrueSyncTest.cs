@@ -49,7 +49,10 @@ namespace Tests
 
             foreach (TrueSync.Physics3D.RigidBody body in world3D.Bodies())
             {
+                Debug.Log("--------------");
+                Debug.Log(body.Shape);
                 Debug.Log(body.Position);
+                Debug.Log("++++++++++++++");
             }
         }
 
