@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using TrueSync.Physics2D;
+using TrueSync.Physics3D;
 
 namespace TrueSync {
 
@@ -108,6 +109,11 @@ namespace TrueSync {
             }
 
             world.ProcessAddedBodies();
+        }
+
+        public void AddBody(RigidBody iCollider)
+        {
+            throw new NotImplementedException();
         }
 
         internal string GetChecksum(bool plain) {

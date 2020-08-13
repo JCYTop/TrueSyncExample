@@ -1,16 +1,17 @@
 ﻿using TrueSync;
+using TrueSync.Physics3D;
 using UnityEngine;
 
 /**
 * @brief Interface to a world physics manager.
 **/
-public interface IPhysicsManager : IPhysicsManagerBase {
-
+public interface IPhysicsManager : IPhysicsManagerBase
+{
     TSVector Gravity { get; set; }
 
     bool SpeculativeContacts { get; set; }
 
-    FP LockedTimeStep { get;  set; }
+    FP LockedTimeStep { get; set; }
 
     /**
     * @brief Returns the GameObject related to a {@link IBody}.
@@ -28,7 +29,6 @@ public interface IPhysicsManager : IPhysicsManagerBase {
     bool IsCollisionEnabled(IBody rigidBody1, IBody rigidBody2);
 
     void AddBody(ICollider iCollider);
-
+    void AddBody(RigidBody iCollider);
     void OnRemoveBody(System.Action<IBody> OnRemoveBody);
-
 }
