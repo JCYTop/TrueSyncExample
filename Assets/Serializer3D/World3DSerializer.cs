@@ -5,6 +5,7 @@ namespace Serializer3D
 {
     public class World3DSerializer
     {
+#if Serializer
         /// <summary>
         /// 3D Serialize & Deserialize
         /// </summary>
@@ -15,7 +16,9 @@ namespace Serializer3D
                 World3DXmlSerializer.Serialize(world, fs);
             }
         }
+#endif
 
+#if !Serializer
         /// <summary>
         /// 反序列化
         /// 默认先执行场景的Init()
@@ -28,5 +31,6 @@ namespace Serializer3D
                 World3DXmlDeserializer.Deserializer(fs);
             }
         }
+#endif
     }
 }

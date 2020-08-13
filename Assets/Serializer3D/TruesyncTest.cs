@@ -1,6 +1,6 @@
-﻿#define Serializer
-
+﻿using System;
 using TrueSync;
+using TrueSync.Physics3D;
 using UnityEngine;
 
 namespace Serializer3D
@@ -14,6 +14,7 @@ namespace Serializer3D
         private FP lockedTimeStep;
         private AbstractLockstep lockstep;
         private CoroutineScheduler scheduler;
+        private World world3D;
 
         private void Awake()
         {
@@ -45,12 +46,14 @@ namespace Serializer3D
 #if Serializer
         private void Serializer()
         {
-            throw new System.NotImplementedException();
+            world3D = (World) PhysicsWorldManager.instance.GetWorld();
+            if (world3D == null) throw new NullReferenceException();
+            World3DSerializer.Serialize(world3D, @"..\TrueSyncExample\3D.xml");
         }
 #else
         private void Deserializer()
         {
-            throw new System.NotImplementedException();
+            World3DSerializer.Deserialize(@"..\TrueSyncExample\3DTest.xml");
         }
 #endif
     }

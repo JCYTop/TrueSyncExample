@@ -13,3 +13,4 @@ Temp/
 .idea/
 obj/
 Assembly-CSharp.csproj
+.vs/
