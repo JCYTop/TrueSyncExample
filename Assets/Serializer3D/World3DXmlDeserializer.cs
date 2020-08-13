@@ -12,7 +12,6 @@ namespace Serializer3D
 {
     internal class World3DXmlDeserializer
     {
-        private static World world3D = (World) PhysicsWorldManager.instance.GetWorld();
         private static Dictionary<DeserializerData, RigidBody> desSet = new Dictionary<DeserializerData, RigidBody>();
 
         /// <summary>
@@ -34,7 +33,7 @@ namespace Serializer3D
                 //加载重力参数
                 if (entity.Name.ToLower() == "gravity")
                 {
-                    world3D.Gravity = ReadVector(entity);
+                    PhysicsWorldManager.instance.Gravity = ReadVector(entity);
                 }
 
                 if (entity.Name.ToLower() == "entity")

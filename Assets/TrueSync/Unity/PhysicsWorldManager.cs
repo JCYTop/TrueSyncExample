@@ -18,10 +18,21 @@ namespace TrueSync
 
         Dictionary<RigidBody, Dictionary<RigidBody, TSCollision>> collisionInfo;
 
+        private TSVector gravity = default;
+
         /**
          *  @brief Property access to simulated gravity.
          **/
-        public TSVector Gravity { get; set; }
+        public TSVector Gravity
+        {
+            get { return gravity; }
+            set
+            {
+                gravity = value;
+                if (world != null)
+                    world.Gravity = gravity;
+            }
+        }
 
         /**
          *  @brief Property access to speculative contacts.
@@ -153,7 +164,8 @@ namespace TrueSync
             return result;
         }
 
-        public bool Raycast(TSVector rayOrigin, TSVector rayDirection, RaycastCallback raycast, int layerMask, out IBody body, out TSVector normal, out FP fraction)
+        public bool Raycast(TSVector rayOrigin, TSVector rayDirection, RaycastCallback raycast, int layerMask, out IBody body, out TSVector normal,
+            out FP fraction)
         {
             RigidBody rb;
             bool result = world.CollisionSystem.Raycast(rayOrigin, rayDirection, raycast, layerMask, out rb, out normal, out fraction);

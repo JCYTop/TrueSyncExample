@@ -1,5 +1,5 @@
 ﻿<World3D World3DVer="1.0">
-  <Gravity>0 -10 0</Gravity>
+  <Gravity>0 -9.8 0</Gravity>
   <Entity Name="Sphere">
     <Collider CollierType="TSSPHERE">
       <Radius>2</Radius>
