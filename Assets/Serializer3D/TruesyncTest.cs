@@ -37,7 +37,7 @@ namespace Serializer3D
         {
             Application.runInBackground = true;
 #if Serializer
-            Invoke("Serializer", 1f);
+            Invoke("Serializer", 0.1f);
 #else
             Invoke("Deserializer", 0.1f);
 #endif

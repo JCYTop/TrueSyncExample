@@ -4,7 +4,6 @@ using System.Xml;
 using JetBrains.Annotations;
 using TrueSync;
 using TrueSync.Physics3D;
-using UnityEngine;
 
 #if Serializer
 namespace Serializer3D
@@ -37,17 +36,24 @@ namespace Serializer3D
                 var go = PhysicsManager.instance.GetGameObject(body);
                 var collider = go.GetComponent<TSCollider>();
                 if (collider == null) throw new NullReferenceException();
-                writer.WriteStartElement("Entity");
-                writer.WriteAttributeString("Name", collider.name);
-                SerializeCollider(collider);
-                SerializeRigibody(body);
-                writer.WriteEndElement();
+                //判断是否是激活状态
+                //只处理激活的
+                if (collider.enabled)
+                {
+                    writer.WriteStartElement("Entity");
+                    writer.WriteAttributeString("Name", collider.name);
+                    SerializeCollider(collider);
+                    SerializeRigibody(body);
+                    writer.WriteEndElement();
+                }
             }
 
             writer.WriteEndElement();
             writer.Flush();
             writer.Close();
         }
+
+        #region collider序列化
 
         /// <summary>
         /// 获取Collider信息
@@ -56,36 +62,87 @@ namespace Serializer3D
         /// <exception cref="NotImplementedException"></exception>
         private static void SerializeCollider(TSCollider collider)
         {
+            writer.WriteStartElement("Collider");
+            ComSerializeCollider(collider);
             switch (collider)
             {
-                case TSBoxCollider boxCollider:
-                    BoxCollider((TSBoxCollider) collider);
+                case TSBoxCollider box:
+                    SerBoxCollider(box);
                     break;
-                case TSCapsuleCollider boxCollider:
+                case TSCapsuleCollider capsule:
+                    SerCapsuleCollider(capsule);
                     break;
-                case TSSphereCollider boxCollider:
+                case TSSphereCollider sphere:
+                    SerSphereCollider(sphere);
                     break;
-                case TSMeshCollider boxCollider:
+                case TSMeshCollider mesh:
+                    SerMeshCollider(mesh);
                     break;
-                case TSTerrainCollider boxCollider:
+                case TSTerrainCollider terrain:
+                    SerTerrainCollider(terrain);
                     break;
             }
 
-            ComSerializeCollider(collider);
+            writer.WriteEndElement();
         }
 
         /// <summary>
-        /// BoxCollider特殊序列化
+        /// BoxCollider序列化
         /// </summary>
         /// <param name="collider"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        private static void BoxCollider([NotNull] TSBoxCollider collider)
+        private static void SerBoxCollider([NotNull] TSBoxCollider collider)
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
-            writer.WriteAttributeString("CollierType", $"{collider.Shape}");
             //collider 的 size
             //和shape有倍数关系
             WriteVector("ColliderSize", collider.size);
+        }
+
+        /// <summary>
+        /// Capsule序列化
+        /// </summary>
+        /// <param name="collider"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        private static void SerCapsuleCollider([NotNull] TSCapsuleCollider collider)
+        {
+            if (collider == null) throw new ArgumentNullException(nameof(collider));
+            writer.WriteElementString("Radius", $"{collider.radius}"); // FP
+            writer.WriteElementString("Length", $"{collider.length}"); // FP
+        }
+
+        /// <summary>
+        /// Sphere序列化
+        /// </summary>
+        /// <param name="collider"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        private static void SerSphereCollider([NotNull] TSSphereCollider collider)
+        {
+            if (collider == null) throw new ArgumentNullException(nameof(collider));
+            writer.WriteElementString("Radius", $"{collider.radius}"); // FP
+        }
+
+        /// <summary>
+        /// Mesh序列化
+        /// </summary>
+        /// <param name="collider"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        private static void SerMeshCollider([NotNull] TSMeshCollider collider)
+        {
+            if (collider == null) throw new ArgumentNullException(nameof(collider));
+            //TODO 暂处理
+            writer.WriteElementString("Mesh", $"{collider.Mesh}");
+        }
+
+        /// <summary>
+        /// Terrain序列化
+        /// </summary>
+        /// <param name="collider"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        private static void SerTerrainCollider([NotNull] TSTerrainCollider collider)
+        {
+            if (collider == null) throw new ArgumentNullException(nameof(collider));
+            //TODO 暂时没看到什么可以序列化的东西
         }
 
         /// <summary>
@@ -94,8 +151,26 @@ namespace Serializer3D
         /// <param name="collider"></param>
         private static void ComSerializeCollider(TSCollider collider)
         {
+            writer.WriteAttributeString("CollierType", $"{collider.Shape}");
             WriteVector("ShapelossyScale", collider.SerializelossyScale);
+            WriteVector("BoundsMax", collider.bounds.max);
+            WriteVector("BoundsMin", collider.bounds.min);
+            if (collider.tsMaterial != null)
+            {
+                writer.WriteElementString("Friction", collider.tsMaterial.friction.ToString());
+                writer.WriteElementString("Restitution", collider.tsMaterial.restitution.ToString());
+            }
+
+            writer.WriteElementString("IsTrigger", collider.isTrigger.ToString());
+            //Unity 可以过滤 这里只是场景激活的
+            writer.WriteElementString("Enabled", collider.enabled.ToString());
+            writer.WriteElementString("Tag", collider.tag); //Unity --> 服务器可能使用到
+            WriteVector("Center", collider.Center); //TSVector
         }
+
+        #endregion
+
+        #region Rigibody序列化信息
 
         /// <summary>
         /// 获取Rigibody里面的信息
@@ -104,8 +179,22 @@ namespace Serializer3D
         /// <exception cref="NotImplementedException"></exception>
         private static void SerializeRigibody(RigidBody body)
         {
-            throw new System.NotImplementedException();
+            writer.WriteStartElement("Rigibody");
+            ComSerializeRigibody(body);
+            writer.WriteEndElement();
         }
+
+        private static void ComSerializeRigibody(RigidBody body)
+        {
+            writer.WriteElementString("IsActive", body.IsActive.ToString());
+            writer.WriteElementString("IsKinematic", body.IsKinematic.ToString());
+            writer.WriteElementString("IsStatic", body.IsStatic.ToString());
+            //WriteVector("Position", body.Position) 这俩个一样
+            WriteVector("TSPosition", body.TSPosition);
+            writer.WriteElementString("Shape", body.Shape.ToString());
+        }
+
+        #endregion
 
         private static void WriteVector(string name, TSVector vec)
         {

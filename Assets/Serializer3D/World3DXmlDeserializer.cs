@@ -1,11 +1,16 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using TrueSync;
+using TrueSync.Physics2D;
+using World = TrueSync.Physics3D.World;
 
-#if !Serializer
+#if Serializer
 namespace Serializer3D
 {
-
     internal class World3DXmlDeserializer
     {
+        private static World world3D = (World) PhysicsWorldManager.instance.GetWorld();
+
         /// <summary>
         /// 服务器使用
         /// 使用前请确认调用InitZ()接口
@@ -14,7 +19,40 @@ namespace Serializer3D
         /// <exception cref="NotImplementedException"></exception>
         public static void Deserializer(FileStream stream)
         {
-            throw new System.NotImplementedException();
+            //解析
+            var root = XMLFragmentParser.LoadFromStream(stream);
+            if (root.Name.ToLower() != "world3d")
+                throw new Exception("检查序列化Title。。。");
+            //Read
+            foreach (var entity in root.Elements)
+            {
+                //加载重力参数
+                if (entity.Name.ToLower() == "gravity")
+                {
+                    world3D.Gravity = ReadVector(entity);
+                }
+
+                if (entity.Name.ToLower() == "entity")
+                {
+                    
+                    
+                    switch (entity.Attributes[0].Value)
+                    {
+                        case  
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 解析
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        private static TSVector ReadVector(XMLFragmentElement node)
+        {
+            var values = node.Value.Split(' ');
+            return new TSVector(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]));
         }
     }
 }
