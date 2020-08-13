@@ -420,6 +420,10 @@ PrefabInstance:
       propertyPath: tsTransform
       value: 
       objectReference: {fileID: 1394764280}
+    - target: {fileID: 11473656, guid: 435fa2cb799997c46a75eea40a87eaba, type: 3}
+      propertyPath: center.y._serializedValue
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 435fa2cb799997c46a75eea40a87eaba, type: 3}
 --- !u!114 &1394764280 stripped

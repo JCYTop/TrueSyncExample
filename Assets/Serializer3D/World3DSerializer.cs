@@ -19,7 +19,7 @@ namespace Serializer3D
         }
 #endif
 
-#if !Serializer
+#if  Serializer
         /// <summary>
         /// 反序列化
         /// 默认先执行场景的Init()

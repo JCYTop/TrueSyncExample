@@ -1,7 +1,7 @@
 ﻿<World3D World3DVer="1.0">
   <Gravity>0 -10 0</Gravity>
   <Entity Name="Sphere">
-    <Collider>
+    <Collider CollierType="TSSPHERE">
       <Radius>0.5</Radius>
       <ShapelossyScale>1 1 1</ShapelossyScale>
       <BoundsMax>2.5 2.5 2.5</BoundsMax>
@@ -9,7 +9,7 @@
       <IsTrigger>False</IsTrigger>
       <Enabled>True</Enabled>
       <Tag>Untagged</Tag>
-      <Center>0 0 0</Center>
+      <ColliderCenter>0 0 0</ColliderCenter>
     </Collider>
     <Rigibody>
       <IsActive>True</IsActive>
@@ -28,7 +28,7 @@
       <IsTrigger>False</IsTrigger>
       <Enabled>True</Enabled>
       <Tag>Untagged</Tag>
-      <Center>0 0 0</Center>
+      <ColliderCenter>0 0 0</ColliderCenter>
     </Collider>
     <Rigibody>
       <IsActive>True</IsActive>
@@ -39,7 +39,7 @@
     </Rigibody>
   </Entity>
   <Entity Name="Capsule">
-    <Collider>
+    <Collider CollierType="TSCAPSULE">
       <Radius>0.5</Radius>
       <Length>1</Length>
       <ShapelossyScale>1 1 1</ShapelossyScale>
@@ -48,7 +48,7 @@
       <IsTrigger>False</IsTrigger>
       <Enabled>True</Enabled>
       <Tag>Untagged</Tag>
-      <Center>0 0 0</Center>
+      <ColliderCenter>0 0 0</ColliderCenter>
     </Collider>
     <Rigibody>
       <IsActive>True</IsActive>
