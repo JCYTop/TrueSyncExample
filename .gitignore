@@ -10,3 +10,5 @@ CTestTestfile.cmake
 Library/
 Logs/
 Temp/
+.idea/
+obj/
