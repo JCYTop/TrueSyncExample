@@ -631,6 +631,14 @@
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\TrueSync\Unity\Editor\MenuContext.cs.meta" />
+    <Content Include="Assets\TrueSync\Unity\Editor\TrueSyncConfigEditor.cs.meta" />
+    <Content Include="Assets\TrueSync\Unity\Editor\TSFPDrawer.cs.meta" />
+    <Content Include="Assets\TrueSync\Unity\Editor\TSRigidBodyEditor.cs.meta" />
+    <Content Include="Assets\TrueSync\Unity\Editor\TSVector2Drawer.cs.meta" />
+    <Content Include="Assets\TrueSync\Unity\Editor\TSVectorDrawer.cs.meta" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
