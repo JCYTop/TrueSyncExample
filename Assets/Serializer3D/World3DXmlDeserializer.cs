@@ -191,6 +191,11 @@ namespace Serializer3D
                 {
                     data.collidercenter = ReadVector(element);
                 }
+
+                if (element.Name.ToLower() == "shapelossyscale")
+                {
+                    data.lossyScale = ReadVector(element);
+                }
             }
         }
 
