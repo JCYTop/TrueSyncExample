@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+﻿using TrueSync;
 
-namespace TrueSync
+namespace Serializer3D
 {
-    /**
-    * @brief Represents a set of configurations for TrueSync.
-    **/
-    public class TrueSyncConfig : ScriptableObject
+    /// <summary>
+    /// 转么用于服务器的配置文件逻辑
+    /// </summary>
+    public class STrueSyncConfig
     {
         private const int COLLISION_LAYERS = 32;
 
@@ -77,7 +77,7 @@ namespace TrueSync
          **/
         public FP lockedTimeStep = 0.02f;
 
-        public TrueSyncConfig()
+        public STrueSyncConfig()
         {
         }
 

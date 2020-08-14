@@ -112,6 +112,7 @@
      <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\WorldChecksumExtractor.cs" />
      <Compile Include="Assets\Plugins\TrueSyncDll\TrueSyncExtensionsCore.cs" />
      <Compile Include="Assets\Prefabs\005\JSMovement3D.cs" />
+     <Compile Include="Assets\Serializer3D\STrueSyncConfig.cs" />
      <Compile Include="Assets\Serializer3D\TruesyncTest.cs" />
      <Compile Include="Assets\Serializer3D\World3DSerializer.cs" />
      <Compile Include="Assets\Serializer3D\World3DXmlDeserializer.cs" />

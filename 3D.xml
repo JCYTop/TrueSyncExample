@@ -1,11 +1,30 @@
 ﻿<World3D World3DVer="1.0">
   <Gravity>0 -9.8 0</Gravity>
-  <Entity Name="Cube">
+  <Entity Name="Cube4">
+    <Collider CollierType="TSBOX">
+      <ColliderSize>1 1 1</ColliderSize>
+      <ShapelossyScale>2 2 2</ShapelossyScale>
+      <BoundsMax>1 5 1</BoundsMax>
+      <BoundsMin>-1 3 -1</BoundsMin>
+      <IsTrigger>False</IsTrigger>
+      <Enabled>True</Enabled>
+      <Tag>Untagged</Tag>
+      <ColliderCenter>0 2 0</ColliderCenter>
+    </Collider>
+    <Rigibody>
+      <IsActive>True</IsActive>
+      <IsKinematic>False</IsKinematic>
+      <IsStatic>False</IsStatic>
+      <TSPosition>0 4 0</TSPosition>
+      <Shape>TrueSync.Physics3D.BoxShape</Shape>
+    </Rigibody>
+  </Entity>
+  <Entity Name="Cube3">
     <Collider CollierType="TSBOX">
       <ColliderSize>2 2 2</ColliderSize>
-      <ShapelossyScale>1 1 1</ShapelossyScale>
-      <BoundsMax>-4 6 -2</BoundsMax>
-      <BoundsMin>-6 4 -4</BoundsMin>
+      <ShapelossyScale>2 2 2</ShapelossyScale>
+      <BoundsMax>2 2 2</BoundsMax>
+      <BoundsMin>-2 -2 -2</BoundsMin>
       <IsTrigger>False</IsTrigger>
       <Enabled>True</Enabled>
       <Tag>Untagged</Tag>
@@ -15,16 +34,35 @@
       <IsActive>True</IsActive>
       <IsKinematic>False</IsKinematic>
       <IsStatic>False</IsStatic>
-      <TSPosition>-5 5 -3</TSPosition>
+      <TSPosition>0 0 0</TSPosition>
       <Shape>TrueSync.Physics3D.BoxShape</Shape>
     </Rigibody>
   </Entity>
-  <Entity Name="Cube">
+  <Entity Name="Cube2">
     <Collider CollierType="TSBOX">
-      <ColliderSize>1 1 1</ColliderSize>
+      <ColliderSize>2 2 2</ColliderSize>
       <ShapelossyScale>2 2 2</ShapelossyScale>
-      <BoundsMax>1 1 1</BoundsMax>
-      <BoundsMin>-1 -1 -1</BoundsMin>
+      <BoundsMax>3 7 -8</BoundsMax>
+      <BoundsMin>-1 3 -12</BoundsMin>
+      <IsTrigger>False</IsTrigger>
+      <Enabled>True</Enabled>
+      <Tag>Untagged</Tag>
+      <ColliderCenter>0 0 0</ColliderCenter>
+    </Collider>
+    <Rigibody>
+      <IsActive>True</IsActive>
+      <IsKinematic>False</IsKinematic>
+      <IsStatic>False</IsStatic>
+      <TSPosition>1 5 -10</TSPosition>
+      <Shape>TrueSync.Physics3D.BoxShape</Shape>
+    </Rigibody>
+  </Entity>
+  <Entity Name="Cube1">
+    <Collider CollierType="TSBOX">
+      <ColliderSize>2 2 2</ColliderSize>
+      <ShapelossyScale>2 2 2</ShapelossyScale>
+      <BoundsMax>3 3 -8</BoundsMax>
+      <BoundsMin>-1 -1 -12</BoundsMin>
       <IsTrigger>False</IsTrigger>
       <Enabled>True</Enabled>
       <Tag>Player</Tag>
@@ -34,7 +72,7 @@
       <IsActive>True</IsActive>
       <IsKinematic>False</IsKinematic>
       <IsStatic>False</IsStatic>
-      <TSPosition>0 0 0</TSPosition>
+      <TSPosition>1 1 -10</TSPosition>
       <Shape>TrueSync.Physics3D.BoxShape</Shape>
     </Rigibody>
   </Entity>

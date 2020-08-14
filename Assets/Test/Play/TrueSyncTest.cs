@@ -23,7 +23,7 @@ namespace Tests
         {
             if (!isInit)
             {
-                var currentConfig = new TrueSyncConfig();
+                var currentConfig = new STrueSyncConfig();
                 currentConfig.lockedTimeStep = 0.01667;
                 currentConfig.physics3DEnabled = true;
                 currentConfig.gravity3D = new TSVector(0, -10, 0);
