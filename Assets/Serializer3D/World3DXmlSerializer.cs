@@ -182,6 +182,7 @@ namespace Serializer3D
             //Unity 可以过滤 这里只是场景激活的
             writer.WriteElementString("Enabled", collider.enabled.ToString());
             writer.WriteElementString("Tag", collider.tag); //Unity --> 服务器可能使用到
+            writer.WriteElementString("Layer", collider.layer); //Unity --> 服务器可能使用到
             WriteVector("ColliderCenter", collider.Center); //TSVector
         }
 

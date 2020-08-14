@@ -40,163 +40,194 @@
 /// </summary>
 /// 
 /// 
-namespace TrueSync {
-	public class CoroutineScheduler
-	{
+namespace TrueSync
+{
+    public class CoroutineScheduler
+    {
+        CoroutineNode first = null;
+        FP currentTime;
 
-		CoroutineNode first = null;
-		FP currentTime;
+        AbstractLockstep lockStep;
 
-		AbstractLockstep lockStep;
+        public CoroutineScheduler(AbstractLockstep lockStep)
+        {
+            this.lockStep = lockStep;
+        }
 
-		public CoroutineScheduler(AbstractLockstep lockStep) {
-			this.lockStep = lockStep;
-		}
-
-		/**
+        /**
 	   * Starts a coroutine, the coroutine does not run immediately but on the
 	   * next call to UpdateAllCoroutines. The execution of a coroutine can
 	   * be paused at any point using the yield statement. The yield return value
 	   * specifies when the coroutine is resumed.
 	   */
+        public CoroutineNode StartCoroutine(IEnumerator fiber)
+        {
+            // if function does not have a yield, fiber will be null and we no-op
+            if (fiber == null)
+            {
+                return null;
+            }
 
-		public CoroutineNode StartCoroutine (IEnumerator fiber)
-		{
-			// if function does not have a yield, fiber will be null and we no-op
-			if (fiber == null) {
-				return null;
-			}
-			// create coroutine node and run until we reach first yield
-			CoroutineNode coroutine = new CoroutineNode (fiber);
-			AddCoroutine (coroutine);
+            // create coroutine node and run until we reach first yield
+            CoroutineNode coroutine = new CoroutineNode(fiber);
+            AddCoroutine(coroutine);
 
-			return coroutine;
-		}
+            return coroutine;
+        }
 
-		/**
+        /**
 	   * Stops all coroutines running on this behaviour. Use of this method is
 	   * discouraged, think of a natural way for your coroutines to finish
 	   * on their own instead of being forcefully stopped before they finish.
 	   * If you need finer control over stopping coroutines you can use multiple
 	   * schedulers.
 	   */
-		public void StopAllCoroutines ()
-		{
-			first = null;
-		}
+        public void StopAllCoroutines()
+        {
+            first = null;
+        }
 
-		/**
+        /**
 	   * Returns true if this scheduler has any coroutines. You can use this to
 	   * check if all coroutines have finished or been stopped.
 	   */
-		public bool HasCoroutines ()
-		{
-			return first != null;
-		}
+        public bool HasCoroutines()
+        {
+            return first != null;
+        }
 
-		public void UpdateAllCoroutines ()
-		{
-			InputDataBase oldInputData = TrueSyncInput.CurrentSimulationData;
-			UpdateAllCoroutines (lockStep.Ticks, TrueSyncManager.Time);
-			TrueSyncInput.CurrentSimulationData = (InputData) oldInputData;
-		}
+        // public void UpdateAllCoroutines()
+        // {
+        //     InputDataBase oldInputData = TrueSyncInput.CurrentSimulationData;
+        //     UpdateAllCoroutines(lockStep.Ticks, TrueSyncManager.Time);
+        //     TrueSyncInput.CurrentSimulationData = (InputData) oldInputData;
+        // }
 
-		/**
+        /**
 	   * Runs all active coroutines until their next yield. Caller must provide
 	   * the current frame and time. This allows for schedulers to run under
 	   * frame and time regimes other than the Unity's main game loop.
 	   */
-		public void UpdateAllCoroutines (int frame, FP time)
-		{
-			currentTime = time;
-			CoroutineNode coroutine = this.first;
-			while (coroutine != null) {
-				// store listNext before coroutine finishes and is removed from the list
-				CoroutineNode listNext = coroutine.listNext;
+        public void UpdateAllCoroutines(int frame, FP time)
+        {
+            currentTime = time;
+            CoroutineNode coroutine = this.first;
+            while (coroutine != null)
+            {
+                // store listNext before coroutine finishes and is removed from the list
+                CoroutineNode listNext = coroutine.listNext;
 
-				if (coroutine.waitForFrame > 0 && frame >= coroutine.waitForFrame) {
-					coroutine.waitForFrame = -1;
-					UpdateCoroutine (coroutine);
-				} else if (coroutine.waitForTime > 0.0f && time >= coroutine.waitForTime) {
-					coroutine.waitForTime = -1.0f;
-					UpdateCoroutine (coroutine);
-				} else if (coroutine.waitForCoroutine != null && coroutine.waitForCoroutine.finished) {
-					coroutine.waitForCoroutine = null;
-					UpdateCoroutine (coroutine);
-				} else if (coroutine.waitForFrame == -1 && coroutine.waitForTime == -1.0f && coroutine.waitForCoroutine == null) {
-					// initial update
-					UpdateCoroutine (coroutine);
-				}
-				coroutine = listNext;
-			}
-		}
+                if (coroutine.waitForFrame > 0 && frame >= coroutine.waitForFrame)
+                {
+                    coroutine.waitForFrame = -1;
+                    UpdateCoroutine(coroutine);
+                }
+                else if (coroutine.waitForTime > 0.0f && time >= coroutine.waitForTime)
+                {
+                    coroutine.waitForTime = -1.0f;
+                    UpdateCoroutine(coroutine);
+                }
+                else if (coroutine.waitForCoroutine != null && coroutine.waitForCoroutine.finished)
+                {
+                    coroutine.waitForCoroutine = null;
+                    UpdateCoroutine(coroutine);
+                }
+                else if (coroutine.waitForFrame == -1 && coroutine.waitForTime == -1.0f && coroutine.waitForCoroutine == null)
+                {
+                    // initial update
+                    UpdateCoroutine(coroutine);
+                }
 
-		/**
+                coroutine = listNext;
+            }
+        }
+
+        /**
 	   * Executes coroutine until next yield. If coroutine has finished, flags
 	   * it as finished and removes it from scheduler list.
 	   */
-		private void UpdateCoroutine (CoroutineNode coroutine)
-		{
-			IEnumerator fiber = coroutine.fiber;
+        private void UpdateCoroutine(CoroutineNode coroutine)
+        {
+            IEnumerator fiber = coroutine.fiber;
 
-			if (coroutine.playerId > -1) {
-				TrueSyncInput.CurrentSimulationData = (InputData) lockStep.GetInputData (coroutine.playerId);
-			}
+            if (coroutine.playerId > -1)
+            {
+                TrueSyncInput.CurrentSimulationData = (InputData) lockStep.GetInputData(coroutine.playerId);
+            }
 
-			if (coroutine.fiber.MoveNext ()) {
-				System.Object yieldCommand = fiber.Current == null ? (System.Object) 1 : fiber.Current;
+            if (coroutine.fiber.MoveNext())
+            {
+                System.Object yieldCommand = fiber.Current == null ? (System.Object) 1 : fiber.Current;
 
-				if (yieldCommand.GetType () == typeof(int)) {
-					coroutine.waitForTime = (FP) ((int) yieldCommand);
-					coroutine.waitForTime += (FP)currentTime;
-				} else if (yieldCommand.GetType () == typeof(float)) {
-					coroutine.waitForTime = (FP) ((float) yieldCommand);
-					coroutine.waitForTime += (FP) currentTime;
-				} else if (yieldCommand.GetType () == typeof(FP)) {
-					coroutine.waitForTime = (FP) yieldCommand;
-					coroutine.waitForTime += (FP) currentTime;
-				} else if (yieldCommand.GetType () == typeof(CoroutineNode)) {
-					coroutine.waitForCoroutine = (CoroutineNode) yieldCommand;
-				} else {
-					throw new System.ArgumentException ("CoroutineScheduler: Unexpected coroutine yield type: " + yieldCommand.GetType ());
-				}
-			} else {
-				// coroutine finished
-				coroutine.finished = true;
-				RemoveCoroutine (coroutine);
-			}
-		}
+                if (yieldCommand.GetType() == typeof(int))
+                {
+                    coroutine.waitForTime = (FP) ((int) yieldCommand);
+                    coroutine.waitForTime += (FP) currentTime;
+                }
+                else if (yieldCommand.GetType() == typeof(float))
+                {
+                    coroutine.waitForTime = (FP) ((float) yieldCommand);
+                    coroutine.waitForTime += (FP) currentTime;
+                }
+                else if (yieldCommand.GetType() == typeof(FP))
+                {
+                    coroutine.waitForTime = (FP) yieldCommand;
+                    coroutine.waitForTime += (FP) currentTime;
+                }
+                else if (yieldCommand.GetType() == typeof(CoroutineNode))
+                {
+                    coroutine.waitForCoroutine = (CoroutineNode) yieldCommand;
+                }
+                else
+                {
+                    throw new System.ArgumentException("CoroutineScheduler: Unexpected coroutine yield type: " + yieldCommand.GetType());
+                }
+            }
+            else
+            {
+                // coroutine finished
+                coroutine.finished = true;
+                RemoveCoroutine(coroutine);
+            }
+        }
 
-		private void AddCoroutine (CoroutineNode coroutine)
-		{
+        private void AddCoroutine(CoroutineNode coroutine)
+        {
+            if (this.first != null)
+            {
+                coroutine.listNext = this.first;
+                first.listPrevious = coroutine;
+            }
 
-			if (this.first != null) {
-				coroutine.listNext = this.first;
-				first.listPrevious = coroutine;
-			}
-			first = coroutine;
-		}
+            first = coroutine;
+        }
 
-		private void RemoveCoroutine (CoroutineNode coroutine)
-		{
-			if (this.first == coroutine) {
-				// remove first
-				this.first = coroutine.listNext;
-			} else {
-				// not head of list
-				if (coroutine.listNext != null) {
-					// remove between
-					coroutine.listPrevious.listNext = coroutine.listNext;
-					coroutine.listNext.listPrevious = coroutine.listPrevious;
-				} else if (coroutine.listPrevious != null) {
-					// and listNext is null
-					coroutine.listPrevious.listNext = null;
-					// remove last
-				}
-			}
-			coroutine.listPrevious = null;
-			coroutine.listNext = null;
-		}
+        private void RemoveCoroutine(CoroutineNode coroutine)
+        {
+            if (this.first == coroutine)
+            {
+                // remove first
+                this.first = coroutine.listNext;
+            }
+            else
+            {
+                // not head of list
+                if (coroutine.listNext != null)
+                {
+                    // remove between
+                    coroutine.listPrevious.listNext = coroutine.listNext;
+                    coroutine.listNext.listPrevious = coroutine.listPrevious;
+                }
+                else if (coroutine.listPrevious != null)
+                {
+                    // and listNext is null
+                    coroutine.listPrevious.listNext = null;
+                    // remove last
+                }
+            }
 
-	}//class
+            coroutine.listPrevious = null;
+            coroutine.listNext = null;
+        }
+    } //class
 }

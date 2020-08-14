@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace TrueSync.Physics2D {
-
-    internal class BodyClone2D {
-
+namespace TrueSync.Physics2D
+{
+    internal class BodyClone2D
+    {
         private static ResourcePoolShapeClone2D poolClone2D = new ResourcePoolShapeClone2D();
 
         public FP _angularDamping;
@@ -43,13 +43,16 @@ namespace TrueSync.Physics2D {
 
         public List<GenericShapeClone2D> shapesClone = new List<GenericShapeClone2D>();
 
-        public void Reset() {
-            if (contactEdgeClone != null) {
+        public void Reset()
+        {
+            if (contactEdgeClone != null)
+            {
                 WorldClone2D.poolContactEdgeClone.GiveBack(contactEdgeClone);
             }
         }
 
-        public void Clone(Body body) {
+        public void Clone(Body body)
+        {
             this._angularDamping = body._angularDamping;
             this._bodyType = body._bodyType;
             this._inertia = body._inertia;
@@ -92,29 +95,35 @@ namespace TrueSync.Physics2D {
             this.prevKinematicInvI = body.prevKinematicInvI;
             this.prevKinematicSweep = body.prevKinematicSweep;
 
-            for (int index = 0, length = shapesClone.Count; index < length; index++) {
+            for (int index = 0, length = shapesClone.Count; index < length; index++)
+            {
                 poolClone2D.GiveBack(shapesClone[index]);
             }
 
             this.shapesClone.Clear();
 
             List<Physics2D.Fixture> fixtureList = body.FixtureList;
-            for (int index = 0, length = fixtureList.Count; index < length; index++) {
+            for (int index = 0, length = fixtureList.Count; index < length; index++)
+            {
                 GenericShapeClone2D shapeClone = poolClone2D.GetNew();
                 shapeClone.Clone(body.FixtureList[index].Shape);
 
                 this.shapesClone.Add(shapeClone);
             }
 
-            if (body.ContactList == null) {
+            if (body.ContactList == null)
+            {
                 this.contactEdgeClone = null;
-            } else {
+            }
+            else
+            {
                 this.contactEdgeClone = WorldClone2D.poolContactEdgeClone.GetNew();
                 this.contactEdgeClone.Clone(body.ContactList);
             }
         }
 
-		public void Restore(Physics2D.Body body) {
+        public void Restore(Physics2D.Body body)
+        {
             body._angularDamping = this._angularDamping;
             body._bodyType = this._bodyType;
             body._inertia = this._inertia;
@@ -141,8 +150,9 @@ namespace TrueSync.Physics2D {
             bool lastDisabled = body.disabled;
             body.disabled = this.disabled;
 
-            if (lastDisabled && !body.disabled) {
-                Physics2D.ContactManager.physicsManager.GetGameObject(body).SetActive(true);
+            if (lastDisabled && !body.disabled)
+            {
+                // Physics2D.ContactManager.physicsManager.GetGameObject(body).SetActive(true);
             }
 
             body.GravityScale = this.GravityScale;
@@ -157,11 +167,10 @@ namespace TrueSync.Physics2D {
             body.prevKinematicSweep = this.prevKinematicSweep;
 
             List<Physics2D.Fixture> fixtureList = body.FixtureList;
-            for (int index = 0, length = this.shapesClone.Count; index < length; index++) {
+            for (int index = 0, length = this.shapesClone.Count; index < length; index++)
+            {
                 this.shapesClone[index].Restore(fixtureList[index].Shape);
             }
         }
-
     }
-
 }

@@ -18,12 +18,14 @@
 */
 
 #region Using Statements
+
 using System;
 using System.Collections.Generic;
+
 #endregion
 
-namespace TrueSync.Physics3D {
-
+namespace TrueSync.Physics3D
+{
     /// <summary>
     /// Uses single axis sweep and prune broadphase collision detection.
     /// </summary>
@@ -93,6 +95,7 @@ namespace TrueSync.Physics3D {
         }
 
         #region private void AddToActiveSingleThreaded(IBroadphaseEntity body, bool addToList)
+
         private void AddToActive(IBroadphaseEntity body, bool addToList)
         {
             FP xmin = body.BoundingBox.min.x;
@@ -102,7 +105,7 @@ namespace TrueSync.Physics3D {
 
             TSBBox acBox, bodyBox;
 
-            for (int i = 0; i != n; )
+            for (int i = 0; i != n;)
             {
                 IBroadphaseEntity ac = active[i];
                 acBox = ac.BoundingBox;
@@ -118,7 +121,7 @@ namespace TrueSync.Physics3D {
 
                     if (!(thisInactive && ac.IsStaticOrInactive) &&
                         (((bodyBox.max.z >= acBox.min.z) && (bodyBox.min.z <= acBox.max.z)) &&
-                        ((bodyBox.max.y >= acBox.min.y) && (bodyBox.min.y <= acBox.max.y))))
+                         ((bodyBox.max.y >= acBox.min.y) && (bodyBox.min.y <= acBox.max.y))))
                     {
                         if (base.RaisePassedBroadphase(ac, body))
                         {
@@ -134,6 +137,7 @@ namespace TrueSync.Physics3D {
 
             active.Add(body);
         }
+
         #endregion
 
         private void DetectCallback(object obj)
@@ -155,12 +159,17 @@ namespace TrueSync.Physics3D {
         /// against rays (rays are of infinite length). They are checked against segments
         /// which start at rayOrigin and end in rayOrigin + rayDirection.
         /// </summary>
+
         #region public override bool Raycast(JVector rayOrigin, JVector rayDirection, out JVector normal,out FP fraction)
+
         public override bool Raycast(TSVector rayOrigin, TSVector rayDirection, RaycastCallback raycast, out RigidBody body, out TSVector normal, out FP fraction)
         {
-            body = null; normal = TSVector.zero; fraction = FP.MaxValue;
+            body = null;
+            normal = TSVector.zero;
+            fraction = FP.MaxValue;
 
-            TSVector tempNormal; FP tempFraction;
+            TSVector tempNormal;
+            FP tempFraction;
             bool result = false;
 
             // TODO: This can be done better in CollisionSystemPersistenSAP
@@ -202,6 +211,7 @@ namespace TrueSync.Physics3D {
 
             return result;
         }
+
         #endregion
 
 
@@ -210,10 +220,13 @@ namespace TrueSync.Physics3D {
         /// against rays (rays are of infinite length). They are checked against segments
         /// which start at rayOrigin and end in rayOrigin + rayDirection.
         /// </summary>
+
         #region public override bool Raycast(RigidBody body, JVector rayOrigin, JVector rayDirection, out JVector normal, out FP fraction)
+
         public override bool Raycast(RigidBody body, TSVector rayOrigin, TSVector rayDirection, out TSVector normal, out FP fraction)
         {
-            fraction = FP.MaxValue; normal = TSVector.zero;
+            fraction = FP.MaxValue;
+            normal = TSVector.zero;
 
             if (!body.BoundingBox.RayIntersect(ref rayOrigin, ref rayDirection)) return false;
 
@@ -221,12 +234,15 @@ namespace TrueSync.Physics3D {
             {
                 Multishape ms = (body.Shape as Multishape).RequestWorkingClone();
 
-                TSVector tempNormal; FP tempFraction;
+                TSVector tempNormal;
+                FP tempFraction;
                 bool multiShapeCollides = false;
 
-                TSVector transformedOrigin; TSVector.Subtract(ref rayOrigin, ref body.position, out transformedOrigin);
+                TSVector transformedOrigin;
+                TSVector.Subtract(ref rayOrigin, ref body.position, out transformedOrigin);
                 TSVector.Transform(ref transformedOrigin, ref body.invOrientation, out transformedOrigin);
-                TSVector transformedDirection; TSVector.Transform(ref rayDirection, ref body.invOrientation, out transformedDirection);
+                TSVector transformedDirection;
+                TSVector.Transform(ref rayDirection, ref body.invOrientation, out transformedDirection);
 
                 int msLength = ms.Prepare(ref transformedOrigin, ref transformedDirection);
 
@@ -267,9 +283,8 @@ namespace TrueSync.Physics3D {
                 return (GJKCollide.Raycast(body.Shape, ref body.orientation, ref body.invOrientation, ref body.position,
                     ref rayOrigin, ref rayDirection, out fraction, out normal));
             }
-
-
         }
+
         #endregion
 
         /// <summary>
@@ -280,9 +295,12 @@ namespace TrueSync.Physics3D {
         /// </summary>
         public override bool Raycast(TSVector rayOrigin, TSVector rayDirection, RaycastCallback raycast, int layerMask, out RigidBody body, out TSVector normal, out FP fraction)
         {
-            body = null; normal = TSVector.zero; fraction = FP.MaxValue;
+            body = null;
+            normal = TSVector.zero;
+            fraction = FP.MaxValue;
 
-            TSVector tempNormal; FP tempFraction;
+            TSVector tempNormal;
+            FP tempFraction;
             bool result = false;
 
             // TODO: This can be done better in CollisionSystemPersistenSAP

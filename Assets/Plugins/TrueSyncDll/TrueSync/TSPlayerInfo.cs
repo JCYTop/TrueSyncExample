@@ -1,38 +1,28 @@
 using System;
-using UnityEngine;
 
 namespace TrueSync
 {
-    // Ö¡Í¬²½Íæ¼ÒÐÅÏ¢
-	[Serializable]
-	public class TSPlayerInfo
-	{
-		[SerializeField]
-		internal byte id;
+    // Ö¡Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+    [Serializable]
+    public class TSPlayerInfo
+    {
+        internal byte id;
+        internal string name;
 
-		[SerializeField]
-		internal string name;
+        public byte Id
+        {
+            get { return this.id; }
+        }
 
-		public byte Id
-		{
-			get
-			{
-				return this.id;
-			}
-		}
+        public string Name
+        {
+            get { return this.name; }
+        }
 
-		public string Name
-		{
-			get
-			{
-				return this.name;
-			}
-		}
-
-		public TSPlayerInfo(byte id, string name)
-		{
-			this.id = id;
-			this.name = name;
-		}
-	}
+        public TSPlayerInfo(byte id, string name)
+        {
+            this.id = id;
+            this.name = name;
+        }
+    }
 }

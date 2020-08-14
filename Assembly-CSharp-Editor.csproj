@@ -56,12 +56,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\TrueSync\Unity\Editor\MenuContext.cs" />
-     <Compile Include="Assets\TrueSync\Unity\Editor\TrueSyncConfigEditor.cs" />
-     <Compile Include="Assets\TrueSync\Unity\Editor\TSFPDrawer.cs" />
-     <Compile Include="Assets\TrueSync\Unity\Editor\TSRigidBodyEditor.cs" />
-     <Compile Include="Assets\TrueSync\Unity\Editor\TSVector2Drawer.cs" />
-     <Compile Include="Assets\TrueSync\Unity\Editor\TSVectorDrawer.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>D:/GitForProject/TrueSyncExample/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
@@ -232,36 +226,6 @@
  </Reference>
  <Reference Include="UnityEngine.UnityTestProtocolModule">
  <HintPath>C:/Program Files/UnitySet/Unity2019.2.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityTestProtocolModule.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.UnityWebRequestModule">
- <HintPath>C:/Program Files/UnitySet/Unity2019.2.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestModule.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule">
- <HintPath>C:/Program Files/UnitySet/Unity2019.2.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAssetBundleModule.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.UnityWebRequestAudioModule">
- <HintPath>C:/Program Files/UnitySet/Unity2019.2.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.UnityWebRequestWWWModule">
- <HintPath>C:/Program Files/UnitySet/Unity2019.2.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.VFXModule">
- <HintPath>C:/Program Files/UnitySet/Unity2019.2.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.VFXModule.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.VRModule">
- <HintPath>C:/Program Files/UnitySet/Unity2019.2.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.VRModule.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.VehiclesModule">
- <HintPath>C:/Program Files/UnitySet/Unity2019.2.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.VehiclesModule.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.VideoModule">
- <HintPath>C:/Program Files/UnitySet/Unity2019.2.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.VideoModule.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.WindModule">
- <HintPath>C:/Program Files/UnitySet/Unity2019.2.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.XRModule">
- <HintPath>C:/Program Files/UnitySet/Unity2019.2.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
  </Reference>
  <Reference Include="nunit.framework">
  <HintPath>D:/GitForProject/TrueSyncExample/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
@@ -611,12 +575,6 @@
  <Reference Include="System.Xml.XPath.XDocument">
  <HintPath>C:/Program Files/UnitySet/Unity2019.2.11f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Xml.XPath.XDocument.dll</HintPath>
  </Reference>
- <Reference Include="UnityScript">
- <HintPath>C:/Program Files/UnitySet/Unity2019.2.11f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/UnityScript.dll</HintPath>
- </Reference>
- <Reference Include="UnityScript.Lang">
- <HintPath>C:/Program Files/UnitySet/Unity2019.2.11f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/UnityScript.Lang.dll</HintPath>
- </Reference>
  <Reference Include="Boo.Lang">
  <HintPath>C:/Program Files/UnitySet/Unity2019.2.11f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
  </Reference>
@@ -632,12 +590,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\TrueSync\Unity\Editor\MenuContext.cs.meta" />
-    <Content Include="Assets\TrueSync\Unity\Editor\TrueSyncConfigEditor.cs.meta" />
-    <Content Include="Assets\TrueSync\Unity\Editor\TSFPDrawer.cs.meta" />
-    <Content Include="Assets\TrueSync\Unity\Editor\TSRigidBodyEditor.cs.meta" />
-    <Content Include="Assets\TrueSync\Unity\Editor\TSVector2Drawer.cs.meta" />
-    <Content Include="Assets\TrueSync\Unity\Editor\TSVectorDrawer.cs.meta" />
+    <Folder Include="Assets\TrueSync\Unity" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

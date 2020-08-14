@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace TrueSync
 {
@@ -862,7 +861,7 @@ namespace TrueSync
                     p.dropped = true;
                     this.activePlayers.Remove(p);
                     this.UpdateActivePlayers();
-                    Debug.Log("Player dropped (stopped sending input)");
+                    // Debug.Log("Player dropped (stopped sending input)");
                     int key = this.GetSyncedDataTick() + 1;
                     bool flag3 = !this.playersDisconnect.ContainsKey(key);
                     if (flag3)

@@ -1,15 +1,13 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace TrueSync
 {
-    // Ö¡Í¬²½Íæ¼Ò
+    // Ö¡Í¬ï¿½ï¿½ï¿½ï¿½ï¿½
 	[Serializable]
 	public class TSPlayer
 	{
-		[SerializeField]
-		public TSPlayerInfo playerInfo; // Ö¡Í¬²½Íæ¼ÒÐÅÏ¢
+		public TSPlayerInfo playerInfo; // Ö¡Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 
 		[NonSerialized]
 		public int dropCount;
@@ -20,7 +18,6 @@ namespace TrueSync
 		[NonSerialized]
 		public bool sentSyncedStart;
 
-		[SerializeField]
 		internal SerializableDictionaryIntSyncedData controls;
 
 		private int lastTick;
@@ -41,67 +38,67 @@ namespace TrueSync
 			this.controls = new SerializableDictionaryIntSyncedData();
 		}
 
-        #region ¹«¹²·½·¨
-        // Êý¾ÝÊÇ·ñÒÑ×¼±¸ºÃ
+        #region ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½×¼ï¿½ï¿½ï¿½ï¿½
         public bool IsDataReady(int tick)
 		{
 			return this.controls.ContainsKey(tick) && !this.controls[tick].fake;
 		}
 
-        // ÊÇ²»ÊÇÔàÊý¾Ý
+        // ï¿½Ç²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		public bool IsDataDirty(int tick)
 		{
 			bool flag = this.controls.ContainsKey(tick);
 			return flag && this.controls[tick].dirty;
 		}
         
-        // »ñÈ¡Êý¾Ý
+        // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
         public SyncedData GetData(int tick)
 		{
 			bool flag = !this.controls.ContainsKey(tick);
 			SyncedData result;
-			if (flag) // Ã»ÓÐÊý¾Ý
+			if (flag) // Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			{
-				bool flag2 = this.controls.ContainsKey(tick - 1); // ²éÑ¯Ç°Ò»¸öÊý¾Ý
+				bool flag2 = this.controls.ContainsKey(tick - 1); // ï¿½ï¿½Ñ¯Ç°Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				SyncedData syncedData;
-				if (flag2) // ÓÐÊý¾Ý,°ÑÇ°Ò»¸öÊý¾Ý¸´ÖÆÎªµ±Ç°Êý¾Ý
+				if (flag2) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½Ç°Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½Îªï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½
 				{
 					syncedData = this.controls[tick - 1].clone();
 					syncedData.tick = tick;
 				}
-				else // Ã»ÓÐÊý¾Ý,»ñÈ¡Ò»¸öÐÂµÄÊý¾Ý
+				else // Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½
 				{
 					syncedData = SyncedData.pool.GetNew();
 					syncedData.Init(this.ID, tick);
 				}
-				syncedData.fake = true; // ÉèÖÃÎª¼ÙÊý¾Ý
+				syncedData.fake = true; // ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				this.controls[tick] = syncedData;
 				result = syncedData;
 			}
-			else // ÓÐÊý¾Ý
+			else // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			{
 				result = this.controls[tick];
 			}
 			return result;
 		}
 
-        // Ìí¼ÓÊý¾Ý
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		public void AddData(SyncedData data)
 		{
 			int tick = data.tick;
 			bool flag = this.controls.ContainsKey(tick);
-			if (flag) // Êý¾ÝÒÑ´æÔÚ£¬°ÑÊý¾Ý¶ÔÏó»ØÊÕµ½³ØÖÐ
+			if (flag) // ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¶ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½
 			{
 				SyncedData.pool.GiveBack(data);
 			}
-			else // Î´ÓÐÊý¾Ý
+			else // Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			{
 				this.controls[tick] = data;
 				this.lastTick = tick;
 			}
 		}
 
-        // Ìí¼ÓÊý¾Ý
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		public void AddData(List<SyncedData> data)
 		{
 			for (int i = 0; i < data.Count; i++)
@@ -110,7 +107,7 @@ namespace TrueSync
 			}
 		}
 
-        // ÒÆ³ýÊý¾Ý
+        // ï¿½Æ³ï¿½ï¿½ï¿½ï¿½ï¿½
 		public void RemoveData(int refTick)
 		{
 			bool flag = this.controls.ContainsKey(refTick);
@@ -121,7 +118,7 @@ namespace TrueSync
 			}
 		}
 
-        // ¸üÐÂÍ¬²½Êý¾Ý
+        // ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		public void AddDataProjected(int refTick, int window)
 		{
 			SyncedData syncedData = this.GetData(refTick);
@@ -153,22 +150,22 @@ namespace TrueSync
 			}
 		}
 
-        // Ìí¼ÓÊý¾Ý
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		public void AddDataRollback(List<SyncedData> data)
 		{
 			for (int i = 0; i < data.Count; i++)
 			{
 				SyncedData data2 = this.GetData(data[i].tick);
 				bool fake = data2.fake;
-				if (fake) // È¡³öµÄÊÇ¼ÙÊý¾Ý
+				if (fake) // È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ç¼ï¿½ï¿½ï¿½ï¿½ï¿½
 				{
 					bool flag = data2.EqualsData(data[i]);
-					if (!flag) // Á½¸öÊý¾Ý²»ÏëµÈ
+					if (!flag) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½
 					{
-						data[i].dirty = true; // ÉèÖÃÎªÔàÊý¾Ý
-						SyncedData.pool.GiveBack(this.controls[data[i].tick]); // »ØÊÕ¸ÃÎ»ÖÃµÄÊý¾Ý
-						this.controls[data[i].tick] = data[i]; // ·ÅÈëÐÂÊý¾Ý
-						break; // ÖÐ¶Ï£¬Ã»ÓÐÏÂÒ»¸öÊý¾ÝÒª´¦Àí£¿
+						data[i].dirty = true; // ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+						SyncedData.pool.GiveBack(this.controls[data[i].tick]); // ï¿½ï¿½ï¿½Õ¸ï¿½Î»ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½
+						this.controls[data[i].tick] = data[i]; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+						break; // ï¿½Ð¶Ï£ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½
 					}
 					data2.fake = false;
 					data2.dirty = false;
@@ -200,17 +197,17 @@ namespace TrueSync
 		{
 			this.GetDataFromTick(tick, sendWindowArray);
 		}
-        #endregion ¹«¹²·½·¨
+        #endregion ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-        #region Ë½ÓÐ·½·¨
+        #region Ë½ï¿½Ð·ï¿½ï¿½ï¿½
         private void GetDataFromTick(int tick, SyncedData[] sendWindowArray)
         {
             for (int i = 0; i < sendWindowArray.Length; i++)
             {
-                // ÒÔµ¹ÐòµÄ·½Ê½°ÑÊý¾Ý·ÅÈëÊý×éÖÐ
+                // ï¿½Ôµï¿½ï¿½ï¿½Ä·ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½Ý·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 sendWindowArray[i] = this.GetData(tick - i);
             }
         }
-        #endregion Ë½ÓÐ·½·¨
+        #endregion Ë½ï¿½Ð·ï¿½ï¿½ï¿½
     }
 }

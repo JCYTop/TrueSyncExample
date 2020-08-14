@@ -21,28 +21,28 @@ namespace TrueSync
          **/
         public static IPhysicsManager instance;
 
-        /**
-         *  @brief Instantiates a new {@link IPhysicsManager}.
-         *  
-         *  @param trueSyncConfig Indicates if is a 2D or 3D world.
-         **/
-        public static IPhysicsManager New(TrueSyncConfig trueSyncConfig)
-        {
-            if (trueSyncConfig.physics3DEnabled)
-            {
-                instance = new PhysicsWorldManager();
-                instance.Gravity = trueSyncConfig.gravity3D;
-                instance.SpeculativeContacts = trueSyncConfig.speculativeContacts3D;
-            }
-            else if (trueSyncConfig.physics2DEnabled)
-            {
-                // instance = new Physics2DWorldManager();
-                // instance.Gravity = new TSVector(trueSyncConfig.gravity2D.x, trueSyncConfig.gravity2D.y, 0);
-                // instance.SpeculativeContacts = trueSyncConfig.speculativeContacts2D;
-            }
-
-            return instance;
-        }
+        // /**
+        //  *  @brief Instantiates a new {@link IPhysicsManager}.
+        //  *  
+        //  *  @param trueSyncConfig Indicates if is a 2D or 3D world.
+        //  **/
+        // public static IPhysicsManager New(TrueSyncConfig trueSyncConfig)
+        // {
+        //     if (trueSyncConfig.physics3DEnabled)
+        //     {
+        //         instance = new PhysicsWorldManager();
+        //         instance.Gravity = trueSyncConfig.gravity3D;
+        //         instance.SpeculativeContacts = trueSyncConfig.speculativeContacts3D;
+        //     }
+        //     else if (trueSyncConfig.physics2DEnabled)
+        //     {
+        //         // instance = new Physics2DWorldManager();
+        //         // instance.Gravity = new TSVector(trueSyncConfig.gravity2D.x, trueSyncConfig.gravity2D.y, 0);
+        //         // instance.SpeculativeContacts = trueSyncConfig.speculativeContacts2D;
+        //     }
+        //
+        //     return instance;
+        // }
 
         /// <summary>
         /// 服务器剥离Unity序列化脚本

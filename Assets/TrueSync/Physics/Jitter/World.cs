@@ -21,7 +21,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 #endregion
 
@@ -940,7 +939,8 @@ namespace TrueSync.Physics3D
 
         internal bool CanBodiesCollide(RigidBody body1, RigidBody body2)
         {
-            if (body1.disabled || body2.disabled || !physicsManager.IsCollisionEnabled(body1, body2))
+            // if (body1.disabled || body2.disabled || !physicsManager.IsCollisionEnabled(body1, body2))
+            if (body1.disabled || body2.disabled)
             {
                 return false;
             }

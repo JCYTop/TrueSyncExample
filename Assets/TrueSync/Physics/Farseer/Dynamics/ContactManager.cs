@@ -153,23 +153,31 @@ namespace TrueSync.Physics2D
             Body specialSenseBody = null;
             Body otherBody = null;
 
-            if (bodyA.SpecialSensor != BodySpecialSensor.None) {
+            if (bodyA.SpecialSensor != BodySpecialSensor.None)
+            {
                 specialSenseBody = bodyA;
                 otherBody = bodyB;
-            } else if (bodyB.SpecialSensor != BodySpecialSensor.None) {
+            }
+            else if (bodyB.SpecialSensor != BodySpecialSensor.None)
+            {
                 specialSenseBody = bodyB;
                 otherBody = bodyA;
             }
 
-            if (specialSenseBody != null) {
-                if (Collision.TestOverlap(fixtureA.Shape, indexA, fixtureB.Shape, indexB, ref bodyA._xf, ref bodyB._xf)) {
+            if (specialSenseBody != null)
+            {
+                if (Collision.TestOverlap(fixtureA.Shape, indexA, fixtureB.Shape, indexB, ref bodyA._xf, ref bodyB._xf))
+                {
                     specialSenseBody._specialSensorResults.Add(otherBody);
 
-                    if (specialSenseBody.SpecialSensor == BodySpecialSensor.ActiveOnce) {
+                    if (specialSenseBody.SpecialSensor == BodySpecialSensor.ActiveOnce)
+                    {
                         specialSenseBody.disabled = true;
                         return;
                     }
-                } else {
+                }
+                else
+                {
                     return;
                 }
             }
@@ -204,6 +212,7 @@ namespace TrueSync.Physics2D
             {
                 bodyA.ContactList.Prev = c._nodeA;
             }
+
             bodyA.ContactList = c._nodeA;
 
             // Connect to body B
@@ -216,6 +225,7 @@ namespace TrueSync.Physics2D
             {
                 bodyB.ContactList.Prev = c._nodeB;
             }
+
             bodyB.ContactList = c._nodeB;
 
             // Wake up the bodies
@@ -364,7 +374,8 @@ namespace TrueSync.Physics2D
                     continue;
                 }
 
-                if (fixtureA == null || fixtureA.Proxies == null || fixtureB == null || fixtureB.Proxies == null) {
+                if (fixtureA == null || fixtureA.Proxies == null || fixtureB == null || fixtureB.Proxies == null)
+                {
                     continue;
                 }
 
@@ -395,27 +406,36 @@ namespace TrueSync.Physics2D
          * 
          * @return False if bodies should not collide.
          **/
-        public static bool CheckCollisionConditions(Fixture fixtureA, Fixture fixtureB) {
+        public static bool CheckCollisionConditions(Fixture fixtureA, Fixture fixtureB)
+        {
             Body body1 = fixtureA.Body;
             Body body2 = fixtureB.Body;
 
-            if (body1.disabled || body2.disabled || !physicsManager.IsCollisionEnabled(body1, body2)) {
+            // if (body1.disabled || body2.disabled || !physicsManager.IsCollisionEnabled(body1, body2))
+            if (body1.disabled || body2.disabled)
+            {
                 return false;
             }
 
             bool body1IsSpecialSensor = body1._specialSensor != BodySpecialSensor.None;
             bool body2IsSpecialSensor = body2._specialSensor != BodySpecialSensor.None;
-            if (body1IsSpecialSensor || body2IsSpecialSensor) {
-                if (body1IsSpecialSensor) {
+            if (body1IsSpecialSensor || body2IsSpecialSensor)
+            {
+                if (body1IsSpecialSensor)
+                {
                     int body2Layer = 1 << physicsManager.GetBodyLayer(body2);
 
-                    if ((body1.SpecialSensorMask & body2Layer) != body2Layer) {
+                    if ((body1.SpecialSensorMask & body2Layer) != body2Layer)
+                    {
                         return false;
                     }
-                } else {
+                }
+                else
+                {
                     int body1Layer = 1 << physicsManager.GetBodyLayer(body1);
 
-                    if ((body2.SpecialSensorMask & body1Layer) != body1Layer) {
+                    if ((body2.SpecialSensorMask & body1Layer) != body1Layer)
+                    {
                         return false;
                     }
                 }
@@ -423,14 +443,17 @@ namespace TrueSync.Physics2D
                 return true;
             }
 
-            if (body1.IsStatic && body2.IsStatic) {
+            if (body1.IsStatic && body2.IsStatic)
+            {
                 return false;
             }
 
             bool anyBodyColliderOnly = fixtureA.IsSensor || fixtureB.IsSensor;
 
-            if (!anyBodyColliderOnly) {
-                if (body1.IsKinematic && body2.IsKinematic || (body1.IsKinematic && body2.IsStatic) || (body2.IsKinematic && body1.IsStatic)) {
+            if (!anyBodyColliderOnly)
+            {
+                if (body1.IsKinematic && body2.IsKinematic || (body1.IsKinematic && body2.IsStatic) || (body2.IsKinematic && body1.IsStatic))
+                {
                     return false;
                 }
             }
@@ -440,7 +463,8 @@ namespace TrueSync.Physics2D
 
         private static bool ShouldCollide(Fixture fixtureA, Fixture fixtureB)
         {
-            if (!CheckCollisionConditions(fixtureA, fixtureB)) {
+            if (!CheckCollisionConditions(fixtureA, fixtureB))
+            {
                 return false;
             }
 

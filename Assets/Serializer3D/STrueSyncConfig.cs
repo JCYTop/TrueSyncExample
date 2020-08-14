@@ -1,4 +1,4 @@
-﻿using TrueSync;
+﻿﻿using TrueSync;
 
 namespace Serializer3D
 {

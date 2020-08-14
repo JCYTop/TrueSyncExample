@@ -1194,12 +1194,12 @@ namespace TrueSync
             return result;
         }
 
-        public static TSMatrix4x4 TransformToMatrix(ref TSTransform transform)
-        {
-            TSMatrix4x4 result;
-            TRS(transform.localPosition, transform.localRotation, transform.localScale, out result);
-            return result;
-        }
+        // public static TSMatrix4x4 TransformToMatrix(ref TSTransform transform)
+        // {
+        //     TSMatrix4x4 result;
+        //     TRS(transform.localPosition, transform.localRotation, transform.localScale, out result);
+        //     return result;
+        // }
 
     }
 

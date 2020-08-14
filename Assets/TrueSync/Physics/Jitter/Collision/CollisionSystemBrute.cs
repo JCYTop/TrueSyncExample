@@ -18,11 +18,14 @@
 */
 
 #region Using Statements
+
 using System;
 using System.Collections.Generic;
+
 #endregion
 
-namespace TrueSync.Physics3D {
+namespace TrueSync.Physics3D
+{
     /// <summary>
     /// O(n^2) Broadphase detection. Every body is checked against each other body.
     /// This is pretty fast for scene containing just a few(~30) bodies.
@@ -65,13 +68,14 @@ namespace TrueSync.Physics3D {
         }
 
 
-
         /// <summary>
         /// Tells the collisionsystem to check all bodies for collisions. Hook into the 
         /// <see cref="CollisionSystem.PassedBroadphase"/>
         /// and <see cref="CollisionSystem.CollisionDetected"/> events to get the results.
         /// </summary>
+
         #region public override void Detect()
+
         public override void Detect()
         {
             int count = bodyList.Count;
@@ -92,6 +96,7 @@ namespace TrueSync.Physics3D {
                 }
             }
         }
+
         #endregion
 
 
@@ -110,12 +115,17 @@ namespace TrueSync.Physics3D {
         /// against rays (rays are of infinite length). They are checked against segments
         /// which start at rayOrigin and end in rayOrigin + rayDirection.
         /// </summary>
+
         #region public override bool Raycast(JVector rayOrigin, JVector rayDirection, out JVector normal,out FP fraction)
+
         public override bool Raycast(TSVector rayOrigin, TSVector rayDirection, RaycastCallback raycast, out RigidBody body, out TSVector normal, out FP fraction)
         {
-            body = null; normal = TSVector.zero; fraction = FP.MaxValue;
+            body = null;
+            normal = TSVector.zero;
+            fraction = FP.MaxValue;
 
-            TSVector tempNormal; FP tempFraction;
+            TSVector tempNormal;
+            FP tempFraction;
             bool result = false;
 
             // TODO: This can be done better in CollisionSystemPersistenSAP
@@ -157,6 +167,7 @@ namespace TrueSync.Physics3D {
 
             return result;
         }
+
         #endregion
 
 
@@ -165,10 +176,13 @@ namespace TrueSync.Physics3D {
         /// against rays (rays are of infinite length). They are checked against segments
         /// which start at rayOrigin and end in rayOrigin + rayDirection.
         /// </summary>
+
         #region public override bool Raycast(RigidBody body, JVector rayOrigin, JVector rayDirection, out JVector normal, out FP fraction)
+
         public override bool Raycast(RigidBody body, TSVector rayOrigin, TSVector rayDirection, out TSVector normal, out FP fraction)
         {
-            fraction = FP.MaxValue; normal = TSVector.zero;
+            fraction = FP.MaxValue;
+            normal = TSVector.zero;
 
             if (!body.BoundingBox.RayIntersect(ref rayOrigin, ref rayDirection)) return false;
 
@@ -176,12 +190,15 @@ namespace TrueSync.Physics3D {
             {
                 Multishape ms = (body.Shape as Multishape).RequestWorkingClone();
 
-                TSVector tempNormal; FP tempFraction;
+                TSVector tempNormal;
+                FP tempFraction;
                 bool multiShapeCollides = false;
 
-                TSVector transformedOrigin; TSVector.Subtract(ref rayOrigin, ref body.position, out transformedOrigin);
+                TSVector transformedOrigin;
+                TSVector.Subtract(ref rayOrigin, ref body.position, out transformedOrigin);
                 TSVector.Transform(ref transformedOrigin, ref body.invOrientation, out transformedOrigin);
-                TSVector transformedDirection; TSVector.Transform(ref rayDirection, ref body.invOrientation, out transformedDirection);
+                TSVector transformedDirection;
+                TSVector.Transform(ref rayDirection, ref body.invOrientation, out transformedDirection);
 
                 int msLength = ms.Prepare(ref transformedOrigin, ref transformedDirection);
 
@@ -222,9 +239,8 @@ namespace TrueSync.Physics3D {
                 return (GJKCollide.Raycast(body.Shape, ref body.orientation, ref body.invOrientation, ref body.position,
                     ref rayOrigin, ref rayDirection, out fraction, out normal));
             }
-
-
         }
+
         #endregion
 
         /// <summary>
@@ -235,9 +251,12 @@ namespace TrueSync.Physics3D {
         /// </summary>
         public override bool Raycast(TSVector rayOrigin, TSVector rayDirection, RaycastCallback raycast, int layerMask, out RigidBody body, out TSVector normal, out FP fraction)
         {
-            body = null; normal = TSVector.zero; fraction = FP.MaxValue;
+            body = null;
+            normal = TSVector.zero;
+            fraction = FP.MaxValue;
 
-            TSVector tempNormal; FP tempFraction;
+            TSVector tempNormal;
+            FP tempFraction;
             bool result = false;
 
             // TODO: This can be done better in CollisionSystemPersistenSAP
@@ -251,7 +270,6 @@ namespace TrueSync.Physics3D {
                         int bodyLayerMask = 1 << PhysicsManager.instance.GetBodyLayer(b);
                         if ((layerMask & bodyLayerMask) != bodyLayerMask)
                             continue;
-
                         if (this.Raycast(b, rayOrigin, rayDirection, out tempNormal, out tempFraction))
                         {
                             if (tempFraction < fraction && (raycast == null || raycast(b, tempNormal, tempFraction)))
@@ -270,7 +288,6 @@ namespace TrueSync.Physics3D {
                     int bodyLayerMask = 1 << PhysicsManager.instance.GetBodyLayer(b);
                     if ((layerMask & bodyLayerMask) != bodyLayerMask)
                         continue;
-
                     if (this.Raycast(b, rayOrigin, rayDirection, out tempNormal, out tempFraction))
                     {
                         if (tempFraction < fraction && (raycast == null || raycast(b, tempNormal, tempFraction)))
