@@ -7,7 +7,6 @@ using TrueSync.Physics3D;
 using Shape = TrueSync.Physics3D.Shape;
 using World = TrueSync.Physics3D.World;
 
-#if Serializer
 namespace Serializer3D
 {
     internal class World3DXmlDeserializer
@@ -339,4 +338,3 @@ namespace Serializer3D
         #endregion
     }
 }
-#endif

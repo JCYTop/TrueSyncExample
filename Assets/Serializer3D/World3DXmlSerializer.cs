@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using JetBrains.Annotations;
 using TrueSync;
 using TrueSync.Physics3D;
 
-#if Serializer
 namespace Serializer3D
 {
     internal static class World3DXmlSerializer
@@ -222,4 +220,3 @@ namespace Serializer3D
         }
     }
 }
-#endif

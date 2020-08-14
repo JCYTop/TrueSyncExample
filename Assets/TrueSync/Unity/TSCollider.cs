@@ -129,13 +129,11 @@ namespace TrueSync
          **/
         [SerializeField] [HideInInspector] protected TSVector lossyScale = TSVector.one;
 
-#if Client
         /// <summary>
         /// 序列化
         /// lossyScale字段
         /// </summary>
         public TSVector SerializelossyScale => lossyScale;
-#endif
 
         [HideInInspector] public TSTransform tsTransform;
 

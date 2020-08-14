@@ -36,25 +36,20 @@ namespace Serializer3D
         private void Start()
         {
             Application.runInBackground = true;
-#if Serializer
             Invoke("Serializer", 0.1f);
-#else
             Invoke("Deserializer", 0.5f);
-#endif
         }
 
-#if Serializer
         private void Serializer()
         {
             world3D = (World) PhysicsWorldManager.instance.GetWorld();
             if (world3D == null) throw new NullReferenceException();
             World3DSerializer.Serialize(world3D, @"..\TrueSyncExample\3D.xml");
         }
-#else
+
         private void Deserializer()
         {
             World3DSerializer.Deserialize(@"..\TrueSyncExample\3D.xml");
         }
-#endif
     }
 }
