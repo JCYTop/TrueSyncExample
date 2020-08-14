@@ -3,7 +3,7 @@
 namespace Serializer3D
 {
     /// <summary>
-    /// 转么用于服务器的配置文件逻辑
+    /// 专门用于服务器的配置文件逻辑
     /// </summary>
     public class STrueSyncConfig
     {
@@ -93,8 +93,7 @@ namespace Serializer3D
                 layerB = aux;
             }
 
-            int matrixIndex = ((COLLISION_LAYERS + COLLISION_LAYERS - layerA + 1) * layerA) / 2 + layerB;
-
+            var matrixIndex = ((COLLISION_LAYERS + COLLISION_LAYERS - layerA + 1) * layerA) / 2 + layerB;
             if (physics2DEnabled)
             {
                 return physics2DIgnoreMatrix[matrixIndex];

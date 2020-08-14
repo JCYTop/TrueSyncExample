@@ -354,7 +354,7 @@
      <Compile Include="Assets\TrueSync\Unity\TSTransform.cs" />
      <Compile Include="Assets\TrueSync\Unity\TSTransform2D.cs" />
      <Compile Include="Assets\TrueSync\Unity\UnityUtils.cs" />
-     <None Include="Assets\NewAssembly.asmdef" />
+     <None Include="Assets\Assembly.asmdef" />
      <None Include="Assets\TrueSync\Physics\Farseer\license.txt" />
      <None Include="Assets\TrueSync\Physics\Jitter\license.txt" />
      <None Include="Assets\TrueSync\link.xml" />
