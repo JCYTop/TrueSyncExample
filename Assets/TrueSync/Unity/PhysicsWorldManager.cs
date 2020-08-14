@@ -137,6 +137,23 @@ namespace TrueSync
         //     tsCollider._body.FreezeConstraints = constraints;
         // }
 
+        public int GetBodyLayer(IBody rigidBody)
+        {
+            var b = (RigidBody) rigidBody;
+            if (world.RigidBodies.Contains(b))
+            {
+                foreach (RigidBody body in world.RigidBodies)
+                {
+                    if (body == b)
+                    {
+                        return body.layer;
+                    }
+                }
+            }
+
+            return default;
+        }
+
         public void AddBody(RigidBody rigid)
         {
             world.AddBody(rigid);

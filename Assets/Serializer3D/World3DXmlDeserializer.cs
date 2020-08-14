@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using TrueSync;
@@ -187,6 +187,11 @@ namespace Serializer3D
                     data.tag = element.Value;
                 }
 
+                if (element.Name.ToLower() == "layer")
+                {
+                    data.layer = int.Parse(element.Value);
+                }
+
                 if (element.Name.ToLower() == "collidercenter")
                 {
                     data.collidercenter = ReadVector(element);
@@ -227,6 +232,7 @@ namespace Serializer3D
         {
             var rigibody = CreateShape(data);
             rigibody.Position = data.tsposition;
+            rigibody.layer = data.layer;
             desSet.Add(data, rigibody);
             PhysicsManager.instance.AddBody(rigibody);
         }
@@ -322,6 +328,7 @@ namespace Serializer3D
         public bool istrigger;
         public bool enabled;
         public string tag;
+        public int layer;
         public TSVector collidercenter;
         public FP friction = FP.MinValue;
         public FP restitution = FP.MinValue;

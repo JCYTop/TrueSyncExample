@@ -21,13 +21,16 @@ using System.Collections.Generic;
 using System.Collections;
 using System;
 
-namespace TrueSync.Physics3D {
-
+namespace TrueSync.Physics3D
+{
     public class ReadOnlyHashset<T> : IEnumerable, IEnumerable<T> where T : IComparable
     {
-		private HashList<T> hashset;
+        private HashList<T> hashset;
 
-		public ReadOnlyHashset(HashList<T> hashset) { this.hashset = hashset; }
+        public ReadOnlyHashset(HashList<T> hashset)
+        {
+            this.hashset = hashset;
+        }
 
         public IEnumerator GetEnumerator()
         {
@@ -39,9 +42,14 @@ namespace TrueSync.Physics3D {
             return hashset.GetEnumerator();
         }
 
-        public int Count { get { return hashset.Count; } }
+        public int Count
+        {
+            get { return hashset.Count; }
+        }
 
-        public bool Contains(T item) { return hashset.Contains(item); }
-
+        public bool Contains(T item)
+        {
+            return hashset.Contains(item);
+        }
     }
 }

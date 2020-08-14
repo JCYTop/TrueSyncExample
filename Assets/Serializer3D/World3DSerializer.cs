@@ -6,16 +6,16 @@ namespace Serializer3D
 {
     public class World3DSerializer
     {
-        /// <summary>
-        /// 3D Serialize & Deserialize
-        /// </summary>
-        public static void Serialize(World world, string filename)
-        {
-            using (var fs = new FileStream(filename, FileMode.Create))
-            {
-                World3DXmlSerializer.Serialize(world, fs);
-            }
-        }
+        // /// <summary>
+        // /// 3D Serialize & Deserialize
+        // /// </summary>
+        // public static void Serialize(World world, string filename)
+        // {
+        //     using (var fs = new FileStream(filename, FileMode.Create))
+        //     {
+        //         World3DXmlSerializer.Serialize(world, fs);
+        //     }
+        // }
 
         /// <summary>
         /// 反序列化

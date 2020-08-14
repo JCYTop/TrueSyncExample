@@ -20,8 +20,8 @@ public interface IPhysicsManager : IPhysicsManagerBase
     /**
     * @brief Returns the layer related to a {@link IBody}.
     **/
-    // int GetBodyLayer(IBody rigidBody);
-    //
+    int GetBodyLayer(IBody rigidBody);
+
     // /**
     // * @brief Returns true if rigidBody1 and rigidBody2 can collide.
     // **/
