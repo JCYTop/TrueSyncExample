@@ -9,7 +9,7 @@ using UnityEngine.TestTools;
 namespace Tests
 {
     public class TrueSyncTest
-    {
+    {    
         private bool isInit = false;
         private bool isDes = false;
         private World world3D;

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Serializer3D
 {
     /// <summary>
-    /// 初始化整个项目使用
+    /// 初步尝试使用
     /// </summary>
     public class TruesyncTest : MonoBehaviour
     {

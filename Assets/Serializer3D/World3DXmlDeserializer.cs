@@ -294,7 +294,7 @@ namespace Serializer3D
     }
 
     /// <summary>
-    /// 构造中间类 ---> 垃圾桶
+    /// 构造中间类 ---> 垃圾桶 不用care
     /// </summary>
     internal class DeserializerData
     {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
-using JetBrains.Annotations;
 using TrueSync;
 using TrueSync.Physics3D;
 
@@ -14,7 +13,7 @@ namespace Serializer3D
         /// <summary>
         /// 客户端使用
         /// 暂时运行时生效
-        /// </summary>
+        /// </summary> 
         /// <param name="world">3D World</param>
         /// <param name="stream"></param>
         public static void Serialize(World world, FileStream stream)
@@ -90,7 +89,7 @@ namespace Serializer3D
         /// </summary>
         /// <param name="collider"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        private static void SerBoxCollider([NotNull] TSBoxCollider collider)
+        private static void SerBoxCollider(TSBoxCollider collider)
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
             writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSBOX}");
@@ -103,7 +102,7 @@ namespace Serializer3D
         /// </summary>
         /// <param name="collider"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        private static void SerCapsuleCollider([NotNull] TSCapsuleCollider collider)
+        private static void SerCapsuleCollider(TSCapsuleCollider collider)
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
             writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSCAPSULE}");
@@ -116,7 +115,7 @@ namespace Serializer3D
         /// </summary>
         /// <param name="collider"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        private static void SerSphereCollider([NotNull] TSSphereCollider collider)
+        private static void SerSphereCollider(TSSphereCollider collider)
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
             writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSSPHERE}");
@@ -128,7 +127,7 @@ namespace Serializer3D
         /// </summary>
         /// <param name="collider"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        private static void SerMeshCollider([NotNull] TSMeshCollider collider)
+        private static void SerMeshCollider(TSMeshCollider collider)
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
             writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSMESH}");
@@ -158,7 +157,7 @@ namespace Serializer3D
         /// </summary>
         /// <param name="collider"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        private static void SerTerrainCollider([NotNull] TSTerrainCollider collider)
+        private static void SerTerrainCollider(TSTerrainCollider collider)
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
             writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSTERRAIN}");
@@ -207,7 +206,7 @@ namespace Serializer3D
             writer.WriteElementString("IsActive", body.IsActive.ToString());
             writer.WriteElementString("IsKinematic", body.IsKinematic.ToString());
             writer.WriteElementString("IsStatic", body.IsStatic.ToString());
-            //WriteVector("Position", body.Position) 这俩个一样
+            //WriteVector("Position", body.Position) 这俩货个一样
             WriteVector("TSPosition", body.TSPosition); // Unity中世界的坐标转换成TS坐标之后的数据
             writer.WriteElementString("Shape", body.Shape.ToString());
         }

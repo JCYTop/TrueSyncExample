@@ -3,7 +3,7 @@
 namespace Serializer3D
 {
     /// <summary>
-    /// 转么用于服务器的配置文件逻辑
+    /// 用于服务器的配置文件逻辑
     /// </summary>
     public class STrueSyncConfig
     {
@@ -11,21 +11,6 @@ namespace Serializer3D
 
         // 32 layers -> 516 unique intersections
         private const int COLLISION_TOGGLES = 1024;
-
-        /**
-         * @brief Synchronization window size.
-         **/
-        public int syncWindow = 10;
-
-        /**
-         * @brief Rollback window size.
-         **/
-        public int rollbackWindow = 0;
-
-        /**
-         * @brief Maximum number of ticks to wait until all other players inputs arrive.
-         **/
-        public int panicWindow = 100;
 
         /**
          * @brief Indicates if the 2D physics engine should be enabled.
@@ -76,10 +61,6 @@ namespace Serializer3D
          * @brief Time between each TrueSync's frame.
          **/
         public FP lockedTimeStep = 0.02f;
-
-        public STrueSyncConfig()
-        {
-        }
 
         /**
          * @brief Returns true if the collision between layerA and layerB should be ignored.
