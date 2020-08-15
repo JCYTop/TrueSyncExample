@@ -5,7 +5,6 @@ using TrueSync;
 using TrueSync.Physics2D;
 using TrueSync.Physics3D;
 using Shape = TrueSync.Physics3D.Shape;
-using World = TrueSync.Physics3D.World;
 
 namespace Serializer3D
 {
@@ -192,7 +191,7 @@ namespace Serializer3D
                     data.collidercenter = ReadVector(element);
                 }
 
-                if (element.Name.ToLower() == "shapelossyscale")
+                if (element.Name.ToLower() == "lossyscale")
                 {
                     data.lossyScale = ReadVector(element);
                 }
@@ -225,10 +224,10 @@ namespace Serializer3D
 
         private static void DesAddWorld(DeserializerData data)
         {
-            var rigibody = CreateShape(data);
-            rigibody.Position = data.tsposition;
-            desSet.Add(data, rigibody);
-            PhysicsManager.instance.AddBody(rigibody);
+            var rigidBody = CreateShape(data);
+            rigidBody.Position = data.tsposition;
+            desSet.Add(data, rigidBody);
+            PhysicsManager.instance.AddBody(rigidBody);
         }
 
         private static RigidBody CreateShape(DeserializerData data)
@@ -271,7 +270,6 @@ namespace Serializer3D
             newBody.IsKinematic = data.isKinematic;
             // TODO Mark ??? 我直接复制了
             {
-                // bool isStatic =
                 newBody.AffectedByGravity = false;
                 newBody.IsStatic = true;
                 newBody.SetMassProperties();

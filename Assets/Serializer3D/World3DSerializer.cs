@@ -13,7 +13,7 @@ namespace Serializer3D
         {
             using (var fs = new FileStream(filename, FileMode.Create))
             {
-                World3DXmlSerializer.Serialize(world, fs);
+                Serializer3DTS.Serialize(world, fs);
             }
         }
 

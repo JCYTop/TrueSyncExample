@@ -18,17 +18,19 @@
 */
 
 #region Using Statements
+
 using System;
 using System.Collections.Generic;
 using System.Threading;
+
 #endregion
 
-namespace TrueSync.Physics3D {
-
-
+namespace TrueSync.Physics3D
+{
     public enum RigidBodyIndex
     {
-        RigidBody1, RigidBody2
+        RigidBody1,
+        RigidBody2
     }
 
     /**
@@ -37,7 +39,12 @@ namespace TrueSync.Physics3D {
     public class RigidBody : IBroadphaseEntity, IDebugDrawable, IEquatable<RigidBody>, IComparable, IBody3D
     {
         [Flags]
-        public enum DampingType { None = 0x00, Angular = 0x01, Linear = 0x02 }
+        public enum DampingType
+        {
+            None = 0x00,
+            Angular = 0x01,
+            Linear = 0x02
+        }
 
         internal TSMatrix inertia;
         internal TSMatrix invInertia;
@@ -60,7 +67,7 @@ namespace TrueSync.Physics3D {
         internal bool isStatic = false;
         internal bool isKinematic = false;
         internal bool affectedByGravity = true;
-		internal bool isColliderOnly = false;
+        internal bool isColliderOnly = false;
 
         internal CollisionIsland island;
         internal FP inverseMass;
@@ -75,13 +82,13 @@ namespace TrueSync.Physics3D {
 
         internal List<RigidBody> connections = new List<RigidBody>();
 
-		internal HashList<Arbiter> arbiters = new HashList<Arbiter>();
+        internal HashList<Arbiter> arbiters = new HashList<Arbiter>();
         internal HashList<Arbiter> arbitersTrigger = new HashList<Arbiter>();
 
         internal HashList<Constraint> constraints = new HashList<Constraint>();
 
-		private ReadOnlyHashset<Arbiter> readOnlyArbiters;
-		private ReadOnlyHashset<Constraint> readOnlyConstraints;
+        private ReadOnlyHashset<Arbiter> readOnlyArbiters;
+        private ReadOnlyHashset<Constraint> readOnlyConstraints;
 
         internal int marker = 0;
 
@@ -101,18 +108,20 @@ namespace TrueSync.Physics3D {
 
         internal FP angularDrag;
 
-        public TSRigidBodyConstraints FreezeConstraints {
-            get {
-                return _freezeConstraints;
-            }
+        public TSRigidBodyConstraints FreezeConstraints
+        {
+            get { return _freezeConstraints; }
 
-            set {
-                if (_freezeConstraints != value) {
+            set
+            {
+                if (_freezeConstraints != value)
+                {
                     _freezeConstraints = value;
 
                     _freezePosition = position;
 
-                    if (_freezeRotation != orientation) {
+                    if (_freezeRotation != orientation)
+                    {
                         _freezeRotation = orientation;
                         _freezeRotationQuat = TSQuaternion.CreateFromMatrix(_freezeRotation);
                     }
@@ -120,10 +129,9 @@ namespace TrueSync.Physics3D {
             }
         }
 
-        public bool Disabled {
-            get {
-                return disabled;
-            }
+        public bool Disabled
+        {
+            get { return disabled; }
         }
 
         public RigidBody(Shape shape)
@@ -136,7 +144,8 @@ namespace TrueSync.Physics3D {
         /// <summary>
         /// If true, the body as no angular movement.
         /// </summary>
-        public bool IsParticle { 
+        public bool IsParticle
+        {
             get { return isParticle; }
             set
             {
@@ -168,7 +177,7 @@ namespace TrueSync.Physics3D {
         /// </summary>
         /// <param name="shape">The shape of the body.</param>
         public RigidBody(Shape shape, BodyMaterial material)
-            :this(shape,material,false)
+            : this(shape, material, false)
         {
         }
 
@@ -180,8 +189,8 @@ namespace TrueSync.Physics3D {
         /// Also contacts are only solved for the linear motion part.</param>
         public RigidBody(Shape shape, BodyMaterial material, bool isParticle)
         {
-			readOnlyArbiters = new ReadOnlyHashset<Arbiter>(arbiters);
-			readOnlyConstraints = new ReadOnlyHashset<Constraint>(constraints);
+            readOnlyArbiters = new ReadOnlyHashset<Arbiter>(arbiters);
+            readOnlyConstraints = new ReadOnlyHashset<Constraint>(constraints);
 
             instanceCount++;
             instance = instanceCount;
@@ -223,8 +232,15 @@ namespace TrueSync.Physics3D {
             return hashCode;
         }
 
-		internal ReadOnlyHashset<Arbiter> Arbiters { get { return readOnlyArbiters; } }
-        internal ReadOnlyHashset<Constraint> Constraints { get { return readOnlyConstraints; } }
+        internal ReadOnlyHashset<Arbiter> Arbiters
+        {
+            get { return readOnlyArbiters; }
+        }
+
+        internal ReadOnlyHashset<Constraint> Constraints
+        {
+            get { return readOnlyConstraints; }
+        }
 
         /// <summary>
         /// If set to false the body will never be deactived by the
@@ -237,7 +253,10 @@ namespace TrueSync.Physics3D {
         /// <summary>
         /// The axis aligned bounding box of the body.
         /// </summary>
-        public TSBBox BoundingBox { get { return boundingBox; } }
+        public TSBBox BoundingBox
+        {
+            get { return boundingBox; }
+        }
 
 
         internal static int instanceCount = 0;
@@ -256,7 +275,10 @@ namespace TrueSync.Physics3D {
         /// <summary>
         /// Gets the current collision island the body is in.
         /// </summary>
-        internal CollisionIsland CollisionIsland { get { return this.island; } }
+        internal CollisionIsland CollisionIsland
+        {
+            get { return this.island; }
+        }
 
         /// <summary>
         /// If set to false the velocity is set to zero,
@@ -264,10 +286,7 @@ namespace TrueSync.Physics3D {
         /// </summary>
         public bool IsActive
         {
-            get 
-            {
-                return isActive;
-            }
+            get { return isActive; }
             set
             {
                 if (!isActive && value)
@@ -287,17 +306,11 @@ namespace TrueSync.Physics3D {
             }
         }
 
-		public bool IsColliderOnly
-		{
-			get 
-			{
-				return isColliderOnly;
-			}
-			set
-			{
-				isColliderOnly = value;
-			}
-		}
+        public bool IsColliderOnly
+        {
+            get { return isColliderOnly; }
+            set { isColliderOnly = value; }
+        }
 
         /// <summary>
         /// Applies an impulse on the center of the body. Changing
@@ -306,7 +319,8 @@ namespace TrueSync.Physics3D {
         /// <param name="impulse">Impulse direction and magnitude.</param>
         public void ApplyImpulse(TSVector impulse)
         {
-            if (this.isStatic) {
+            if (this.isStatic)
+            {
                 return;
             }
 
@@ -324,7 +338,8 @@ namespace TrueSync.Physics3D {
         /// in Body coordinate frame.</param>
         public void ApplyImpulse(TSVector impulse, TSVector relativePosition)
         {
-            if (this.isStatic) {
+            if (this.isStatic)
+            {
                 return;
             }
 
@@ -368,12 +383,18 @@ namespace TrueSync.Physics3D {
         /// <summary>
         /// Returns the torque which acts this timestep on the body.
         /// </summary>
-        public TSVector Torque { get { return torque; } }
+        public TSVector Torque
+        {
+            get { return torque; }
+        }
 
         /// <summary>
         /// Returns the force which acts this timestep on the body.
         /// </summary>
-        public TSVector Force { get { return force; } }
+        public TSVector Force
+        {
+            get { return force; }
+        }
 
         /// <summary>
         /// Adds torque to the body. The torque gets applied
@@ -430,6 +451,7 @@ namespace TrueSync.Physics3D {
                     this.invInertia = inertia;
                     TSMatrix.Inverse(ref inertia, out this.inertia);
                 }
+
                 this.inverseMass = mass;
             }
             else
@@ -439,6 +461,7 @@ namespace TrueSync.Physics3D {
                     this.inertia = inertia;
                     TSMatrix.Inverse(ref inertia, out this.invInertia);
                 }
+
                 this.inverseMass = FP.One / mass;
             }
 
@@ -456,18 +479,18 @@ namespace TrueSync.Physics3D {
         /// <summary>
         /// The shape the body is using.
         /// </summary>
-        public Shape Shape 
+        public Shape Shape
         {
-            get { return shape; } 
-            set 
+            get { return shape; }
+            set
             {
                 // deregister update event
-                if(shape != null) shape.ShapeUpdated -= updatedHandler;
+                if (shape != null) shape.ShapeUpdated -= updatedHandler;
 
                 // register new event
-                shape = value; 
-                shape.ShapeUpdated += new ShapeUpdatedHandler(ShapeUpdated); 
-            } 
+                shape = value;
+                shape.ShapeUpdated += new ShapeUpdatedHandler(ShapeUpdated);
+            }
         }
 
         internal Shape shape;
@@ -476,17 +499,27 @@ namespace TrueSync.Physics3D {
 
         private DampingType damping = DampingType.Angular | DampingType.Linear;
 
-        public DampingType Damping { get { return damping; } set { damping = value; } }
+        public DampingType Damping
+        {
+            get { return damping; }
+            set { damping = value; }
+        }
 
         /// <summary>
         /// The inertia currently used for this body.
         /// </summary>
-        public TSMatrix Inertia { get { return inertia; } }
+        public TSMatrix Inertia
+        {
+            get { return inertia; }
+        }
 
         /// <summary>
         /// The inverse inertia currently used for this body.
         /// </summary>
-        public TSMatrix InverseInertia { get { return invInertia; } }
+        public TSMatrix InverseInertia
+        {
+            get { return invInertia; }
+        }
 
         /// <summary>
         /// The velocity of the body.
@@ -494,9 +527,10 @@ namespace TrueSync.Physics3D {
         public TSVector LinearVelocity
         {
             get { return linearVelocity; }
-            set 
-            { 
-                if (this.isStatic) {
+            set
+            {
+                if (this.isStatic)
+                {
                     return;
                 }
 
@@ -513,7 +547,8 @@ namespace TrueSync.Physics3D {
             get { return angularVelocity; }
             set
             {
-                if (this.isStatic) {
+                if (this.isStatic)
+                {
                     return;
                 }
 
@@ -527,12 +562,15 @@ namespace TrueSync.Physics3D {
         public TSVector Position
         {
             get { return position; }
-            set {
-                if ((_freezeConstraints & TSRigidBodyConstraints.FreezePosition) > 0) {
+            set
+            {
+                if ((_freezeConstraints & TSRigidBodyConstraints.FreezePosition) > 0)
+                {
                     _freezePosition = value;
                 }
 
-                position = value ; Update();
+                position = value;
+                Update();
             }
         }
 
@@ -542,13 +580,16 @@ namespace TrueSync.Physics3D {
         public TSMatrix Orientation
         {
             get { return orientation; }
-            set {
-                if ((_freezeConstraints & TSRigidBodyConstraints.FreezeRotation) > 0) {
+            set
+            {
+                if ((_freezeConstraints & TSRigidBodyConstraints.FreezeRotation) > 0)
+                {
                     _freezeRotation = value;
                     _freezeRotationQuat = TSQuaternion.CreateFromMatrix(_freezeRotation);
                 }
 
-                orientation = value; Update();
+                orientation = value;
+                Update();
             }
         }
 
@@ -557,46 +598,45 @@ namespace TrueSync.Physics3D {
         /// </summary>
         public bool IsStatic
         {
-            get
-            {
-                return isStatic;
-            }
+            get { return isStatic; }
             set
             {
                 if (value && !isStatic)
                 {
-                    if(island != null)
+                    if (island != null)
                         island.islandManager.MakeBodyStatic(this);
 
                     this.angularVelocity.MakeZero();
                     this.linearVelocity.MakeZero();
                 }
+
                 isStatic = value;
             }
         }
 
-        public bool TSIsStatic {
-            get {
-                return IsStatic;
-            }
-            set {
-                this.IsStatic = value;
-            }
+        public bool TSIsStatic
+        {
+            get { return IsStatic; }
+            set { this.IsStatic = value; }
         }
 
-        public bool IsKinematic {
-            get {
-                return isKinematic;
-            }
-            set {
-                if (isKinematic != value) {
+        public bool IsKinematic
+        {
+            get { return isKinematic; }
+            set
+            {
+                if (isKinematic != value)
+                {
                     isKinematic = value;
 
-                    if (isKinematic) {
+                    if (isKinematic)
+                    {
                         prevKinematicGravity = affectedByGravity;
                         affectedByGravity = false;
                         IsStatic = true;
-                    } else {
+                    }
+                    else
+                    {
                         affectedByGravity = prevKinematicGravity;
                         IsStatic = false;
                     }
@@ -604,17 +644,22 @@ namespace TrueSync.Physics3D {
             }
         }
 
-        public bool AffectedByGravity { get { return affectedByGravity; } set { affectedByGravity = value; prevKinematicGravity = value; } }
+        public bool AffectedByGravity
+        {
+            get { return affectedByGravity; }
+            set
+            {
+                affectedByGravity = value;
+                prevKinematicGravity = value;
+            }
+        }
 
         /// <summary>
         /// The inverse inertia tensor in world space.
         /// </summary>
         public TSMatrix InverseInertiaWorld
         {
-            get
-            {
-                return invInertiaWorld;
-            }
+            get { return invInertiaWorld; }
         }
 
         /// <summary>
@@ -624,7 +669,7 @@ namespace TrueSync.Physics3D {
         public FP Mass
         {
             get { return FP.One / inverseMass; }
-            set 
+            set
             {
                 if (value <= FP.Zero) throw new ArgumentException("Mass can't be less or equal zero.");
 
@@ -732,11 +777,13 @@ namespace TrueSync.Physics3D {
             get { return (!this.isActive || (this.isStatic)); }
         }
 
-        public bool IsStaticNonKinematic {
+        public bool IsStaticNonKinematic
+        {
             get { return (!this.isActive || (this.isStatic && !isKinematic)); }
         }
 
         private bool enableDebugDraw = false;
+
         internal bool EnableDebugDraw
         {
             get { return enableDebugDraw; }
@@ -747,114 +794,81 @@ namespace TrueSync.Physics3D {
             }
         }
 
-        public bool TSAffectedByGravity {
-            get {
-                return AffectedByGravity;
-            }
+        public bool TSAffectedByGravity
+        {
+            get { return AffectedByGravity; }
 
-            set {
-                AffectedByGravity = value;
-            }
+            set { AffectedByGravity = value; }
         }
 
-        public bool TSIsKinematic {
-            get {
-                return IsKinematic;
-            }
+        public bool TSIsKinematic
+        {
+            get { return IsKinematic; }
 
-            set {
-                IsKinematic = value;
-            }
+            set { IsKinematic = value; }
         }
 
-        public TSVector TSLinearVelocity {
-            get {
-                return LinearVelocity;
-            }
+        public TSVector TSLinearVelocity
+        {
+            get { return LinearVelocity; }
 
-            set {
-                LinearVelocity = value;
-            }
+            set { LinearVelocity = value; }
         }
 
-        public TSVector TSAngularVelocity {
-            get {
-                return AngularVelocity;
-            }
+        public TSVector TSAngularVelocity
+        {
+            get { return AngularVelocity; }
 
-            set {
-                AngularVelocity = value;
-            }
+            set { AngularVelocity = value; }
         }
 
-        public bool TSDisabled {
-            get {
-                return Disabled;
-            }
+        public bool TSDisabled
+        {
+            get { return Disabled; }
 
-            set {
-                disabled = true;
-            }
+            set { disabled = true; }
         }
 
-        public TSVector TSPosition {
-            get {
-                return Position;
-            }
+        public TSVector TSPosition
+        {
+            get { return Position; }
 
-            set {
-                Position = value;
-            }
+            set { Position = value; }
         }
 
-        public TSMatrix TSOrientation {
-            get {
-                return Orientation;
-            }
+        public TSMatrix TSOrientation
+        {
+            get { return Orientation; }
 
-            set {
-                Orientation = value;
-            }
+            set { Orientation = value; }
         }
 
-        public FP TSLinearDrag {
-            get {
-                return linearDrag;
-            }
+        public FP TSLinearDrag
+        {
+            get { return linearDrag; }
 
-            set {
-                linearDrag = value;
-            }
+            set { linearDrag = value; }
         }
 
-        public FP TSAngularDrag {
-            get {
-                return angularDrag;
-            }
+        public FP TSAngularDrag
+        {
+            get { return angularDrag; }
 
-            set {
-                angularDrag = value;
-            }
+            set { angularDrag = value; }
         }
 
-        public FP TSFriction {
-            get {
-                return staticFriction;
-            }
+        public FP TSFriction
+        {
+            get { return staticFriction; }
 
-            set {
-                staticFriction = value;
-            }
+            set { staticFriction = value; }
         }
 
-        public FP TSRestitution {
-            get {
-                return restitution;
-            }
+        public FP TSRestitution
+        {
+            get { return restitution; }
 
-            set {
-                restitution = value;
-            }
+            set { restitution = value; }
         }
 
         private List<TSVector> hullPoints = new List<TSVector>();
@@ -863,15 +877,15 @@ namespace TrueSync.Physics3D {
         {
             hullPoints.Clear();
 
-            if(enableDebugDraw) shape.MakeHull(ref hullPoints, 3);
+            if (enableDebugDraw) shape.MakeHull(ref hullPoints, 3);
         }
 
 
         public void DebugDraw(IDebugDrawer drawer)
         {
-            TSVector pos1,pos2,pos3;
+            TSVector pos1, pos2, pos3;
 
-            for(int i = 0;i<hullPoints.Count;i+=3)
+            for (int i = 0; i < hullPoints.Count; i += 3)
             {
                 pos1 = hullPoints[i + 0];
                 pos2 = hullPoints[i + 1];
@@ -890,25 +904,31 @@ namespace TrueSync.Physics3D {
             }
         }
 
-        internal int GetInstance() {
-			return instance;
-		}
+        internal int GetInstance()
+        {
+            return instance;
+        }
 
-        internal void PostStep() {
-            if (_freezeConstraints > 0) {
+        internal void PostStep()
+        {
+            if (_freezeConstraints > 0)
+            {
                 bool freezePosX = (_freezeConstraints & TSRigidBodyConstraints.FreezePositionX) == TSRigidBodyConstraints.FreezePositionX;
                 bool freezePosY = (_freezeConstraints & TSRigidBodyConstraints.FreezePositionY) == TSRigidBodyConstraints.FreezePositionY;
                 bool freezePosZ = (_freezeConstraints & TSRigidBodyConstraints.FreezePositionZ) == TSRigidBodyConstraints.FreezePositionZ;
 
-                if (freezePosX) {
+                if (freezePosX)
+                {
                     position.x = _freezePosition.x;
                 }
 
-                if (freezePosY) {
+                if (freezePosY)
+                {
                     position.y = _freezePosition.y;
                 }
 
-                if (freezePosZ) {
+                if (freezePosZ)
+                {
                     position.z = _freezePosition.z;
                 }
 
@@ -916,18 +936,22 @@ namespace TrueSync.Physics3D {
                 bool freezeRotY = (_freezeConstraints & TSRigidBodyConstraints.FreezeRotationY) == TSRigidBodyConstraints.FreezeRotationY;
                 bool freezeRotZ = (_freezeConstraints & TSRigidBodyConstraints.FreezeRotationZ) == TSRigidBodyConstraints.FreezeRotationZ;
 
-                if (freezeRotX || freezeRotY || freezeRotZ) {
+                if (freezeRotX || freezeRotY || freezeRotZ)
+                {
                     TSQuaternion q = TSQuaternion.CreateFromMatrix(Orientation);
 
-                    if (freezeRotX) {
+                    if (freezeRotX)
+                    {
                         q.x = _freezeRotationQuat.x;
                     }
 
-                    if (freezeRotY) {
+                    if (freezeRotY)
+                    {
                         q.y = _freezeRotationQuat.y;
                     }
 
-                    if (freezeRotZ) {
+                    if (freezeRotZ)
+                    {
                         q.z = _freezeRotationQuat.z;
                     }
 
@@ -938,34 +962,39 @@ namespace TrueSync.Physics3D {
             }
         }
 
-        public string Checkum() {
+        public string Checkum()
+        {
             return string.Format("{0}|{1}", position, orientation);
         }
 
-        public void TSApplyForce(TSVector force) {
+        public void TSApplyForce(TSVector force)
+        {
             AddForce(force);
         }
 
-        public void TSApplyForce(TSVector force, TSVector position) {
+        public void TSApplyForce(TSVector force, TSVector position)
+        {
             AddForce(force, position);
         }
 
-        public void TSApplyImpulse(TSVector force) {
+        public void TSApplyImpulse(TSVector force)
+        {
             ApplyImpulse(force);
         }
 
-        public void TSApplyImpulse(TSVector force, TSVector position) {
+        public void TSApplyImpulse(TSVector force, TSVector position)
+        {
             ApplyImpulse(force, position);
         }
 
-        public void TSApplyTorque(TSVector force) {
+        public void TSApplyTorque(TSVector force)
+        {
             AddTorque(force);
         }
 
-        public void TSApplyRelativeTorque(TSVector force) {
+        public void TSApplyRelativeTorque(TSVector force)
+        {
             AddRelativeTorque(force);
         }
-
     }
-
 }

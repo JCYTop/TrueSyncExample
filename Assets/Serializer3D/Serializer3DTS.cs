@@ -6,7 +6,10 @@ using TrueSync.Physics3D;
 
 namespace Serializer3D
 {
-    internal static class World3DXmlSerializer
+    /// <summary>
+    /// 场景使用已经挂载好的TS
+    /// </summary>
+    internal class Serializer3DTS : WorldSerializerBase
     {
         private static XmlWriter writer;
 
@@ -169,7 +172,8 @@ namespace Serializer3D
         /// <param name="collider"></param>
         private static void ComSerializeCollider(TSCollider collider)
         {
-            WriteVector("ShapelossyScale", collider.SerializelossyScale); // 指Unity自身Scale的比例影响参数
+            WriteVector("ColliderCenter", collider.Center); //TSVector
+            WriteVector("LossyScale", collider.SerializelossyScale); // 指Unity自身 scale 的比例影响参数
             WriteVector("BoundsMax", collider.bounds.max);
             WriteVector("BoundsMin", collider.bounds.min);
             if (collider.tsMaterial != null)
@@ -182,7 +186,6 @@ namespace Serializer3D
             //Unity 可以过滤 这里只是场景激活的
             writer.WriteElementString("Enabled", collider.enabled.ToString());
             writer.WriteElementString("Tag", collider.tag); //Unity --> 服务器可能使用到
-            WriteVector("ColliderCenter", collider.Center); //TSVector
         }
 
         #endregion

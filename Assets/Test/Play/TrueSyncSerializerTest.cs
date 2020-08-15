@@ -36,5 +36,12 @@ namespace Tests
             var world3d = (World) PhysicsWorldManager.instance.GetWorld();
             Debug.Assert(world3d != null);
         }
+
+        [Test]
+        public void IsSerializeComplete()
+        {
+            SerializeSceneTools.TSerializeInit();
+            Debug.Assert(SerializeSceneTools.IsSerializeComplete);
+        }
     }
 }

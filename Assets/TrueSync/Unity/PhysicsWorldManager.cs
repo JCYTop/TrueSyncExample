@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System;
 using TrueSync.Physics3D;
 
 namespace TrueSync
