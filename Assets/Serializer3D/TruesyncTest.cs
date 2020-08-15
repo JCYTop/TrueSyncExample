@@ -44,12 +44,12 @@ namespace Serializer3D
         {
             world3D = (World) PhysicsWorldManager.instance.GetWorld();
             if (world3D == null) throw new NullReferenceException();
-            World3DSerializer.Serialize(world3D, @"..\TrueSyncExample\3D.xml");
+            World3DSerializer.Serialize(new Serializer3DTS(), world3D, @"..\TrueSyncExample\Serializer\3D.xml");
         }
 
         private void Deserializer()
         {
-            World3DSerializer.Deserialize(@"..\TrueSyncExample\3D.xml");
+            World3DSerializer.Deserialize(@"..\TrueSyncExample\Serializer\3D.xml");
         }
     }
 }

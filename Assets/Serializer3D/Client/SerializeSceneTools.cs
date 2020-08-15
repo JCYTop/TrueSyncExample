@@ -7,7 +7,6 @@ using System.Linq;
 using TrueSync;
 using TrueSync.Physics3D;
 using UnityEditor;
-using UnityEditor.Experimental;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -33,6 +32,11 @@ namespace Serializer3D
         public static bool IsSerializeComplete
         {
             get { return (World) PhysicsManager.instance.GetWorld() != null; }
+        }
+
+        public static World World3D
+        {
+            get { return (World) PhysicsManager.instance.GetWorld(); }
         }
 
         [MenuItem("Tools/Serialize/SerializeCurrScene")]
@@ -69,6 +73,8 @@ namespace Serializer3D
                 }
             }
 
+            //文件进行序列化
+            World3DSerializer.Serialize(new Serializer3DGo(), World3D, $@"..\TrueSyncExample\Serializer\3D{EditorSceneManager.GetActiveScene().name}.xml");
             SerializeUnload();
             Debug.Log($"当前 --->{EditorSceneManager.GetActiveScene().name}<--- 场景序列化完成");
         }

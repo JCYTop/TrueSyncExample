@@ -4,16 +4,16 @@ using TrueSync.Physics3D;
 
 namespace Serializer3D
 {
+    /// <summary>
+    /// 3D Serialize & Deserialize
+    /// </summary>
     public class World3DSerializer
     {
-        /// <summary>
-        /// 3D Serialize & Deserialize
-        /// </summary>
-        public static void Serialize(World world, string filename)
+        public static void Serialize<T>(T serializer, World world, string filename) where T : WorldSerializerBase
         {
-            using (var fs = new FileStream(filename, FileMode.Create))
+            using (var fs = new FileStream(filename, FileMode.OpenOrCreate))
             {
-                Serializer3DTS.Serialize(world, fs);
+                serializer.Serialize(world, fs);
             }
         }
 

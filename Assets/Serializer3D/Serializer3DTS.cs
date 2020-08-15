@@ -11,7 +11,7 @@ namespace Serializer3D
     /// </summary>
     internal class Serializer3DTS : WorldSerializerBase
     {
-        private static XmlWriter writer;
+        private XmlWriter writer;
 
         /// <summary>
         /// 客户端使用
@@ -19,18 +19,18 @@ namespace Serializer3D
         /// </summary> 
         /// <param name="world">3D World</param>
         /// <param name="stream"></param>
-        public static void Serialize(World world, FileStream stream)
+        public void Serialize(World world, FileStream stream)
         {
             //setting
             var settings = new XmlWriterSettings();
             settings.Indent = true;
             settings.NewLineOnAttributes = false;
             settings.OmitXmlDeclaration = true;
-
             writer = XmlWriter.Create(stream, settings);
+
             writer.WriteStartElement("World3D");
             writer.WriteAttributeString("World3DVer", "1.0");
-            WriteVector("Gravity", world.Gravity);
+            writer.WriteVector("Gravity", world.Gravity);
             // 以下具体每个
             foreach (RigidBody body in world.RigidBodies)
             {
@@ -61,7 +61,7 @@ namespace Serializer3D
         /// </summary>
         /// <param name="body"></param>
         /// <exception cref="NotImplementedException"></exception>
-        private static void SerializeCollider(TSCollider collider)
+        private void SerializeCollider(TSCollider collider)
         {
             writer.WriteStartElement("Collider");
             switch (collider)
@@ -92,12 +92,12 @@ namespace Serializer3D
         /// </summary>
         /// <param name="collider"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        private static void SerBoxCollider(TSBoxCollider collider)
+        private void SerBoxCollider(TSBoxCollider collider)
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
             writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSBOX}");
             //和shape有倍数关系
-            WriteVector("ColliderSize", collider.size); // collider的大小size
+            writer.WriteVector("ColliderSize", collider.size); // collider的大小size
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Serializer3D
         /// </summary>
         /// <param name="collider"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        private static void SerCapsuleCollider(TSCapsuleCollider collider)
+        private void SerCapsuleCollider(TSCapsuleCollider collider)
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
             writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSCAPSULE}");
@@ -118,7 +118,7 @@ namespace Serializer3D
         /// </summary>
         /// <param name="collider"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        private static void SerSphereCollider(TSSphereCollider collider)
+        private void SerSphereCollider(TSSphereCollider collider)
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
             writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSSPHERE}");
@@ -130,7 +130,7 @@ namespace Serializer3D
         /// </summary>
         /// <param name="collider"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        private static void SerMeshCollider(TSMeshCollider collider)
+        private void SerMeshCollider(TSMeshCollider collider)
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
             writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSMESH}");
@@ -149,7 +149,7 @@ namespace Serializer3D
             writer.WriteAttributeString("Count", $"{collider.Vertices.Count}");
             foreach (var vertex in collider.Vertices)
             {
-                WriteVector("Item", vertex);
+                writer.WriteVector("Item", vertex);
             }
 
             writer.WriteEndElement();
@@ -160,7 +160,7 @@ namespace Serializer3D
         /// </summary>
         /// <param name="collider"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        private static void SerTerrainCollider(TSTerrainCollider collider)
+        private void SerTerrainCollider(TSTerrainCollider collider)
         {
             if (collider == null) throw new ArgumentNullException(nameof(collider));
             writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSTERRAIN}");
@@ -170,12 +170,12 @@ namespace Serializer3D
         /// 通用Common处理
         /// </summary>
         /// <param name="collider"></param>
-        private static void ComSerializeCollider(TSCollider collider)
+        private void ComSerializeCollider(TSCollider collider)
         {
-            WriteVector("ColliderCenter", collider.Center); //TSVector
-            WriteVector("LossyScale", collider.SerializelossyScale); // 指Unity自身 scale 的比例影响参数
-            WriteVector("BoundsMax", collider.bounds.max);
-            WriteVector("BoundsMin", collider.bounds.min);
+            writer.WriteVector("ColliderCenter", collider.Center); //TSVector
+            writer.WriteVector("LossyScale", collider.SerializelossyScale); // 指Unity自身 scale 的比例影响参数
+            writer.WriteVector("BoundsMax", collider.bounds.max);
+            writer.WriteVector("BoundsMin", collider.bounds.min);
             if (collider.tsMaterial != null)
             {
                 writer.WriteElementString("Friction", collider.tsMaterial.friction.ToString());
@@ -197,28 +197,23 @@ namespace Serializer3D
         /// </summary>
         /// <param name="body"></param>
         /// <exception cref="NotImplementedException"></exception>
-        private static void SerializeRigibody(RigidBody body)
+        private void SerializeRigibody(RigidBody body)
         {
             writer.WriteStartElement("Rigibody");
             ComSerializeRigibody(body);
             writer.WriteEndElement();
         }
 
-        private static void ComSerializeRigibody(RigidBody body)
+        private void ComSerializeRigibody(RigidBody body)
         {
             writer.WriteElementString("IsActive", body.IsActive.ToString());
             writer.WriteElementString("IsKinematic", body.IsKinematic.ToString());
             writer.WriteElementString("IsStatic", body.IsStatic.ToString());
             //WriteVector("Position", body.Position) 这俩货个一样
-            WriteVector("TSPosition", body.TSPosition); // Unity中世界的坐标转换成TS坐标之后的数据
+            writer.WriteVector("TSPosition", body.TSPosition); // Unity中世界的坐标转换成TS坐标之后的数据
             writer.WriteElementString("Shape", body.Shape.ToString());
         }
 
         #endregion
-
-        private static void WriteVector(string name, TSVector vec)
-        {
-            writer.WriteElementString(name, $"{vec.x} {vec.y} {vec.z}");
-        }
     }
 }
