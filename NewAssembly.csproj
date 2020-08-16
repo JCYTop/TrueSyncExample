@@ -58,7 +58,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CubeMovment3D.cs" />
      <Compile Include="Assets\Plugins\TrueSyncDll\Drawing.cs" />
      <Compile Include="Assets\Plugins\TrueSyncDll\ICommunicator.cs" />
      <Compile Include="Assets\Plugins\TrueSyncDll\IPhysicsManagerBase.cs" />
@@ -118,7 +117,6 @@
      <Compile Include="Assets\Serializer3D\STrueSyncConfig.cs" />
      <Compile Include="Assets\Serializer3D\Serializer3DGo.cs" />
      <Compile Include="Assets\Serializer3D\Serializer3DTS.cs" />
-     <Compile Include="Assets\Serializer3D\TruesyncTest.cs" />
      <Compile Include="Assets\Serializer3D\World3DSerializer.cs" />
      <Compile Include="Assets\Serializer3D\World3DXmlDeserializer.cs" />
      <Compile Include="Assets\Serializer3D\WorldSerializerBase.cs" />
@@ -359,6 +357,7 @@
      <Compile Include="Assets\TrueSync\Unity\TrueSyncConfig.cs" />
      <Compile Include="Assets\TrueSync\Unity\TrueSyncManager.cs" />
      <Compile Include="Assets\TrueSync\Unity\UnityUtils.cs" />
+     <Compile Include="Assets\UnityEng\CubeMovment3D.cs" />
      <None Include="Assets\TrueSync\Physics\Jitter\license.txt" />
      <None Include="Assets\NewAssembly.asmdef" />
      <None Include="Assets\TrueSync\link.xml" />

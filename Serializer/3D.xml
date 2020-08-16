@@ -1,3 +1,22 @@
 ﻿<World3D World3DVer="1.0">
   <Gravity>0 -9.8 0</Gravity>
+  <Entity Name="Cube">
+    <Collider CollierType="TSBOX">
+      <ColliderSize>1 1 1</ColliderSize>
+      <ColliderCenter>0 0 0</ColliderCenter>
+      <LossyScale>1 1 1</LossyScale>
+      <BoundsMax>0.7071068 0.5 0.7071068</BoundsMax>
+      <BoundsMin>-0.7071068 -0.5 -0.7071068</BoundsMin>
+      <IsTrigger>False</IsTrigger>
+      <Enabled>True</Enabled>
+      <Tag>Untagged</Tag>
+    </Collider>
+    <Rigibody>
+      <IsActive>True</IsActive>
+      <IsKinematic>False</IsKinematic>
+      <IsStatic>True</IsStatic>
+      <TSPosition>0 0 0</TSPosition>
+      <Shape>TrueSync.Physics3D.BoxShape</Shape>
+    </Rigibody>
+  </Entity>
 </World3D>

@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewAssembly", "NewAssembly.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Play", "Play.csproj", "{5A419F5F-E46F-95AA-DACD-14CD76A76149}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditorMode", "EditorMode.csproj", "{5D8D6B93-B9BB-F889-8999-F54EEA011A85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{5A419F5F-E46F-95AA-DACD-14CD76A76149}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A419F5F-E46F-95AA-DACD-14CD76A76149}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A419F5F-E46F-95AA-DACD-14CD76A76149}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D8D6B93-B9BB-F889-8999-F54EEA011A85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D8D6B93-B9BB-F889-8999-F54EEA011A85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D8D6B93-B9BB-F889-8999-F54EEA011A85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D8D6B93-B9BB-F889-8999-F54EEA011A85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

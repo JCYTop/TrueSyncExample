@@ -7,8 +7,14 @@ using UnityEngine;
 
 namespace Tests
 {
-    public class TrueSyncSerializerTest
+    public class SerializeSceneToolsTest
     {
+        [Test]
+        public void TrueSyncSerWorld()
+        {
+            SerializeSceneTools.SerializeCurrScene();
+        }
+
         [Test]
         public void TCheckGetConfigDirs()
         {

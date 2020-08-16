@@ -9,7 +9,7 @@ using UnityEngine.TestTools;
 namespace Tests
 {
     public class TrueSyncTest
-    {    
+    {
         private bool isInit = false;
         private bool isDes = false;
         private World world3D;
@@ -39,13 +39,10 @@ namespace Tests
         {
             if (!isDes)
             {
-                Debug.Log(PhysicsManager.instance.Gravity);
-                Debug.Log(world3D.Gravity);
-                World3DSerializer.Deserialize(@"..\TrueSyncExample\3D.xml");
+                World3DSerializer.Deserialize($@"..\TrueSyncExample\Serializer\3D_Test.xml");
                 Debug.Assert(world3D.Bodies().Count != 0);
                 Debug.Log($" 加载之后的世界数量 : {world3D.Bodies().Count}");
                 Debug.Log(PhysicsWorldManager.instance.Gravity);
-                Debug.Log(world3D.Gravity);
                 isDes = true;
             }
         }
@@ -57,74 +54,50 @@ namespace Tests
             Debug.Assert(world3D != null);
         }
 
-        [Test]
-        public void TrueSyncDeserializerTest()
+        [UnityTest]
+        public IEnumerator TrueSyncLoadXmlWorld()
         {
-            //防止与其他测试代码冲突
-
-            // InitWorld();
-            // Debug.Assert(world3D != null);
-            //
-            // Debug.Log(world3D.Bodies().Count);
-            // Debug.Assert(world3D.Bodies().Count == 0);
-
-            // World3DSerializer.Deserialize(@"..\TrueSyncExample\3D.xml");
-            // Debug.Assert(world3D.Bodies().Count != 0);
-            // Debug.Log($" 加载之后的世界数量 : {world3D.Bodies().Count}");
-            //
-            // foreach (TrueSync.Physics3D.RigidBody body in world3D.Bodies())
-            // {
-            //     Debug.Log("--------------");
-            //     Debug.Log(body.Shape);
-            //     Debug.Log(body.Position);
-            //     Debug.Log("++++++++++++++");
-            // }
+            InitWorld();
+            DesComplete();
+            while (!isInit || !isDes)
+            {
+                yield return null;
+            }
         }
 
         /// <summary>
-        /// 需要自己设定下下，懒得敲代码设定了
-        /// 测试场景：
         /// Cube
-        /// position:(1,1,-10)
+        /// position:(0,0,0)
         /// rotation:(0,0,0)
         /// scale:(2,2,2)
         /// colliderPos:(0,0,0)
         /// colliderSize:(2,2,2)
-        ///
-        /// 射线起点（0，0，0）
-        /// 射线方向（0，0，-1）
-        ///
-        /// 断言 true
         /// </summary>
         [UnityTest]
         public IEnumerator RayCastTest1()
         {
             InitWorld();
             DesComplete();
-            //等待基础
             while (!isInit || !isDes)
             {
                 yield return null;
             }
 
-            var result = PhysicsWorldManager.instance.Raycast(TSVector.zero, TSVector.back, null, out body, out normal, out fraction);
+            var result = PhysicsWorldManager.instance.Raycast(new TSVector(0, 0, 100), TSVector.back, null, out body, out normal, out fraction);
             Debug.Assert(result);
+            result = PhysicsWorldManager.instance.Raycast(new TSVector(0, 100, 100), TSVector.back, null, out body, out normal, out fraction);
+            Debug.Assert(!result);
+            result = PhysicsWorldManager.instance.Raycast(new TSVector(0, 0, 100), TSVector.forward, null, out body, out normal, out fraction);
+            Debug.Assert(!result);
         }
 
         /// <summary>
-        /// 需要自己设定下下，懒得敲代码设定了
-        /// 测试场景：
         /// Cube
-        /// position:(1,5,-10)
-        /// rotation:(0,0,0)
+        /// position:(10,0,0)
+        /// rotation:(0,45,0)
         /// scale:(2,2,2)
         /// colliderPos:(0,0,0)
         /// colliderSize:(2,2,2)
-        ///
-        /// 射线起点（0，0，0）
-        /// 射线方向（0，0，-1）
-        ///
-        /// 断言 false
         /// </summary>
         [UnityTest]
         public IEnumerator RayCastTest2()
@@ -137,24 +110,21 @@ namespace Tests
                 yield return null;
             }
 
-            var result = PhysicsWorldManager.instance.Raycast(TSVector.zero, TSVector.back, null, out body, out normal, out fraction);
+            var result = PhysicsWorldManager.instance.Raycast(new TSVector(10, 0, 100), TSVector.back, null, out body, out normal, out fraction);
+            Debug.Assert(result);
+            result = PhysicsWorldManager.instance.Raycast(new TSVector(12.5f, 0, 100), TSVector.back, null, out body, out normal, out fraction);
+            Debug.Assert(result);
+            result = PhysicsWorldManager.instance.Raycast(new TSVector(14, 0, 100), TSVector.back, null, out body, out normal, out fraction);
             Debug.Assert(!result);
         }
 
         /// <summary>
-        /// 需要自己设定下下，懒得敲代码设定了
-        /// 测试场景：原点测试
         /// Cube
-        /// position:(0,0,0)
+        /// position:(20,0,0)
         /// rotation:(0,0,0)
-        /// scale:(2,2,2)
-        /// colliderPos:(0,0,0)
-        /// colliderSize:(2,2,2)
-        ///
-        /// 射线起点（0，0，0）
-        /// 射线方向（0，0，-1）
-        ///
-        /// 断言 true
+        /// scale:(1,1,1)
+        /// colliderPos:(0,5,0)
+        /// colliderSize:(1,1,1)
         /// </summary>
         [UnityTest]
         public IEnumerator RayCastTest3()
@@ -167,37 +137,13 @@ namespace Tests
                 yield return null;
             }
 
-            var result = PhysicsWorldManager.instance.Raycast(TSVector.zero, TSVector.back, null, out body, out normal, out fraction);
+            var result = PhysicsWorldManager.instance.Raycast(new TSVector(20, 0, 100), TSVector.back, null, out body, out normal, out fraction);
+            Debug.Assert(!result);
+            result = PhysicsWorldManager.instance.Raycast(new TSVector(20, 3, 100), TSVector.back, null, out body, out normal, out fraction);
+            Debug.Assert(!result);
+            result = PhysicsWorldManager.instance.Raycast(new TSVector(20, 5, 100), TSVector.back, null, out body, out normal, out fraction);
             Debug.Assert(result);
-        }
-
-        /// <summary>
-        /// 需要自己设定下下，懒得敲代码设定了
-        /// 测试场景：原点测试
-        /// Cube
-        /// position:(0,0,0)
-        /// rotation:(0,0,0)
-        /// scale:(2,2,2)
-        /// colliderPos:(0,2,0)
-        /// colliderSize:(1,1,1)
-        ///
-        /// 射线起点（0，0，0）
-        /// 射线方向（0，0，-1）
-        ///
-        /// 断言 false
-        /// </summary>
-        [UnityTest]
-        public IEnumerator RayCastTest4()
-        {
-            InitWorld();
-            DesComplete();
-            //等待基础
-            while (!isInit || !isDes)
-            {
-                yield return null;
-            }
-
-            var result = PhysicsWorldManager.instance.Raycast(TSVector.zero, TSVector.back, null, out body, out normal, out fraction);
+            result = PhysicsWorldManager.instance.Raycast(new TSVector(20, 7, 100), TSVector.back, null, out body, out normal, out fraction);
             Debug.Assert(!result);
         }
     }

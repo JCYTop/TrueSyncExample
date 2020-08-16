@@ -10,17 +10,17 @@ namespace Serializer3D
 {
     internal class World3DXmlDeserializer
     {
-        private static Dictionary<DeserializerData, RigidBody> desSet = new Dictionary<DeserializerData, RigidBody>();
+        private static Dictionary<DeserializerData, RigidBody> desDic = new Dictionary<DeserializerData, RigidBody>();
 
         /// <summary>
         /// 服务器使用
-        /// 使用前请确认调用InitZ()接口
+        /// 使用前请确认调用Init()接口
         /// </summary>
         /// <param name="stream"></param>
         /// <exception cref="NotImplementedException"></exception>
         public static void Deserializer(FileStream stream)
         {
-            desSet.Clear();
+            desDic.Clear();
             //解析
             var root = XMLFragmentParser.LoadFromStream(stream);
             if (root.Name.ToLower() != "world3d")
@@ -38,44 +38,65 @@ namespace Serializer3D
                 {
                     var data = new DeserializerData();
                     data.name = entity.Attributes[0].Value;
-                    foreach (var type in entity.Elements)
+                    foreach (var ent in entity.Elements)
                     {
-                        if (type.Name.ToLower() == "collider")
+                        if (ent.Name.ToLower() == "rigibody")
                         {
-                            switch ((TSCollierShape) Enum.Parse(typeof(TSCollierShape), type.Attributes[0].Value))
-                            {
-                                case TSCollierShape.TSBOX:
-                                    DesColliderBox(ref data, type);
-                                    break;
-                                case TSCollierShape.TSCAPSULE:
-                                    DesColliderCapsule(ref data, type);
-                                    break;
-                                case TSCollierShape.TSSPHERE:
-                                    DesColliderSphere(ref data, type);
-                                    break;
-                                case TSCollierShape.TSMESH:
-                                    DesColliderMesh(ref data, type);
-                                    break;
-                            }
-
-                            ComDesCollider(ref data, type);
-                        }
-
-                        if (type.Name.ToLower() == "rigibody")
-                        {
-                            ComDesRigibody(ref data, type);
+                            DesRigibody(ref data, ent);
                         }
                     }
 
-                    //拿好数据准备进行加载世界
-                    DesAddWorld(data);
+                    Create(data);
                 }
             }
         }
 
-        #region Collider
+        private static void DesRigibody(ref DeserializerData data, XMLFragmentElement type)
+        {
+            foreach (var element in type.Elements)
+            {
+                if (element.Name.ToLower() == "isactive")
+                {
+                    data.isactive = bool.Parse(element.Value);
+                }
 
-        private static void DesColliderBox(ref DeserializerData data, XMLFragmentElement type)
+                if (element.Name.ToLower() == "iskinematic")
+                {
+                    data.iskinematic = bool.Parse(element.Value);
+                }
+
+                if (element.Name.ToLower() == "isstatic")
+                {
+                    data.isstatic = bool.Parse(element.Value);
+                }
+
+                if (element.Name.ToLower() == "tsposition")
+                {
+                    data.tsposition = ReadVector(element);
+                }
+
+                if (element.Name.ToLower() == "shape")
+                {
+                    switch ((TSCollierShape) Enum.Parse(typeof(TSCollierShape), element.Attributes[0].Value))
+                    {
+                        case TSCollierShape.TSBOX:
+                            DesBox(ref data, element);
+                            break;
+                        case TSCollierShape.TSCAPSULE:
+                            DesCapsule(ref data, element);
+                            break;
+                        case TSCollierShape.TSSPHERE:
+                            DesSphere(ref data, element);
+                            break;
+                        case TSCollierShape.TSMESH:
+                            DesMesh(ref data, element);
+                            break;
+                    }
+                }
+            }
+        }
+
+        private static void DesBox(ref DeserializerData data, XMLFragmentElement type)
         {
             data.colliershape = TSCollierShape.TSBOX;
             foreach (var element in type.Elements)
@@ -85,9 +106,11 @@ namespace Serializer3D
                     data.size = ReadVector(element);
                 }
             }
+
+            ComDesCollider(ref data, type);
         }
 
-        private static void DesColliderCapsule(ref DeserializerData data, XMLFragmentElement type)
+        private static void DesCapsule(ref DeserializerData data, XMLFragmentElement type)
         {
             data.colliershape = TSCollierShape.TSCAPSULE;
             foreach (var element in type.Elements)
@@ -102,9 +125,11 @@ namespace Serializer3D
                     data.length = FP.FromFloat(float.Parse(element.Value));
                 }
             }
+
+            ComDesCollider(ref data, type);
         }
 
-        private static void DesColliderSphere(ref DeserializerData data, XMLFragmentElement type)
+        private static void DesSphere(ref DeserializerData data, XMLFragmentElement type)
         {
             data.colliershape = TSCollierShape.TSSPHERE;
             foreach (var element in type.Elements)
@@ -114,9 +139,11 @@ namespace Serializer3D
                     data.radius = FP.FromFloat(float.Parse(element.Value));
                 }
             }
+
+            ComDesCollider(ref data, type);
         }
 
-        private static void DesColliderMesh(ref DeserializerData data, XMLFragmentElement type)
+        private static void DesMesh(ref DeserializerData data, XMLFragmentElement type)
         {
             foreach (var element in type.Elements)
             {
@@ -137,20 +164,17 @@ namespace Serializer3D
                     }
                 }
             }
+
+            ComDesCollider(ref data, type);
         }
 
         private static void ComDesCollider(ref DeserializerData data, XMLFragmentElement type)
         {
             foreach (var element in type.Elements)
             {
-                if (element.Name.ToLower() == "Friction")
+                if (element.Name.ToLower() == "orientation")
                 {
-                    data.friction = FP.FromFloat(float.Parse(element.Value));
-                }
-
-                if (element.Name.ToLower() == "Restitution")
-                {
-                    data.restitution = FP.FromFloat(float.Parse(element.Value));
+                    data.orientation = ReadMatrix(element);
                 }
 
                 if (element.Name.ToLower() == "boundsmax")
@@ -168,67 +192,27 @@ namespace Serializer3D
                     data.istrigger = bool.Parse(element.Value);
                 }
 
-                if (element.Name.ToLower() == "enabled")
-                {
-                    data.enabled = bool.Parse(element.Value);
-                }
-
                 if (element.Name.ToLower() == "tag")
                 {
                     data.tag = element.Value;
                 }
 
-                if (element.Name.ToLower() == "collidercenter")
+                if (element.Name.ToLower() == "layer")
                 {
-                    data.collidercenter = ReadVector(element);
-                }
-
-                if (element.Name.ToLower() == "lossyscale")
-                {
-                    data.lossyScale = ReadVector(element);
+                    data.layer = int.Parse(element.Value);
                 }
             }
         }
-
-        #endregion
-
-        #region Rigibody
-
-        private static void ComDesRigibody(ref DeserializerData data, XMLFragmentElement type)
-        {
-            foreach (var element in type.Elements)
-            {
-                if (element.Name.ToLower() == "tsposition")
-                {
-                    data.tsposition = ReadVector(element);
-                }
-
-                if (element.Name.ToLower() == "isKinematic")
-                {
-                    data.isKinematic = bool.Parse(element.Value);
-                }
-            }
-        }
-
-        #endregion
 
         #region ADD ---> World
 
-        private static void DesAddWorld(DeserializerData data)
-        {
-            var rigidBody = CreateShape(data);
-            rigidBody.Position = data.tsposition;
-            desSet.Add(data, rigidBody);
-            PhysicsManager.instance.AddBody(rigidBody);
-        }
-
-        private static RigidBody CreateShape(DeserializerData data)
+        private static void Create(DeserializerData data)
         {
             var shape = default(Shape);
             switch (data.colliershape)
             {
                 case TSCollierShape.TSBOX:
-                    shape = new BoxShape(TSVector.Scale(data.size, data.lossyScale));
+                    shape = new BoxShape(data.size);
                     break;
                 case TSCollierShape.TSCAPSULE:
                     shape = new CapsuleShape(data.length, data.radius);
@@ -237,46 +221,47 @@ namespace Serializer3D
                     shape = new CapsuleShape(data.length, data.radius);
                     break;
                 case TSCollierShape.TSMESH:
-                    var octree = new Octree(data.vertices, data.indices);
-                    shape = new TriangleMeshShape(octree);
+                    shape = new TriangleMeshShape(new Octree(data.vertices, data.indices));
                     break;
             }
 
-            var newBody = new RigidBody(shape);
-            //这里具体情况具体赋值
-            {
-                if (data.friction > FP.MinValue)
-                {
-                    newBody.TSFriction = data.friction;
-                }
-
-                if (data.restitution > FP.MinValue)
-                {
-                    newBody.TSRestitution = data.restitution;
-                }
-            }
-            newBody.IsColliderOnly = data.istrigger; //这里就是collider的trigger
-            newBody.IsKinematic = data.isKinematic;
-            // TODO Mark ??? 我直接复制了
-            {
-                newBody.AffectedByGravity = false;
-                newBody.IsStatic = true;
-                newBody.SetMassProperties();
-            }
-            return newBody;
+            var rigidBody = new RigidBody(shape);
+            rigidBody.IsColliderOnly = data.istrigger; //这里就是collider的trigger
+            rigidBody.IsKinematic = data.iskinematic;
+            rigidBody.AffectedByGravity = false; // TODO Mark ??? 我直接复制了
+            rigidBody.IsStatic = true; // TODO Mark ??? 我直接复制了
+            rigidBody.SetMassProperties(); // TODO Mark ??? 我直接复制了
+            rigidBody.TSPosition = new TSVector(data.tsposition.x, data.tsposition.y, data.tsposition.z);
+            rigidBody.Name = data.name;
+            rigidBody.Tag = data.tag;
+            rigidBody.Layer = data.layer;
+            rigidBody.Orientation = data.orientation;
+            desDic.Add(data, rigidBody);
+            PhysicsManager.instance.AddBody(rigidBody);
         }
 
         #endregion
 
-        /// <summary>
-        /// 解析
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
         private static TSVector ReadVector(XMLFragmentElement node)
         {
             var values = node.Value.Split(' ');
             return new TSVector(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]));
+        }
+
+        private static TSMatrix ReadMatrix(XMLFragmentElement node)
+        {
+            var values = node.Value.Split(' ');
+            var matrix = new TSMatrix();
+            matrix.M11 = float.Parse(values[0]);
+            matrix.M12 = float.Parse(values[1]);
+            matrix.M13 = float.Parse(values[2]);
+            matrix.M21 = float.Parse(values[3]);
+            matrix.M22 = float.Parse(values[4]);
+            matrix.M23 = float.Parse(values[5]);
+            matrix.M31 = float.Parse(values[6]);
+            matrix.M32 = float.Parse(values[7]);
+            matrix.M33 = float.Parse(values[8]);
+            return matrix;
         }
     }
 
@@ -286,47 +271,21 @@ namespace Serializer3D
     internal class DeserializerData
     {
         public string name;
+        public bool isactive;
+        public bool iskinematic;
+        public bool isstatic;
+        public TSVector tsposition;
         public TSCollierShape colliershape;
-
-        #region Collider
-
-        #region Box
-
         public TSVector size;
-
-        #endregion
-
-        #region Capsule || Sphere
-
-        public FP radius;
-        public FP length;
-
-        #endregion
-
-        public TSVector lossyScale;
+        public TSMatrix orientation;
         public TSVector boundingmax;
         public TSVector boundingmin;
-        public bool istrigger;
-        public bool enabled;
-        public string tag;
-        public TSVector collidercenter;
-        public FP friction = FP.MinValue;
-        public FP restitution = FP.MinValue;
-
-        #endregion
-
-        #region Rigibody
-
-        public TSVector tsposition;
-        public bool isKinematic;
-
-        #endregion
-
-        #region Mesh
-
+        public int layer;
+        public FP radius;
+        public FP length;
         public List<TriangleVertexIndices> indices = new List<TriangleVertexIndices>();
         public List<TSVector> vertices = new List<TSVector>();
-
-        #endregion
+        public bool istrigger;
+        public string tag;
     }
 }

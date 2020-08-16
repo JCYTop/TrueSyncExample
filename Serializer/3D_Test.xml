@@ -1,15 +1,50 @@
-﻿<World3D World3DVer="2020/8/16 12:59:14">
+﻿<World3D World3DVer="1597598328">
   <Gravity>0 -9.8 0</Gravity>
-  <Entity Name="Cube">
+  <Entity Name="Cube1">
     <Rigibody>
       <IsActive>True</IsActive>
       <IsKinematic>False</IsKinematic>
       <IsStatic>True</IsStatic>
       <TSPosition>0 0 0</TSPosition>
       <Shape CollierType="TSBOX" xmlns="TrueSync.Physics3D.RigidBody">
+        <ColliderSize>4 4 4</ColliderSize>
+        <Orientation>1 0 0 0 1 0 0 0 1</Orientation>
+        <BoundsMax>2 2 2</BoundsMax>
+        <BoundsMin>-2 -2 -2</BoundsMin>
+        <IsTrigger>False</IsTrigger>
+        <Tag>Untagged</Tag>
+        <Layer>0</Layer>
+      </Shape>
+    </Rigibody>
+  </Entity>
+  <Entity Name="Cube3">
+    <Rigibody>
+      <IsActive>True</IsActive>
+      <IsKinematic>False</IsKinematic>
+      <IsStatic>True</IsStatic>
+      <TSPosition>20 5 0</TSPosition>
+      <Shape CollierType="TSBOX" xmlns="TrueSync.Physics3D.RigidBody">
         <ColliderSize>1 1 1</ColliderSize>
+        <Orientation>1 0 0 0 1 0 0 0 1</Orientation>
         <BoundsMax>0.5 0.5 0.5</BoundsMax>
         <BoundsMin>-0.5 -0.5 -0.5</BoundsMin>
+        <IsTrigger>False</IsTrigger>
+        <Tag>Untagged</Tag>
+        <Layer>0</Layer>
+      </Shape>
+    </Rigibody>
+  </Entity>
+  <Entity Name="Cube2">
+    <Rigibody>
+      <IsActive>True</IsActive>
+      <IsKinematic>False</IsKinematic>
+      <IsStatic>True</IsStatic>
+      <TSPosition>10 0 0</TSPosition>
+      <Shape CollierType="TSBOX" xmlns="TrueSync.Physics3D.RigidBody">
+        <ColliderSize>4 4 4</ColliderSize>
+        <Orientation>0.7071068 0 -0.7071068 0 1 0 0.7071068 0 0.7071068</Orientation>
+        <BoundsMax>2 2 2</BoundsMax>
+        <BoundsMin>-2 -2 -2</BoundsMin>
         <IsTrigger>False</IsTrigger>
         <Tag>Untagged</Tag>
         <Layer>0</Layer>

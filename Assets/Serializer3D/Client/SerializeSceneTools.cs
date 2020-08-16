@@ -82,6 +82,8 @@ namespace Serializer3D
             Debug.Log($"当前 --->{EditorSceneManager.GetActiveScene().name}<--- 场景序列化完成");
         }
 
+        #region
+
         [MenuItem("Tools/Serialize/SerializeAllScene")]
         public static void SerializeAllScene()
         {
@@ -114,10 +116,7 @@ namespace Serializer3D
             var center = GetCenter(trans, box, lossyScale);
             //生成shape类型
             var shape = new BoxShape(TSVector.Scale(size, lossyScale));
-            var name = trans.gameObject.name;
-            var tag = trans.gameObject.tag;
-            var layer = trans.gameObject.layer;
-            RigibodySetting(shape, center, istrigger, name, tag, layer);
+            RigibodySetting(trans, shape, center, istrigger);
         }
 
         private static void SerializeSphere(Transform trans, SphereCollider sphere)
@@ -131,11 +130,8 @@ namespace Serializer3D
             //获取trans的pos
             var center = GetCenter(trans, sphere, lossyScale);
             //生成shape类型
-            var shape = new SphereShape(radius);
-            var name = trans.gameObject.name;
-            var tag = trans.gameObject.tag;
-            var layer = trans.gameObject.layer;
-            RigibodySetting(shape, center, istrigger, name, tag, layer);
+            var shape = new SphereShape(TSVector.MaxItem(lossyScale) * radius);
+            RigibodySetting(trans, shape, center, istrigger);
         }
 
         private static void SerializeCapsule(Transform trans, CapsuleCollider capsule)
@@ -145,17 +141,14 @@ namespace Serializer3D
             //scale基础缩放比例
             var lossyScale = TSVector.Abs(trans.localScale.ToTSVector());
             //获取unity数据
-            var radius = FP.FromFloat(capsule.radius);
-            var length = FP.FromFloat(capsule.height);
+            var radius = FP.FromFloat(capsule.radius) * TSVector.MaxItem(lossyScale, new TSVector(1, 0, 1));
+            var length = FP.FromFloat(capsule.height) * TSVector.MaxItem(lossyScale, new TSVector(0, 1, 0));
             //获取trans的pos
             var center = GetCenter(trans, capsule, lossyScale);
             //生成shape类型
             //TODO Mark 这里观察与实际表现有出入 这里暂定跟随框架设定使用 可能和人物判断有影响
             var shape = new CapsuleShape(length, radius);
-            var name = trans.gameObject.name;
-            var tag = trans.gameObject.tag;
-            var layer = trans.gameObject.layer;
-            RigibodySetting(shape, center, istrigger, name, tag, layer);
+            RigibodySetting(trans, shape, center, istrigger);
         }
 
         private static void SerializeMesh(Transform trans, MeshCollider mesh)
@@ -177,10 +170,8 @@ namespace Serializer3D
             var center = GetCenter(trans, mesh, lossyScale);
             var octree = new Octree(vertices, indices);
             var shape = new TriangleMeshShape(octree);
-            var name = trans.gameObject.name;
-            var tag = trans.gameObject.tag;
-            var layer = trans.gameObject.layer;
-            RigibodySetting(shape, center, convex && istrigger, name, tag, layer);
+
+            RigibodySetting(trans, shape, center, convex && istrigger);
         }
 
         private static TSVector GetCenter(Transform trans, Collider collider, TSVector lossyScale)
@@ -204,20 +195,25 @@ namespace Serializer3D
             return transpos + TSVector.Scale(collidercenter, lossyScale);
         }
 
-        private static void RigibodySetting<T>(T shape, TSVector center, bool istrigger, string name, string tag, int layer) where T : Shape
+        private static void RigibodySetting<T>(Transform trans, T shape, TSVector center, bool istrigger) where T : Shape
         {
             var rigidBody = new RigidBody(shape);
-            rigidBody.Name = name;
             rigidBody.IsColliderOnly = istrigger;
             rigidBody.IsKinematic = false;
             rigidBody.AffectedByGravity = false;
             rigidBody.IsStatic = true;
             rigidBody.SetMassProperties();
             rigidBody.TSPosition = new TSVector(center.x, center.y, center.z);
-            rigidBody.Tag = tag;
-            rigidBody.Layer = layer;
+            rigidBody.Name = trans.gameObject.name;
+            rigidBody.Tag = trans.gameObject.tag;
+            rigidBody.Layer = trans.gameObject.layer;
+            rigidBody.Orientation = trans.rotation.ToTSMatrix();
             PhysicsManager.instance.AddBody(rigidBody);
         }
+
+        #endregion
+
+        #region Help
 
         /// <summary>
         /// 序列化场景之前准备的数据
@@ -299,6 +295,7 @@ namespace Serializer3D
             return false;
         }
 
+        #endregion
 
         #region 测试使用接口
 

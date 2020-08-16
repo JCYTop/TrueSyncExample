@@ -19,7 +19,8 @@ namespace Serializer3D
             writer = XmlWriter.Create(stream, settings);
 
             writer.WriteStartElement("World3D");
-            writer.WriteAttributeString("World3DVer", $"{DateTime.Now}");
+            var ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            writer.WriteAttributeString("World3DVer", Convert.ToInt64(ts.TotalSeconds).ToString());
             writer.WriteVector("Gravity", world.Gravity);
             // 以下具体每个
             foreach (RigidBody body in world.RigidBodies)
@@ -127,6 +128,7 @@ namespace Serializer3D
 
         private void SerComShape(RigidBody body, Shape bodyShape)
         {
+            writer.WriteMatrix("Orientation", body.Orientation);
             writer.WriteVector("BoundsMax", bodyShape.BoundingBox.max);
             writer.WriteVector("BoundsMin", bodyShape.BoundingBox.min);
             writer.WriteElementString("IsTrigger", body.IsColliderOnly.ToString());
