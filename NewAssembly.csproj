@@ -115,11 +115,10 @@
      <Compile Include="Assets\Prefabs\005\JSMovement3D.cs" />
      <Compile Include="Assets\Serializer3D\Client\SerializeSceneTools.cs" />
      <Compile Include="Assets\Serializer3D\STrueSyncConfig.cs" />
-     <Compile Include="Assets\Serializer3D\Serializer3DGo.cs" />
-     <Compile Include="Assets\Serializer3D\Serializer3DTS.cs" />
+     <Compile Include="Assets\Serializer3D\Serializer3DXmlWorld.cs" />
+     <Compile Include="Assets\Serializer3D\Server\ServerTrueSync.cs" />
      <Compile Include="Assets\Serializer3D\World3DSerializer.cs" />
      <Compile Include="Assets\Serializer3D\World3DXmlDeserializer.cs" />
-     <Compile Include="Assets\Serializer3D\WorldSerializerBase.cs" />
      <Compile Include="Assets\TrueSync\Engine\Coroutine\CoroutineNode.cs" />
      <Compile Include="Assets\TrueSync\Engine\Coroutine\CoroutineScheduler.cs" />
      <Compile Include="Assets\TrueSync\Engine\InputData.cs" />

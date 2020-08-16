@@ -9,11 +9,12 @@ namespace Serializer3D
     /// </summary>
     public class World3DSerializer
     {
-        public static void Serialize<T>(T serializer, World world, string filename) where T : WorldSerializerBase
+        public static void Serialize(World world, string filename)
         {
             using (var fs = new FileStream(filename, FileMode.Create))
             {
-                serializer.Serialize(world, fs);
+                var ser = new Serializer3DXmlWorld();
+                ser.Serialize(world, fs);
             }
         }
 
@@ -26,7 +27,8 @@ namespace Serializer3D
         {
             using (FileStream fs = new FileStream(filename, FileMode.Open))
             {
-                World3DXmlDeserializer.Deserializer(fs);
+                var des = new World3DXmlDeserializer();
+                des.Deserializer(fs);
             }
         }
     }

@@ -10,7 +10,7 @@ namespace Serializer3D
 {
     internal class World3DXmlDeserializer
     {
-        private static Dictionary<DeserializerData, RigidBody> desDic = new Dictionary<DeserializerData, RigidBody>();
+        private Dictionary<DeserializerData, RigidBody> desDic = new Dictionary<DeserializerData, RigidBody>();
 
         /// <summary>
         /// 服务器使用
@@ -18,7 +18,7 @@ namespace Serializer3D
         /// </summary>
         /// <param name="stream"></param>
         /// <exception cref="NotImplementedException"></exception>
-        public static void Deserializer(FileStream stream)
+        public void Deserializer(FileStream stream)
         {
             desDic.Clear();
             //解析
@@ -51,7 +51,7 @@ namespace Serializer3D
             }
         }
 
-        private static void DesRigibody(ref DeserializerData data, XMLFragmentElement type)
+        private void DesRigibody(ref DeserializerData data, XMLFragmentElement type)
         {
             foreach (var element in type.Elements)
             {
@@ -96,7 +96,7 @@ namespace Serializer3D
             }
         }
 
-        private static void DesBox(ref DeserializerData data, XMLFragmentElement type)
+        private void DesBox(ref DeserializerData data, XMLFragmentElement type)
         {
             data.colliershape = TSCollierShape.TSBOX;
             foreach (var element in type.Elements)
@@ -110,7 +110,7 @@ namespace Serializer3D
             ComDesCollider(ref data, type);
         }
 
-        private static void DesCapsule(ref DeserializerData data, XMLFragmentElement type)
+        private void DesCapsule(ref DeserializerData data, XMLFragmentElement type)
         {
             data.colliershape = TSCollierShape.TSCAPSULE;
             foreach (var element in type.Elements)
@@ -129,7 +129,7 @@ namespace Serializer3D
             ComDesCollider(ref data, type);
         }
 
-        private static void DesSphere(ref DeserializerData data, XMLFragmentElement type)
+        private void DesSphere(ref DeserializerData data, XMLFragmentElement type)
         {
             data.colliershape = TSCollierShape.TSSPHERE;
             foreach (var element in type.Elements)
@@ -143,7 +143,7 @@ namespace Serializer3D
             ComDesCollider(ref data, type);
         }
 
-        private static void DesMesh(ref DeserializerData data, XMLFragmentElement type)
+        private void DesMesh(ref DeserializerData data, XMLFragmentElement type)
         {
             foreach (var element in type.Elements)
             {
@@ -168,7 +168,7 @@ namespace Serializer3D
             ComDesCollider(ref data, type);
         }
 
-        private static void ComDesCollider(ref DeserializerData data, XMLFragmentElement type)
+        private void ComDesCollider(ref DeserializerData data, XMLFragmentElement type)
         {
             foreach (var element in type.Elements)
             {
@@ -206,7 +206,7 @@ namespace Serializer3D
 
         #region ADD ---> World
 
-        private static void Create(DeserializerData data)
+        private void Create(DeserializerData data)
         {
             var shape = default(Shape);
             switch (data.colliershape)
@@ -242,13 +242,13 @@ namespace Serializer3D
 
         #endregion
 
-        private static TSVector ReadVector(XMLFragmentElement node)
+        private TSVector ReadVector(XMLFragmentElement node)
         {
             var values = node.Value.Split(' ');
             return new TSVector(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]));
         }
 
-        private static TSMatrix ReadMatrix(XMLFragmentElement node)
+        private TSMatrix ReadMatrix(XMLFragmentElement node)
         {
             var values = node.Value.Split(' ');
             var matrix = new TSMatrix();

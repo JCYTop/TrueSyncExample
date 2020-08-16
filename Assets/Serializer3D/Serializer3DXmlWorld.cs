@@ -1,13 +1,17 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
+using TrueSync;
 using TrueSync.Physics3D;
 
 namespace Serializer3D
 {
-    public class Serializer3DGo : WorldSerializerBase
+    /// <summary>
+    /// 直接非运行下获取数据
+    /// </summary>
+    public class Serializer3DXmlWorld
     {
-        private XmlWriter writer;
+        protected XmlWriter writer;
 
         public void Serialize(World world, FileStream stream)
         {
@@ -19,9 +23,8 @@ namespace Serializer3D
             writer = XmlWriter.Create(stream, settings);
 
             writer.WriteStartElement("World3D");
-            var ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            writer.WriteAttributeString("World3DVer", Convert.ToInt64(ts.TotalSeconds).ToString());
-            writer.WriteVector("Gravity", world.Gravity);
+            writer.WriteAttributeString("World3DVer", TimeTick().ToString());
+            WriteVector("Gravity", world.Gravity);
             // 以下具体每个
             foreach (RigidBody body in world.RigidBodies)
             {
@@ -48,7 +51,7 @@ namespace Serializer3D
             writer.WriteElementString("IsActive", body.IsActive.ToString());
             writer.WriteElementString("IsKinematic", body.IsKinematic.ToString());
             writer.WriteElementString("IsStatic", body.IsStatic.ToString());
-            writer.WriteVector("TSPosition", body.TSPosition); //中心点
+            WriteVector("TSPosition", body.TSPosition); //中心点
             SerializeShape(body);
         }
 
@@ -80,7 +83,7 @@ namespace Serializer3D
             if (box == null)
                 throw new ArgumentNullException(nameof(box));
             writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSBOX}");
-            writer.WriteVector("ColliderSize", box.Size);
+            WriteVector("ColliderSize", box.Size);
         }
 
         private void SerCapsuleShape(RigidBody body, CapsuleShape capsule)
@@ -120,7 +123,7 @@ namespace Serializer3D
             writer.WriteAttributeString("Count", mesh.Octree.Positions.Count.ToString());
             foreach (var vertex in mesh.Octree.Positions)
             {
-                writer.WriteVector("Item", vertex);
+                WriteVector("Item", vertex);
             }
 
             writer.WriteEndElement();
@@ -128,12 +131,33 @@ namespace Serializer3D
 
         private void SerComShape(RigidBody body, Shape bodyShape)
         {
-            writer.WriteMatrix("Orientation", body.Orientation);
-            writer.WriteVector("BoundsMax", bodyShape.BoundingBox.max);
-            writer.WriteVector("BoundsMin", bodyShape.BoundingBox.min);
+            WriteMatrix("Orientation", body.Orientation);
+            WriteVector("BoundsMax", bodyShape.BoundingBox.max);
+            WriteVector("BoundsMin", bodyShape.BoundingBox.min);
             writer.WriteElementString("IsTrigger", body.IsColliderOnly.ToString());
             writer.WriteElementString("Tag", body.Tag); //Unity --> 服务器可能使用到
             writer.WriteElementString("Layer", body.Layer.ToString()); //Unity --> 服务器可能使用到
+        }
+
+        /// <summary>
+        /// 时间戳
+        /// </summary>
+        /// <returns></returns>
+        public long TimeTick()
+        {
+            var ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return Convert.ToInt64(ts.TotalSeconds);
+        }
+
+        public void WriteVector(string name, TSVector vec)
+        {
+            writer.WriteElementString(name, $"{vec.x} {vec.y} {vec.z}");
+        }
+
+        public void WriteMatrix(string name, TSMatrix matrix)
+        {
+            writer.WriteElementString(name,
+                $"{matrix.M11} {matrix.M12} {matrix.M13} {matrix.M21} {matrix.M22} {matrix.M23} {matrix.M31} {matrix.M32} {matrix.M33}");
         }
     }
 }

@@ -77,7 +77,7 @@ namespace Serializer3D
             }
 
             //文件进行序列化
-            World3DSerializer.Serialize(new Serializer3DGo(), World3D, $@"..\TrueSyncExample\Serializer\3D_{EditorSceneManager.GetActiveScene().name}.xml");
+            World3DSerializer.Serialize(World3D, $@"..\TrueSyncExample\Serializer\3D_{EditorSceneManager.GetActiveScene().name}.xml");
             SerializeUnload();
             Debug.Log($"当前 --->{EditorSceneManager.GetActiveScene().name}<--- 场景序列化完成");
         }
