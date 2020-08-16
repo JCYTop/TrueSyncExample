@@ -18,12 +18,14 @@
 */
 
 #region Using Statements
+
 using System;
 using System.Collections.Generic;
+
 #endregion
 
-namespace TrueSync.Physics3D {
-
+namespace TrueSync.Physics3D
+{
     /// <summary>
     /// A <see cref="Shape"/> representing a triangleMesh.
     /// </summary>
@@ -35,13 +37,18 @@ namespace TrueSync.Physics3D {
         private FP sphericalExpansion = FP.EN2;
 
         /// <summary>
+        /// 序列化使用
+        /// </summary>
+        public Octree Octree => octree;
+
+        /// <summary>
         /// Expands the triangles by the specified amount.
         /// This stabilizes collision detection for flat shapes.
         /// </summary>
-        public FP SphericalExpansion 
-        { 
-            get { return sphericalExpansion; } 
-            set { sphericalExpansion = value; } 
+        public FP SphericalExpansion
+        {
+            get { return sphericalExpansion; }
+            set { sphericalExpansion = value; }
         }
 
         /// <summary>
@@ -55,9 +62,11 @@ namespace TrueSync.Physics3D {
             UpdateShape();
         }
 
-        internal TriangleMeshShape() { }
+        internal TriangleMeshShape()
+        {
+        }
 
- 
+
         protected override Multishape CreateWorkingClone()
         {
             TriangleMeshShape clone = new TriangleMeshShape(this.octree);
@@ -78,6 +87,7 @@ namespace TrueSync.Physics3D {
             potentialTriangles.Clear();
 
             #region Expand Spherical
+
             TSBBox exp = box;
 
             exp.min.x -= sphericalExpansion;
@@ -86,6 +96,7 @@ namespace TrueSync.Physics3D {
             exp.max.x += sphericalExpansion;
             exp.max.y += sphericalExpansion;
             exp.max.z += sphericalExpansion;
+
             #endregion
 
             octree.GetTrianglesIntersectingtAABox(potentialTriangles, ref exp);
@@ -106,7 +117,6 @@ namespace TrueSync.Physics3D {
                 triangleList.Add(octree.GetVertex(octree.GetTriangleVertexIndex(i).I1));
                 triangleList.Add(octree.GetVertex(octree.GetTriangleVertexIndex(i).I2));
             }
-
         }
 
         /// <summary>
@@ -120,9 +130,11 @@ namespace TrueSync.Physics3D {
             potentialTriangles.Clear();
 
             #region Expand Spherical
+
             TSVector expDelta;
             TSVector.Normalize(ref rayDelta, out expDelta);
             expDelta = rayDelta + expDelta * sphericalExpansion;
+
             #endregion
 
             octree.GetTrianglesIntersectingRay(potentialTriangles, rayOrigin, expDelta);
@@ -153,6 +165,7 @@ namespace TrueSync.Physics3D {
                 min = dot;
                 minIndex = 1;
             }
+
             dot = TSVector.Dot(ref vecs[2], ref direction);
             if (dot > min)
             {
@@ -174,19 +187,26 @@ namespace TrueSync.Physics3D {
             box = octree.rootNodeBox;
 
             #region Expand Spherical
+
             box.min.x -= sphericalExpansion;
             box.min.y -= sphericalExpansion;
             box.min.z -= sphericalExpansion;
             box.max.x += sphericalExpansion;
             box.max.y += sphericalExpansion;
             box.max.z += sphericalExpansion;
+
             #endregion
 
             box.Transform(ref orientation);
         }
 
         private bool flipNormal = false;
-        public bool FlipNormals { get { return flipNormal; } set { flipNormal = value; } }
+
+        public bool FlipNormals
+        {
+            get { return flipNormal; }
+            set { flipNormal = value; }
+        }
 
         /// <summary>
         /// Sets the current shape. First <see cref="Prepare"/> has to be called.
@@ -204,7 +224,7 @@ namespace TrueSync.Physics3D {
             TSVector.Add(ref sum, ref vecs[2], out sum);
             TSVector.Multiply(ref sum, FP.One / (3 * FP.One), out sum);
 
-      
+
             geomCen = sum;
 
             TSVector.Subtract(ref vecs[1], ref vecs[0], out sum);
@@ -221,5 +241,4 @@ namespace TrueSync.Physics3D {
             normal = this.normal;
         }
     }
-
 }

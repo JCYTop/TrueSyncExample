@@ -18,26 +18,33 @@
 */
 
 #region Using Statements
+
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
 #endregion
 
-namespace TrueSync.Physics3D {
-
+namespace TrueSync.Physics3D
+{
     /// <summary>
     /// structure used to set up the mesh
     /// </summary>
+
     #region public struct TriangleVertexIndices
+
     public struct TriangleVertexIndices
     {
         /// <summary>
         /// The first index.
         /// </summary>
         public int I0;
+
         /// <summary>
         /// The second index.
         /// </summary>
         public int I1;
+
         /// <summary>
         /// The third index.
         /// </summary>
@@ -64,9 +71,12 @@ namespace TrueSync.Physics3D {
         /// <param name="i2">The index of the third vertex.</param>
         public void Set(int i0, int i1, int i2)
         {
-            I0 = i0; I1 = i1; I2 = i2;
+            I0 = i0;
+            I1 = i1;
+            I2 = i2;
         }
     }
+
     #endregion
 
 
@@ -112,7 +122,9 @@ namespace TrueSync.Physics3D {
 
         private TSVector[] positions;
         private TSBBox[] triBoxes;
+
         private Node[] nodes;
+
         //private UInt16[] nodeStack;
         internal TriangleVertexIndices[] tris;
         internal TSBBox rootNodeBox;
@@ -120,12 +132,27 @@ namespace TrueSync.Physics3D {
         /// <summary>
         /// Gets the root node box containing the whole octree.
         /// </summary>
-        public TSBBox RootNodeBox { get { return rootNodeBox; } }
-       
+        public TSBBox RootNodeBox
+        {
+            get { return rootNodeBox; }
+        }
+
+        /// <summary>
+        /// 序列化使用
+        /// </summary>
+        public List<TSVector> Positions => positions.ToList();
+
+        /// <summary>
+        /// 序列化使用
+        /// </summary>
+        public List<TriangleVertexIndices> Tris => tris.ToList();
+
         /// <summary>
         /// Clears the octree.
         /// </summary>
+
         #region public void Clear()
+
         public void Clear()
         {
             positions = null;
@@ -134,6 +161,7 @@ namespace TrueSync.Physics3D {
             nodes = null;
             nodeStackPool.ResetResourcePool();
         }
+
         #endregion
 
         /// <summary>
@@ -141,7 +169,9 @@ namespace TrueSync.Physics3D {
         /// </summary>
         /// <param name="positions">Vertices.</param>
         /// <param name="tris">Indices.</param>
+
         #region public void AddTriangles(List<JVector> positions, List<TriangleVertexIndices> tris)
+
         public void SetTriangles(List<TSVector> positions, List<TriangleVertexIndices> tris)
         {
             // copy the position data into a array
@@ -152,12 +182,15 @@ namespace TrueSync.Physics3D {
             this.tris = new TriangleVertexIndices[tris.Count];
             tris.CopyTo(this.tris);
         }
+
         #endregion
 
         /// <summary>
         /// Builds the octree.
         /// </summary>
+
         #region public void BuildOctree()
+
         public void BuildOctree()
         {
             // create tri and tri bounding box arrays
@@ -165,7 +198,7 @@ namespace TrueSync.Physics3D {
 
             // create an infinite size root box
             rootNodeBox = new TSBBox(new TSVector(FP.PositiveInfinity, FP.PositiveInfinity, FP.PositiveInfinity),
-                                           new TSVector(FP.NegativeInfinity, FP.NegativeInfinity, FP.NegativeInfinity));
+                new TSVector(FP.NegativeInfinity, FP.NegativeInfinity, FP.NegativeInfinity));
 
 
             for (int i = 0; i < tris.Length; i++)
@@ -196,7 +229,7 @@ namespace TrueSync.Physics3D {
                     int childCon = -1;
                     for (int i = 0; i < 8; ++i)
                     {
-                        CreateAABox(ref box, (EChild)i,out children[i]);
+                        CreateAABox(ref box, (EChild) i, out children[i]);
                         if (children[i].Contains(ref triBoxes[triNum]) == TSBBox.ContainmentType.Contains)
                         {
                             // this box contains the tri, it can be the only one that does,
@@ -224,6 +257,7 @@ namespace TrueSync.Physics3D {
                                 break;
                             }
                         }
+
                         if (childIndex == -1)
                         {
                             // nope create child
@@ -255,15 +289,18 @@ namespace TrueSync.Physics3D {
                 nodes[i].nodeIndices = new UInt16[buildNodes[i].nodeIndices.Count];
                 for (int index = 0; index < nodes[i].nodeIndices.Length; ++index)
                 {
-                    nodes[i].nodeIndices[index] = (UInt16)buildNodes[i].nodeIndices[index];
+                    nodes[i].nodeIndices[index] = (UInt16) buildNodes[i].nodeIndices[index];
                 }
 
                 nodes[i].triIndices = new int[buildNodes[i].triIndices.Count];
                 buildNodes[i].triIndices.CopyTo(nodes[i].triIndices);
                 nodes[i].box = buildNodes[i].box;
             }
-            buildNodes.Clear(); buildNodes = null;
+
+            buildNodes.Clear();
+            buildNodes = null;
         }
+
         #endregion
 
         /// <summary>
@@ -271,12 +308,15 @@ namespace TrueSync.Physics3D {
         /// </summary>
         /// <param name="positions">Vertices.</param>
         /// <param name="tris">Indices.</param>
+
         #region Constructor
+
         public Octree(List<TSVector> positions, List<TriangleVertexIndices> tris)
         {
             SetTriangles(positions, tris);
             BuildOctree();
         }
+
         #endregion
 
         /// <summary>
@@ -285,8 +325,10 @@ namespace TrueSync.Physics3D {
         /// <param name="aabb"></param>
         /// <param name="child"></param>
         /// <param name="result"></param>
-        #region  private void CreateAABox(ref JBBox aabb, EChild child,out JBBox result)
-        private void CreateAABox(ref TSBBox aabb, EChild child,out TSBBox result)
+
+        #region private void CreateAABox(ref JBBox aabb, EChild child,out JBBox result)
+
+        private void CreateAABox(ref TSBBox aabb, EChild child, out TSBBox result)
         {
             TSVector dims;
             TSVector.Subtract(ref aabb.max, ref aabb.min, out dims);
@@ -296,14 +338,30 @@ namespace TrueSync.Physics3D {
 
             switch (child)
             {
-                case EChild.PPP: offset = new TSVector(1, 1, 1); break;
-                case EChild.PPM: offset = new TSVector(1, 1, 0); break;
-                case EChild.PMP: offset = new TSVector(1, 0, 1); break;
-                case EChild.PMM: offset = new TSVector(1, 0, 0); break;
-                case EChild.MPP: offset = new TSVector(0, 1, 1); break;
-                case EChild.MPM: offset = new TSVector(0, 1, 0); break;
-                case EChild.MMP: offset = new TSVector(0, 0, 1); break;
-                case EChild.MMM: offset = new TSVector(0, 0, 0); break;
+                case EChild.PPP:
+                    offset = new TSVector(1, 1, 1);
+                    break;
+                case EChild.PPM:
+                    offset = new TSVector(1, 1, 0);
+                    break;
+                case EChild.PMP:
+                    offset = new TSVector(1, 0, 1);
+                    break;
+                case EChild.PMM:
+                    offset = new TSVector(1, 0, 0);
+                    break;
+                case EChild.MPP:
+                    offset = new TSVector(0, 1, 1);
+                    break;
+                case EChild.MPM:
+                    offset = new TSVector(0, 1, 0);
+                    break;
+                case EChild.MMP:
+                    offset = new TSVector(0, 0, 1);
+                    break;
+                case EChild.MMM:
+                    offset = new TSVector(0, 0, 0);
+                    break;
 
                 default:
                     System.Diagnostics.Debug.WriteLine("Octree.CreateAABox  got impossible child");
@@ -319,13 +377,16 @@ namespace TrueSync.Physics3D {
             // expand it just a tiny bit just to be safe!
             FP extra = FP.EN5;
 
-            TSVector temp; TSVector.Multiply(ref dims, extra, out temp);
+            TSVector temp;
+            TSVector.Multiply(ref dims, extra, out temp);
             TSVector.Subtract(ref result.min, ref temp, out result.min);
             TSVector.Add(ref result.max, ref temp, out result.max);
         }
+
         #endregion
 
         #region private void GatherTriangles(int nodeIndex, ref List<int> tris)
+
         private void GatherTriangles(int nodeIndex, ref List<int> tris)
         {
             // add this nodes triangles
@@ -339,6 +400,7 @@ namespace TrueSync.Physics3D {
                 GatherTriangles(childNodeIndex, ref tris);
             }
         }
+
         #endregion
 
 
@@ -348,7 +410,9 @@ namespace TrueSync.Physics3D {
         /// <param name="triangles">The list to add the triangles to.</param>
         /// <param name="testBox">The axis alignes bounding box.</param>
         /// <returns></returns>
+
         #region public int GetTrianglesIntersectingtAABox(List<int> triangles, ref JBBox testBox)
+
         public int GetTrianglesIntersectingtAABox(List<int> triangles, ref TSBBox testBox)
         {
             if (nodes.Length == 0)
@@ -389,6 +453,7 @@ namespace TrueSync.Physics3D {
 
             return triCount;
         }
+
         #endregion
 
         private ArrayResourcePool<UInt16> nodeStackPool;
@@ -400,7 +465,9 @@ namespace TrueSync.Physics3D {
         /// <param name="rayDelta"></param>
         /// <param name="triangles"></param>
         /// <returns></returns>
+
         #region public int GetTrianglesIntersectingtRay(JVector rayOrigin, JVector rayDelta)
+
         public int GetTrianglesIntersectingRay(List<int> triangles, TSVector rayOrigin, TSVector rayDelta)
         {
             if (nodes.Length == 0)
@@ -439,6 +506,7 @@ namespace TrueSync.Physics3D {
             nodeStackPool.GiveBack(nodeStack);
             return triCount;
         }
+
         #endregion
 
         /// <summary>
@@ -446,11 +514,14 @@ namespace TrueSync.Physics3D {
         /// </summary>
         /// <param name="index">The index.</param>
         /// <returns>The indices of a triangle.</returns>
+
         #region public TriangleVertexIndices GetTriangleVertexIndex(int index)
+
         public TriangleVertexIndices GetTriangleVertexIndex(int index)
         {
             return tris[index];
         }
+
         #endregion
 
         /// <summary>
@@ -458,7 +529,9 @@ namespace TrueSync.Physics3D {
         /// </summary>
         /// <param name="vertex">The index of the vertex</param>
         /// <returns></returns>
+
         #region public JVector GetVertex(int vertex)
+
         public TSVector GetVertex(int vertex)
         {
             return positions[vertex];
@@ -473,18 +546,20 @@ namespace TrueSync.Physics3D {
         {
             result = positions[vertex];
         }
+
         #endregion
 
         /// <summary>
         /// Gets the number of triangles within this octree.
         /// </summary>
+
         #region public int NumTriangles
+
         public int NumTriangles
         {
             get { return tris.Length; }
         }
+
         #endregion
-
-
     }
 }

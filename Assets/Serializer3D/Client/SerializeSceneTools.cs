@@ -52,29 +52,32 @@ namespace Serializer3D
             Selection.objects = previousSelection;
             foreach (var trans in selectedTransforms)
             {
-                var collider = trans.GetComponent<Collider>();
-                if (colliderAllow.Contains(collider.GetType()))
+                if (trans.gameObject.activeInHierarchy)
                 {
-                    switch (collider)
+                    var collider = trans.GetComponent<Collider>();
+                    if (colliderAllow.Contains(collider.GetType()))
                     {
-                        case BoxCollider box:
-                            SerializeBox(trans, box);
-                            break;
-                        case SphereCollider sph:
-                            SerializeSphere(trans, sph);
-                            break;
-                        case CapsuleCollider cap:
-                            SerializeCapsule(trans, cap);
-                            break;
-                        case MeshCollider mesh:
-                            SerializeMesh(trans, mesh);
-                            break;
+                        switch (collider)
+                        {
+                            case BoxCollider box:
+                                SerializeBox(trans, box);
+                                break;
+                            case SphereCollider sph:
+                                SerializeSphere(trans, sph);
+                                break;
+                            case CapsuleCollider cap:
+                                SerializeCapsule(trans, cap);
+                                break;
+                            case MeshCollider mesh:
+                                SerializeMesh(trans, mesh);
+                                break;
+                        }
                     }
                 }
             }
 
             //文件进行序列化
-            World3DSerializer.Serialize(new Serializer3DGo(), World3D, $@"..\TrueSyncExample\Serializer\3D{EditorSceneManager.GetActiveScene().name}.xml");
+            World3DSerializer.Serialize(new Serializer3DGo(), World3D, $@"..\TrueSyncExample\Serializer\3D_{EditorSceneManager.GetActiveScene().name}.xml");
             SerializeUnload();
             Debug.Log($"当前 --->{EditorSceneManager.GetActiveScene().name}<--- 场景序列化完成");
         }
@@ -108,10 +111,13 @@ namespace Serializer3D
             //直接获取unity数据
             var size = new TSVector(box.size.x, box.size.y, box.size.z);
             //获取trans的pos
-            var center = GetCenter(trans, box);
+            var center = GetCenter(trans, box, lossyScale);
             //生成shape类型
             var shape = new BoxShape(TSVector.Scale(size, lossyScale));
-            RigibodySetting(shape, center, istrigger);
+            var name = trans.gameObject.name;
+            var tag = trans.gameObject.tag;
+            var layer = trans.gameObject.layer;
+            RigibodySetting(shape, center, istrigger, name, tag, layer);
         }
 
         private static void SerializeSphere(Transform trans, SphereCollider sphere)
@@ -123,10 +129,13 @@ namespace Serializer3D
             //获取unity数据
             var radius = FP.FromFloat(sphere.radius);
             //获取trans的pos
-            var center = GetCenter(trans, sphere);
+            var center = GetCenter(trans, sphere, lossyScale);
             //生成shape类型
             var shape = new SphereShape(radius);
-            RigibodySetting(shape, center, istrigger);
+            var name = trans.gameObject.name;
+            var tag = trans.gameObject.tag;
+            var layer = trans.gameObject.layer;
+            RigibodySetting(shape, center, istrigger, name, tag, layer);
         }
 
         private static void SerializeCapsule(Transform trans, CapsuleCollider capsule)
@@ -139,11 +148,14 @@ namespace Serializer3D
             var radius = FP.FromFloat(capsule.radius);
             var length = FP.FromFloat(capsule.height);
             //获取trans的pos
-            var center = GetCenter(trans, capsule);
+            var center = GetCenter(trans, capsule, lossyScale);
             //生成shape类型
             //TODO Mark 这里观察与实际表现有出入 这里暂定跟随框架设定使用 可能和人物判断有影响
             var shape = new CapsuleShape(length, radius);
-            RigibodySetting(shape, center, istrigger);
+            var name = trans.gameObject.name;
+            var tag = trans.gameObject.tag;
+            var layer = trans.gameObject.layer;
+            RigibodySetting(shape, center, istrigger, name, tag, layer);
         }
 
         private static void SerializeMesh(Transform trans, MeshCollider mesh)
@@ -162,13 +174,16 @@ namespace Serializer3D
             for (int i = 0; i < mesh.sharedMesh.triangles.Length; i += 3)
                 indices.Add(new TriangleVertexIndices(triangles[i + 2], triangles[i + 1], triangles[i + 0]));
             //获取trans的pos
-            var center = GetCenter(trans, mesh);
+            var center = GetCenter(trans, mesh, lossyScale);
             var octree = new Octree(vertices, indices);
             var shape = new TriangleMeshShape(octree);
-            RigibodySetting(shape, center, convex && istrigger);
+            var name = trans.gameObject.name;
+            var tag = trans.gameObject.tag;
+            var layer = trans.gameObject.layer;
+            RigibodySetting(shape, center, convex && istrigger, name, tag, layer);
         }
 
-        private static TSVector GetCenter(Transform trans, Collider collider)
+        private static TSVector GetCenter(Transform trans, Collider collider, TSVector lossyScale)
         {
             var transpos = trans.position.ToTSVector();
             var collidercenter = default(TSVector);
@@ -185,18 +200,22 @@ namespace Serializer3D
                     break;
             }
 
-            return transpos + collidercenter;
+            //注意中间的数学换算
+            return transpos + TSVector.Scale(collidercenter, lossyScale);
         }
 
-        private static void RigibodySetting<T>(T shape, TSVector center, bool istrigger) where T : Shape
+        private static void RigibodySetting<T>(T shape, TSVector center, bool istrigger, string name, string tag, int layer) where T : Shape
         {
             var rigidBody = new RigidBody(shape);
+            rigidBody.Name = name;
             rigidBody.IsColliderOnly = istrigger;
             rigidBody.IsKinematic = false;
             rigidBody.AffectedByGravity = false;
             rigidBody.IsStatic = true;
             rigidBody.SetMassProperties();
-            rigidBody.position = new TSVector(center.x, center.y, center.z);
+            rigidBody.TSPosition = new TSVector(center.x, center.y, center.z);
+            rigidBody.Tag = tag;
+            rigidBody.Layer = layer;
             PhysicsManager.instance.AddBody(rigidBody);
         }
 

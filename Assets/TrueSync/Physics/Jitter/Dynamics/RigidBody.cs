@@ -134,6 +134,21 @@ namespace TrueSync.Physics3D
             get { return disabled; }
         }
 
+        /// <summary>
+        /// 序列化场景存储名字
+        /// </summary>
+        internal string Name { set; get; }
+
+        /// <summary>
+        /// 序列化场景存储Tag
+        /// </summary>
+        internal string Tag { set; get; }
+
+        /// <summary>
+        /// 序列化场景存储Layer
+        /// </summary>
+        internal int Layer { set; get; }
+
         public RigidBody(Shape shape)
             : this(shape, new BodyMaterial(), false)
         {

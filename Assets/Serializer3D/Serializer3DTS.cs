@@ -34,12 +34,12 @@ namespace Serializer3D
             // 以下具体每个
             foreach (RigidBody body in world.RigidBodies)
             {
+                //间接读取go来拿取数据
                 var go = PhysicsManager.instance.GetGameObject(body);
                 var collider = go.GetComponent<TSCollider>();
                 if (collider == null) throw new NullReferenceException();
-                //判断是否是激活状态
-                //只处理激活的
-                if (collider.enabled)
+                //判断是否是激活状态 只处理激活的
+                if (collider.gameObject.activeInHierarchy)
                 {
                     writer.WriteStartElement("Entity");
                     writer.WriteAttributeString("Name", collider.name);
@@ -77,9 +77,6 @@ namespace Serializer3D
                     break;
                 case TSMeshCollider mesh:
                     SerMeshCollider(mesh);
-                    break;
-                case TSTerrainCollider terrain:
-                    SerTerrainCollider(terrain);
                     break;
             }
 
@@ -156,17 +153,6 @@ namespace Serializer3D
         }
 
         /// <summary>
-        /// Terrain序列化
-        /// </summary>
-        /// <param name="collider"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        private void SerTerrainCollider(TSTerrainCollider collider)
-        {
-            if (collider == null) throw new ArgumentNullException(nameof(collider));
-            writer.WriteAttributeString("CollierType", $"{TSCollierShape.TSTERRAIN}");
-        }
-
-        /// <summary>
         /// 通用Common处理
         /// </summary>
         /// <param name="collider"></param>
@@ -209,8 +195,9 @@ namespace Serializer3D
             writer.WriteElementString("IsActive", body.IsActive.ToString());
             writer.WriteElementString("IsKinematic", body.IsKinematic.ToString());
             writer.WriteElementString("IsStatic", body.IsStatic.ToString());
-            //WriteVector("Position", body.Position) 这俩货个一样
-            writer.WriteVector("TSPosition", body.TSPosition); // Unity中世界的坐标转换成TS坐标之后的数据
+            //WriteVector("Position", body.Position) 这俩一样
+            //Unity中世界的坐标转换成TS坐标之后的数据
+            writer.WriteVector("TSPosition", body.TSPosition);
             writer.WriteElementString("Shape", body.Shape.ToString());
         }
 

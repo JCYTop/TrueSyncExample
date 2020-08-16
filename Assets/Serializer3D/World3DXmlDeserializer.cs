@@ -56,9 +56,6 @@ namespace Serializer3D
                                 case TSCollierShape.TSMESH:
                                     DesColliderMesh(ref data, type);
                                     break;
-                                case TSCollierShape.TSTERRAIN:
-                                    DesColliderTerrain(ref data, type);
-                                    break;
                             }
 
                             ComDesCollider(ref data, type);
@@ -140,11 +137,6 @@ namespace Serializer3D
                     }
                 }
             }
-        }
-
-        private static void DesColliderTerrain(ref DeserializerData data, XMLFragmentElement type)
-        {
-            throw new NotImplementedException();
         }
 
         private static void ComDesCollider(ref DeserializerData data, XMLFragmentElement type)
@@ -247,9 +239,6 @@ namespace Serializer3D
                 case TSCollierShape.TSMESH:
                     var octree = new Octree(data.vertices, data.indices);
                     shape = new TriangleMeshShape(octree);
-                    break;
-                case TSCollierShape.TSTERRAIN:
-                    //TODO 这里太长了之后看看
                     break;
             }
 

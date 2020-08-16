@@ -1,0 +1,19 @@
+﻿<World3D World3DVer="2020/8/16 12:59:14">
+  <Gravity>0 -9.8 0</Gravity>
+  <Entity Name="Cube">
+    <Rigibody>
+      <IsActive>True</IsActive>
+      <IsKinematic>False</IsKinematic>
+      <IsStatic>True</IsStatic>
+      <TSPosition>0 0 0</TSPosition>
+      <Shape CollierType="TSBOX" xmlns="TrueSync.Physics3D.RigidBody">
+        <ColliderSize>1 1 1</ColliderSize>
+        <BoundsMax>0.5 0.5 0.5</BoundsMax>
+        <BoundsMin>-0.5 -0.5 -0.5</BoundsMin>
+        <IsTrigger>False</IsTrigger>
+        <Tag>Untagged</Tag>
+        <Layer>0</Layer>
+      </Shape>
+    </Rigibody>
+  </Entity>
+</World3D>

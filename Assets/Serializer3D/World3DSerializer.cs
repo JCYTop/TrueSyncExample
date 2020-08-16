@@ -11,7 +11,7 @@ namespace Serializer3D
     {
         public static void Serialize<T>(T serializer, World world, string filename) where T : WorldSerializerBase
         {
-            using (var fs = new FileStream(filename, FileMode.OpenOrCreate))
+            using (var fs = new FileStream(filename, FileMode.Create))
             {
                 serializer.Serialize(world, fs);
             }
@@ -38,6 +38,5 @@ namespace Serializer3D
         TSCAPSULE, // 胶囊
         TSSPHERE, // 圆
         TSMESH, // Mesh
-        TSTERRAIN, // 地形
     }
 }
