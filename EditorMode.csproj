@@ -620,9 +620,9 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="NewAssembly.csproj">
-      <Project>{D87FD8D8-E56B-A779-26BB-EC11CC0BA8D3}</Project>
-      <Name>NewAssembly</Name>
+    <ProjectReference Include="Assets.csproj">
+      <Project>{06C9DC9B-1764-0FC5-1FA9-3E108585BDDF}</Project>
+      <Name>Assets</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

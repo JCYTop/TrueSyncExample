@@ -12,10 +12,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{5A419F5F-E46F-95AA-DACD-14CD76A76149}</ProjectGuid>
+    <ProjectGuid>{06C9DC9B-1764-0FC5-1FA9-3E108585BDDF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Play</AssemblyName>
+    <AssemblyName>Assets</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -58,14 +58,310 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Test\Play\TrueSyncTest.cs" />
-     <None Include="Assets\Test\Play\Play.asmdef" />
- <Reference Include="UnityEngine.TestRunner">
- <HintPath>D:/CompanyPro/TrueSyncExample/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.TestRunner">
- <HintPath>D:/CompanyPro/TrueSyncExample/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
- </Reference>
+     <Compile Include="Assets\Plugins\TrueSyncDll\Drawing.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\ICommunicator.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\IPhysicsManagerBase.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\OnEventReceived.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\AbstractLockstep.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\AddTracking.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\ArrayResourcePool.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\ChecksumExtractor.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\CompoundStats.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\CountInfo.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\DefaultLockstep.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\GenericBufferWindow.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\HashList.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\IBody.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\ICollider.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\ITrueSyncBehaviour.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\ITrueSyncBehaviourCallbacks.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\ITrueSyncBehaviourGamePlay.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\IWorld.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\IWorldClone.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\InputDataBase.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\ReplayMode.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\ReplayRecord.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\ReplayRecordSave.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\ResourcePool.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\ResourcePoolItem.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\ResourcePoolListSyncedData.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\ResourcePoolStateTrackerState.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\ResourcePoolSyncedData.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\RollbackLockstep.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\SerializableDictionary.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\SerializableDictionaryByteByte.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\SerializableDictionaryByteByteArray.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\SerializableDictionaryByteInt.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\SerializableDictionaryBytePlayer.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\SerializableDictionaryByteString.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\SerializableDictionaryIntSyncedData.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\StateTracker.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\Stats.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\SyncedData.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\SyncedInfo.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\TSPlayer.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\TSPlayerInfo.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\TrueSyncEventCallback.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\TrueSyncInputCallback.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\TrueSyncInputDataProvider.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\TrueSyncIsReady.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\TrueSyncManagedBehaviour.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\TrueSyncPlayerDisconnectionCallback.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\TrueSyncStats.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\TrueSyncUpdateCallback.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\Utils.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSync\WorldChecksumExtractor.cs" />
+     <Compile Include="Assets\Plugins\TrueSyncDll\TrueSyncExtensionsCore.cs" />
+     <Compile Include="Assets\Prefabs\005\JSMovement3D.cs" />
+     <Compile Include="Assets\Serializer3D\Client\SerializeSceneTools.cs" />
+     <Compile Include="Assets\Serializer3D\STrueSyncConfig.cs" />
+     <Compile Include="Assets\Serializer3D\Serializer3DXmlWorld.cs" />
+     <Compile Include="Assets\Serializer3D\Server\ServerTrueSync.cs" />
+     <Compile Include="Assets\Serializer3D\World3DSerializer.cs" />
+     <Compile Include="Assets\Serializer3D\World3DXmlDeserializer.cs" />
+     <Compile Include="Assets\TrueSync\Engine\Coroutine\CoroutineNode.cs" />
+     <Compile Include="Assets\TrueSync\Engine\Coroutine\CoroutineScheduler.cs" />
+     <Compile Include="Assets\TrueSync\Engine\InputData.cs" />
+     <Compile Include="Assets\TrueSync\Engine\Math\Fix64.cs" />
+     <Compile Include="Assets\TrueSync\Engine\Math\Fix64AcosLut.cs" />
+     <Compile Include="Assets\TrueSync\Engine\Math\Fix64SinLut.cs" />
+     <Compile Include="Assets\TrueSync\Engine\Math\Fix64TanLut.cs" />
+     <Compile Include="Assets\TrueSync\Engine\Math\TSMath.cs" />
+     <Compile Include="Assets\TrueSync\Engine\Math\TSMatrix.cs" />
+     <Compile Include="Assets\TrueSync\Engine\Math\TSMatrix4x4.cs" />
+     <Compile Include="Assets\TrueSync\Engine\Math\TSQuaternion.cs" />
+     <Compile Include="Assets\TrueSync\Engine\Math\TSRandom.cs" />
+     <Compile Include="Assets\TrueSync\Engine\Math\TSVector.cs" />
+     <Compile Include="Assets\TrueSync\Engine\Math\TSVector2.cs" />
+     <Compile Include="Assets\TrueSync\Engine\Math\TSVector4.cs" />
+     <Compile Include="Assets\TrueSync\Engine\TrueSyncExtensions.cs" />
+     <Compile Include="Assets\TrueSync\Engine\TrueSyncInput.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Collision\Collision.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Collision\Distance.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Collision\DynamicTree.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Collision\DynamicTreeBroadPhase.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Collision\IBroadPhase.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Collision\Shapes\ChainShape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Collision\Shapes\CircleShape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Collision\Shapes\EdgeShape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Collision\Shapes\PolygonShape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Collision\Shapes\Shape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Collision\TimeOfImpact.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\ConvexHull\ChainHull.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\ConvexHull\GiftWrap.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\ConvexHull\Melkman.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Curve.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\CurveKey.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\CurveKeyCollection.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\BayazitDecomposer.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Delaunay\DelaunayTriangle.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Delaunay\Sweep\AdvancingFront.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Delaunay\Sweep\AdvancingFrontNode.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Delaunay\Sweep\DTSweep.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Delaunay\Sweep\DTSweepConstraint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Delaunay\Sweep\DTSweepContext.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Delaunay\Sweep\DTSweepPointComparator.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Delaunay\Sweep\PointOnEdgeException.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\ITriangulatable.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Orientation.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Polygon\Polygon.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Polygon\PolygonPoint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Polygon\PolygonSet.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Sets\ConstrainedPointSet.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Sets\PointSet.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\TriangulationConstraint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\TriangulationContext.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\TriangulationMode.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\TriangulationPoint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\TriangulationUtil.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Util\FixedArray3.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Util\FixedBitArray3.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Util\PointGenerator.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDT\Util\PolygonGenerator.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\CDTDecomposer.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\EarclipDecomposer.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\FlipcodeDecomposer.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\Seidel\Edge.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\Seidel\MonotoneMountain.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\Seidel\Node.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\Seidel\Point.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\Seidel\QueryGraph.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\Seidel\Sink.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\Seidel\Trapezoid.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\Seidel\TrapezoidalMap.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\Seidel\Triangulator.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\Seidel\XNode.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\Seidel\YNode.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\SeidelDecomposer.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Decomposition\Triangulate.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\FixedArray.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\HashSet.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\LineTools.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\MathUtils.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Path.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\PathManager.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\PhysicsLogic\FilterData.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\PhysicsLogic\PhysicsLogic.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\PhysicsLogic\RealExplosion.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\PhysicsLogic\SimpleExplosion.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\PolygonManipulation\CuttingTools.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\PolygonManipulation\SimpleCombiner.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\PolygonManipulation\SimplifyTools.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\PolygonManipulation\YuPengClipper.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\PolygonTools.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Serialization.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Stopwatch.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\TextureTools\MarchingSquares.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\TextureTools\Terrain.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Common\Vertices.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Controllers\AbstractForceController.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Controllers\BuoyancyController.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Controllers\Controller.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Controllers\GravityController.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Controllers\SimpleWindForce.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Controllers\VelocityLimitController.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\ConvertUnits.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\DebugViewBase.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Body.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\BreakableBody.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\ContactManager.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Contacts\Contact.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Contacts\ContactSolver.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Fixture.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Island.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Joints\AngleJoint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Joints\DistanceJoint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Joints\FixedMouseJoint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Joints\FrictionJoint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Joints\GearJoint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Joints\Joint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Joints\MotorJoint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Joints\PrismaticJoint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Joints\PulleyJoint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Joints\RevoluteJoint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Joints\RopeJoint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Joints\WeldJoint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\Joints\WheelJoint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\TimeStep.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\World.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Dynamics\WorldCallbacks.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Extra\Clones\BodyClone2D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Extra\Clones\ContactClone2D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Extra\Clones\ContactEdgeClone2D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Extra\Clones\DynamicTreeBroadPhaseClone2D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Extra\Clones\DynamicTreeClone2D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Extra\Clones\GenericShapeClone2D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Extra\Clones\IslandClone2D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Extra\Clones\PoolClones2D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Extra\Clones\TOIClone2D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Extra\Clones\WorldClone2D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Extra\ConstraintHierarchy2D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Factories\BodyFactory.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Factories\FixtureFactory.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Factories\JointFactory.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Factories\LinkFactory.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Farseer\Settings.cs" />
+     <Compile Include="Assets\TrueSync\Physics\IBody2D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\IBody3D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\IBodyConstraint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\IPhysicsManager.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\CollisionIsland.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\CollisionSystem.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\CollisionSystemBrute.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\CollisionSystemPersistentSAP.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\CollisionSystemSAP.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\DynamicTree.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\GJKCollide.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\IslandManager.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\Octree.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\Shapes\BoxShape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\Shapes\CapsuleShape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\Shapes\CompoundShape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\Shapes\ConeShape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\Shapes\ConvexHullShape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\Shapes\CylinderShape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\Shapes\MinkowskiSumShape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\Shapes\Multishape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\Shapes\Shape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\Shapes\SphereShape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\Shapes\TerrainShape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\Shapes\TriangleMeshShape.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Collision\XenoCollide.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\DataStructures\ReadOnlyHashset.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\Arbiter.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\ArbiterMap.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\BodyMaterial.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\Constraint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\Constraints\Constraint2D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\Constraints\ConstraintHierarchy.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\Constraints\FixedAngle.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\Constraints\PointOnLine.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\Constraints\PointOnPoint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\Constraints\PointPointDistance.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\Constraints\TSRigidBodyConstraints.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\Contact.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\IConstraint.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\Joints\HingeJoint3D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\Joints\Joint3D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\Joints\PrismaticJoint3D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\RigidBody.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Dynamics\SoftBody.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Extra\Clones\ArbiterClone.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Extra\Clones\CollisionIslandClone.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Extra\Clones\CollisionSystemPersistentSAPClone.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Extra\Clones\ContactClone.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Extra\Clones\GenericShapeClone.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Extra\Clones\PoolClones3D.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Extra\Clones\RigidBodyClone.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Extra\Clones\SweetPointClone.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\Extra\Clones\WorldClone.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\IDebugDraw.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\LinearMath\TSBBox.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\LinearMath\TSConvexHull.cs" />
+     <Compile Include="Assets\TrueSync\Physics\Jitter\World.cs" />
+     <Compile Include="Assets\TrueSync\Unity\Editor\MenuContext.cs" />
+     <Compile Include="Assets\TrueSync\Unity\Editor\TSFPDrawer.cs" />
+     <Compile Include="Assets\TrueSync\Unity\Editor\TSRigidBodyEditor.cs" />
+     <Compile Include="Assets\TrueSync\Unity\Editor\TSVector2Drawer.cs" />
+     <Compile Include="Assets\TrueSync\Unity\Editor\TSVectorDrawer.cs" />
+     <Compile Include="Assets\TrueSync\Unity\Editor\TrueSyncConfigEditor.cs" />
+     <Compile Include="Assets\TrueSync\Unity\LayerCollisionMatrix.cs" />
+     <Compile Include="Assets\TrueSync\Unity\PhotonTrueSyncCommunicator.cs" />
+     <Compile Include="Assets\TrueSync\Unity\Physics2DWorldManager.cs" />
+     <Compile Include="Assets\TrueSync\Unity\PhysicsManagerFactory.cs" />
+     <Compile Include="Assets\TrueSync\Unity\PhysicsWorldManager.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSBoxCollider.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSBoxCollider2D.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSCapsuleCollider.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSCircleCollider2D.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSCollider.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSCollider2D.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSCollision.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSCollision2D.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSMaterial.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSMeshCollider.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSPhysics.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSPhysics2D.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSPolygonCollider2D.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSRay.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSRaycastHit.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSRaycastHit2D.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSRigidBody.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSRigidBody2D.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSSphereCollider.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSTerrainCollider.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSTransform.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TSTransform2D.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TrueSyncBehaviour.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TrueSyncConfig.cs" />
+     <Compile Include="Assets\TrueSync\Unity\TrueSyncManager.cs" />
+     <Compile Include="Assets\TrueSync\Unity\UnityUtils.cs" />
+     <Compile Include="Assets\UnityEng\CubeMovment3D.cs" />
+     <None Include="Assets\TrueSync\Physics\Jitter\license.txt" />
+     <None Include="Assets\TrueSync\link.xml" />
+     <None Include="Assets\Assets.asmdef" />
+     <None Include="Assets\TrueSync\Physics\Farseer\license.txt" />
+     <None Include="Assets\TrueSync\Physics\readme.txt" />
  <Reference Include="UnityEditor.UI">
  <HintPath>D:/CompanyPro/TrueSyncExample/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
@@ -249,8 +545,17 @@
  <Reference Include="UnityEngine.XRModule">
  <HintPath>C:/App/UnityEditor/2019.3.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
  </Reference>
- <Reference Include="nunit.framework">
- <HintPath>D:/CompanyPro/TrueSyncExample/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
+ <Reference Include="UnityEditor.VR">
+ <HintPath>C:/App/UnityEditor/2019.3.14f1/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Graphs">
+ <HintPath>C:/App/UnityEditor/2019.3.14f1/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+ <HintPath>C:/App/UnityEditor/2019.3.14f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Android.Extensions">
+ <HintPath>C:/App/UnityEditor/2019.3.14f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>C:/App/UnityEditor/2019.3.14f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -597,12 +902,6 @@
  <Reference Include="System.Xml.Serialization">
  <HintPath>C:/App/UnityEditor/2019.3.14f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assets.csproj">
-      <Project>{06C9DC9B-1764-0FC5-1FA9-3E108585BDDF}</Project>
-      <Name>Assets</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
