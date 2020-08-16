@@ -9,7 +9,7 @@ namespace TrueSync {
     public class TSCircleCollider2D : TSCollider2D {
 
         [FormerlySerializedAs("radius")]
-        [SerializeField]
+         
         private FP _radius = 0.5f;
 
         /**

@@ -10,7 +10,7 @@ namespace TrueSync
     [AddComponentMenu("TrueSync/Physics/SphereCollider", 0)]
     public class TSSphereCollider : TSCollider
     {
-        [FormerlySerializedAs("radius")] [SerializeField]
+        [FormerlySerializedAs("radius")]  
         private float _radius;
 
         /**

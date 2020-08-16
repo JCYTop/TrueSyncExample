@@ -11,7 +11,7 @@ namespace TrueSync
     [AddComponentMenu("TrueSync/Physics/MeshCollider", 0)]
     public class TSMeshCollider : TSCollider
     {
-        [SerializeField] private Mesh mesh;
+          private Mesh mesh;
 
         /**
          *  @brief Mesh attached to the same game object. 

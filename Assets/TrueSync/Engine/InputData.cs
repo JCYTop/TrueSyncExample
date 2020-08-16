@@ -37,43 +37,43 @@ namespace TrueSync {
         /**
          * @brief Contains data about string values.
          **/
-        [SerializeField]
+         
         internal SerializableDictionaryByteString stringTable;
 
         /**
          * @brief Contains data about byte values.
          **/
-        [SerializeField]
+         
         internal SerializableDictionaryByteByte byteTable;
 
         /**
          * @brief Contains data about int values.
          **/
-        [SerializeField]
+         
         internal SerializableDictionaryByteInt intTable;
 
         /**
          * @brief Contains data about FP values.
          **/
-        [SerializeField]
+         
         internal SerializableDictionaryByteFP fpTable;
 
         /**
          * @brief Contains data about byte[] values.
          **/
-        [SerializeField]
+         
         internal SerializableDictionaryByteByteArray byteArrayTable;
 
         /**
          * @brief Contains data about TSVector values.
          **/
-        [SerializeField]
+         
         internal SerializableDictionaryByteTSVector tsVectorTable;
 
         /**
          * @brief Contains data about TSVector values.
          **/
-        [SerializeField]
+         
         internal SerializableDictionaryByteTSVector2 tsVectorTable2;
 
         /**

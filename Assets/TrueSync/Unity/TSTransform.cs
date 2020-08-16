@@ -11,7 +11,7 @@ namespace TrueSync {
 
         private const float DELTA_TIME_FACTOR = 10f;
 
-        [SerializeField]
+         
         [HideInInspector]
         [AddTracking]
         private TSVector _localPosition;
@@ -31,7 +31,7 @@ namespace TrueSync {
             }
         }
 
-        [SerializeField]
+         
         [HideInInspector]
         [AddTracking]
         private TSVector _position;
@@ -62,7 +62,7 @@ namespace TrueSync {
             }
         }
 
-        [SerializeField]
+         
         [HideInInspector]
         [AddTracking]
         private TSQuaternion _localRotation;
@@ -82,7 +82,7 @@ namespace TrueSync {
             }
         }
 
-        [SerializeField]
+         
         [HideInInspector]
         [AddTracking]
         private TSQuaternion _rotation;
@@ -111,7 +111,7 @@ namespace TrueSync {
             }
         }
 
-        [SerializeField]
+         
         [HideInInspector]
         [AddTracking]
         private TSVector _scale;
@@ -128,7 +128,7 @@ namespace TrueSync {
             }
         }
 
-        [SerializeField]
+         
         [HideInInspector]
         [AddTracking]
         private TSVector _localScale;
@@ -148,7 +148,7 @@ namespace TrueSync {
             }
         }
 
-        [SerializeField]
+         
         [HideInInspector]
         private bool _serialized;
 

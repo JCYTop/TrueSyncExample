@@ -9,7 +9,7 @@ namespace TrueSync {
     [AddComponentMenu("TrueSync/Physics/PolygonCollider2D", 0)]
     public class TSPolygonCollider2D : TSCollider2D {
 
-        [SerializeField]
+         
         private TSVector2[] _points;
 
         public TSVector2[] points {

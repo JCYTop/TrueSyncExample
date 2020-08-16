@@ -26,7 +26,7 @@ namespace TrueSync {
         }
 
         [FormerlySerializedAs("isTrigger")]
-        [SerializeField]
+         
         private bool _isTrigger;
 
         /**
@@ -57,7 +57,7 @@ namespace TrueSync {
          **/
         public TSMaterial tsMaterial;
 
-        [SerializeField]
+         
         private TSVector2 center;
 
         private Vector3 scaledCenter;
@@ -126,7 +126,7 @@ namespace TrueSync {
         /**
          *  @brief Holds an first value of the GameObject's lossy scale.
          **/
-        [SerializeField]
+         
         [HideInInspector]
         protected TSVector lossyScale = TSVector.one;
 

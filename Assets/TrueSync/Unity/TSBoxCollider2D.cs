@@ -9,7 +9,7 @@ namespace TrueSync {
     public class TSBoxCollider2D : TSCollider2D {
 
         [FormerlySerializedAs("size")]
-        [SerializeField]
+         
         private TSVector2 _size = TSVector2.one;
 
         /**

@@ -14,7 +14,7 @@ namespace TrueSync {
         public enum InterpolateMode { None, Interpolate, Extrapolate };
 
         [FormerlySerializedAs("mass")]
-        [SerializeField]
+         
         private FP _mass = 1;
 
         /**
@@ -38,7 +38,7 @@ namespace TrueSync {
             }
         }
 
-        [SerializeField]
+         
         private bool _useGravity = true;
 
         /**
@@ -62,7 +62,7 @@ namespace TrueSync {
             }
         }
 
-        [SerializeField]
+         
         private bool _isKinematic;
 
         /**
@@ -86,7 +86,7 @@ namespace TrueSync {
             }
         }
 
-        [SerializeField]
+         
         private FP _linearDrag;
 
         /**
@@ -110,7 +110,7 @@ namespace TrueSync {
             }
         }
 
-        [SerializeField]
+         
         private FP _angularDrag = 0.05f;
 
         /**
@@ -139,7 +139,7 @@ namespace TrueSync {
          **/
         public InterpolateMode interpolation;
 
-        [SerializeField]
+         
         [HideInInspector]
         private TSRigidBodyConstraints _constraints = TSRigidBodyConstraints.None;
 

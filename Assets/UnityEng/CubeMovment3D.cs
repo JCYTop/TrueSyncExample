@@ -37,8 +37,6 @@ using UnityEngine;
 
     void OnGUI()
     {
-       
-       
         if (isScene3)
         {
             GUI.skin.label.normal.textColor = Color.blue;

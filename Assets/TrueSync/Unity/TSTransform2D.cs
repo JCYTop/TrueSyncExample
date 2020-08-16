@@ -10,7 +10,7 @@ namespace TrueSync {
 
         private const float DELTA_TIME_FACTOR = 10f;
 
-        [SerializeField]
+         
         [HideInInspector]
         [AddTracking]
         private TSVector2 _position;
@@ -37,7 +37,7 @@ namespace TrueSync {
             }
         }
 
-        [SerializeField]
+         
         [HideInInspector]
         [AddTracking]
         private FP _rotation;
@@ -64,7 +64,7 @@ namespace TrueSync {
             }
         }
 
-        [SerializeField]
+         
         [HideInInspector]
         [AddTracking]
         private TSVector _scale;
@@ -81,7 +81,7 @@ namespace TrueSync {
             }
         }
 
-        [SerializeField]
+         
         [HideInInspector]
         private bool _serialized;
 

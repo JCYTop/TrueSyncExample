@@ -10,7 +10,7 @@ namespace TrueSync {
     [Serializable]
     public partial struct FP : IEquatable<FP>, IComparable<FP> {
 
-        [SerializeField]
+         
         public long _serializedValue;
 
 		public const long MAX_VALUE = long.MaxValue;

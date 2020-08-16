@@ -10,7 +10,7 @@ namespace TrueSync
     [AddComponentMenu("TrueSync/Physics/BoxCollider", 0)]
     public class TSBoxCollider : TSCollider
     {
-        [FormerlySerializedAs("size")] [SerializeField]
+        [FormerlySerializedAs("size")]  
         private Vector3 _size = Vector3.one;
 
         /**

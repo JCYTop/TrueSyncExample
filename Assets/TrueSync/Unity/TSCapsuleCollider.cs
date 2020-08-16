@@ -10,7 +10,7 @@ namespace TrueSync
     [AddComponentMenu("TrueSync/Physics/CapsuleCollider", 0)]
     public class TSCapsuleCollider : TSCollider
     {
-        [FormerlySerializedAs("radius")] [SerializeField]
+        [FormerlySerializedAs("radius")]  
         private FP _radius;
 
         /**
@@ -38,7 +38,7 @@ namespace TrueSync
             }
         }
 
-        [FormerlySerializedAs("length")] [SerializeField]
+        [FormerlySerializedAs("length")]  
         private FP _length;
 
         /**
