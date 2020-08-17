@@ -316,6 +316,5 @@ namespace Serializer3D
 
         #endregion
     }
-
-#endif
 }
+#endif
